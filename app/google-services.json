@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "319757658685",
+    "firebase_url": "https://businessappauth.firebaseio.com",
+    "project_id": "businessappauth",
+    "storage_bucket": "businessappauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319757658685:android:aba8e4b0fd7ad7c7",
+        "android_client_info": {
+          "package_name": "com.firatnet.businessapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319757658685-9vtud8nmd2c3fbu7amp3q7103kvht5ii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGV496C72xdaMVpJ_REGTJpVFsCith66k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

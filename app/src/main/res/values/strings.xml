@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Business App</string>
+    <string name="name">Name</string>
+    <string name="email">E-Mail</string>
+    <string name="pass">Password</string>
+    <string name="confpass">Confirm Password</string>
+    <string name="register">Register</string>
+</resources>
