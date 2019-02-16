@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/customborder"
-                android:textColorHint="@color/colorAccent"
+                android:textColorHint="@color/colorPrimaryDark"
                 app:passwordToggleContentDescription="description"
                 app:passwordToggleDrawable="@drawable/check"
                 app:passwordToggleEnabled="true">
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/customborder"
-                android:textColorHint="@color/colorAccent"
+                android:textColorHint="@color/colorPrimaryDark"
                 app:passwordToggleContentDescription="description"
                 app:passwordToggleDrawable="@drawable/check"
                 app:passwordToggleEnabled="true">
@@ -137,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorError"
+                android:gravity="center"
                 />
         </LinearLayout>
 

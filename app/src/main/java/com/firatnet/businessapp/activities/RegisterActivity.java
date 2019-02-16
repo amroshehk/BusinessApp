@@ -2,6 +2,7 @@ package com.firatnet.businessapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 //import android.support.design.widget.TextInputEditText;
@@ -20,11 +21,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.classes.VolleyMultipartRequest;
 import com.firatnet.businessapp.entities.Register;
+import com.firatnet.businessapp.phoneauth.ProfileActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -43,6 +46,7 @@ import static com.firatnet.businessapp.classes.JsonTAG.TAG_IP_ADDRESS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
+import static com.firatnet.businessapp.classes.URLTAG.LOGIN_URL;
 import static com.firatnet.businessapp.classes.URLTAG.REGISTER_URL;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -93,12 +97,16 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     error_m="Please Enter Valid Email";
                 }
+                else if(!pw.equals(conf_pw))
+                {
+                    error_m="Password does not match Confirm Password";
+                }
                 error2.setText(error_m);
                 if(error_m.equals(""))
                 {
                     if (StaticMethod.ConnectChecked(context))
                     {
-                        Register register=new Register(name,email,phonenumber,counterName,pw,ip);
+                        Register register=new Register(name,email,phonenumber,counterName,ip,pw);
                         RegisterNewUserServer(register);
                     } else {
 
@@ -136,22 +144,30 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, REGISTER_URL,
-                new Response.Listener<NetworkResponse>() {
-
+        StringRequest request = new StringRequest( Request.Method.POST, REGISTER_URL, new Response.Listener<String>() {
 
                     @Override
-                    public void onResponse(NetworkResponse response) {
+                    public void onResponse(String response) {
 
                         try {
-                            JSONObject obj = new JSONObject(new String(response.data));
+                            JSONObject obj = new JSONObject(response);
                             progressDialog.dismiss();
 
-                            if(obj.getString("success").equals("success"))
+                            if(obj.getBoolean("success"))
                             {
 
                                 Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                intent.putExtra("email", register.getEmail());
+                                intent.putExtra("password", register.getPassword());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+
+                                Toast.makeText(getApplicationContext(),"The phone has already been taken", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {
@@ -164,6 +180,14 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        try {
+                            String responseBody = new String( error.networkResponse.data, "utf-8" );
+                            JSONObject jsonObject = new JSONObject( responseBody );
+                        } catch ( JSONException e ) {
+                            //Handle a malformed json response
+                        } catch (UnsupportedEncodingException error2){
+
+                        }
                     }
                 }) {
 //            @Override
@@ -195,10 +219,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                     params.put(TAG_NAME, register.getName());
                     params.put(TAG_EMAIL, register.getEmail());
-                    params.put(TAG_PASSWORD, register.getPassword());
                     params.put(TAG_PHONE, register.getPhone());
                     params.put(TAG_COUNTRY, register.getCountry());
-                    params.put(TAG_IP_ADDRESS, register.getIpaddres());
+                    params.put(TAG_PASSWORD, register.getPassword());
+                    params.put(TAG_IP_ADDRESS, register.getIp());
                     params.put(TAG_GENERATED_ID, "123456789");
 
 
@@ -220,7 +244,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //adding the request to volley
 
-        Volley.newRequestQueue(context).add(volleyMultipartRequest);
+        Volley.newRequestQueue(context).add(request);
     }
 
 

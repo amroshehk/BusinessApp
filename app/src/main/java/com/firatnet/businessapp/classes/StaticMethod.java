@@ -14,4 +14,7 @@ public class StaticMethod {
 
         return online;
     }
+
+
+
 }
