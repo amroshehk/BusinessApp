@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.design.widget.TextInputEditText;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -25,6 +25,7 @@ import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.classes.VolleyMultipartRequest;
 import com.firatnet.businessapp.entities.Register;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
@@ -119,9 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
         WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInf = wifiMan.getConnectionInfo();
         int ipAddress = wifiInf.getIpAddress();
-         String  ip = String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
+        return String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
 
-        return ip;
+
     }
 
     private void RegisterNewUserServer(final Register register) {
@@ -217,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //adding the request to volley
 
-        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+        Volley.newRequestQueue(context).add(volleyMultipartRequest);
     }
 
 

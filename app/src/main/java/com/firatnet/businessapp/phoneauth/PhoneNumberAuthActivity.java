@@ -1,6 +1,6 @@
 package com.firatnet.businessapp.phoneauth;
 
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
@@ -13,6 +13,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.firatnet.businessapp.R;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class PhoneNumberAuthActivity extends AppCompatActivity {
 
     private Spinner spinner;
@@ -24,7 +26,7 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_number_auth);
 
         spinner = findViewById(R.id.spinnerCountries);
-        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryData.countryNames));
+        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CountryData.countryNames));
 
         editText = findViewById(R.id.editTextPhone);
 

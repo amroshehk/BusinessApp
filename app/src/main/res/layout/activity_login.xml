@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.LoginActivity">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        tools:context=".activities.LoginActivity">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LogIn"
+            android:text="@string/login"
             android:gravity="center"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary"/>
@@ -30,9 +28,10 @@
             android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:layout_margin="30dp"
+            android:contentDescription="@string/login"
             android:src="@drawable/ic_logo" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +39,7 @@
         android:textColorHint="@color/colorPrimaryDark"
         android:background="@drawable/customborder">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,9 +52,9 @@
             android:singleLine="true"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimaryDark" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pw_signin_ly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +65,7 @@
         app:passwordToggleDrawable="@drawable/check"
         app:passwordToggleEnabled="true">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pw_signin_et"
             android:layout_width="match_parent"
             android:layout_height="27dp"
@@ -80,7 +79,7 @@
             android:singleLine="true"
             android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorPrimaryDark" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/btnSignin"
             android:background="@drawable/roundedbutton"
@@ -89,7 +88,7 @@
             android:layout_margin="20dp"
             android:padding="15dp"
             android:textColor="@color/white"
-            android:text="LogIn"
+            android:text="@string/login"
             android:textSize="17sp" />
 
         <TextView
@@ -99,4 +98,3 @@
             android:textColor="@color/colorError"
             />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
