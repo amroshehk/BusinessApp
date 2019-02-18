@@ -29,6 +29,16 @@ public class Register {
         this.password = password;
     }
 
+    public Register(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.country = country;
+        this.ip = ip;
+        this.password = password;
+    }
+
+
     public Register(String id, String name, String email, String created_at, String updated_at, String phone, String country, String generated_id, String status, String photo_url, String ip, String default_file) {
         this.id = id;
         this.name = name;

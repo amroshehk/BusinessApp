@@ -1,42 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".phoneauth.ProfileActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".activities.ProfileActivity">
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_alignParentTop="true"
-        android:text="Welcome to Your Profile"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/colorPrimary" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
 
-        
-    </LinearLayout>
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorPrimary"
-        android:text="Logout"
-        android:textAllCaps="false"
-        android:textColor="#ffffff" />
+        <!--<LinearLayout-->
+            <!--android:id="@+id/lin1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:background="@drawable/waves"-->
+            <!--android:orientation="vertical" />-->
 
-</RelativeLayout>
+        <!--<View-->
+            <!--android:id="@+id/view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="125dp" />-->
+
+        <RelativeLayout
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_margin="5dp"
+            android:background="@drawable/customborder"
+            android:elevation="2dp"
+           >
+            <!--card_view:cardBackgroundColor="#FCFCFB"-->
+            <!--card_view:cardCornerRadius="10dp"-->
+            <!--card_view:cardElevation="5dp"-->
+            <!--card_view:contentPadding="2dp"-->
+            <ImageButton
+                android:id="@+id/edit_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"
+                android:text="Welcome to Your Profile"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/photo"
+                android:layout_width="140sp"
+                android:layout_height="130sp"
+                android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/user512"
+                android:contentDescription="@string/nav_header_desc"
+                />
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photo"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Amr"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TextView
+                android:id="@+id/email_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_tv"
+                android:gravity="center_horizontal"
+                android:text="amr@gmail.com"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+            />
+
+            <TextView
+                android:id="@+id/status_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/email_tv"
+                android:gravity="center_horizontal"
+                android:text="Ready to call" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/status_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+
+
+            <TextView
+                android:id="@+id/generated_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="generated ID"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/generated_id_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/generated_id"
+                android:gravity="center_horizontal"
+                android:text="9999999999" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/generated_id_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view3"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Phone Number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/phone_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phone"
+                android:gravity="center_horizontal"
+                android:text="+0945667455" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/phone_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view4"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Country"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/country_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/country"
+                android:gravity="center_horizontal"
+                android:text="Syria" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/country_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/created_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view5"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Created At"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/created_at_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/created_at"
+                android:gravity="center_horizontal"
+                android:text="2019-2-2" />
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/created_at_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/updated_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view6"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Updated At"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/updated_at_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/updated_at"
+                android:gravity="center_horizontal"
+                android:text="2019-2-2" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/updated_at_tv"
+                android:background="@color/white"
+                android:padding="5dp" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</ScrollView>

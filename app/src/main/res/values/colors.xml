@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF7E00</color>
 
 
     <color name="white">#FFFFFF</color>
@@ -47,5 +47,69 @@
     <color name="selector_purple_focused">#22AA00FF</color>
     <color name="selector_purple_pressed">#44AA00FF</color>
 
+
+
+
+
+
+    <!-- Screens background color-->
+    <color name="bg_slider_screen1">#f4b241</color>
+    <color name="bg_slider_screen2">#954B38</color>
+    <color name="bg_slider_screen3">#104241</color>
+    <color name="bg_slider_screen4">#203d8c</color>
+    <color name="bg_slider_screen5">#767676</color>
+    <color name="bg_slider_screen6">#2962FF</color>
+    <color name="bg_slider_screen7">#AA00FF</color>
+    <color name="bg_slider_screen8">#AC1229</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_inactive_screen1">#ffa000</color>
+    <color name="dot_inactive_screen2">#633225</color>
+    <color name="dot_inactive_screen3">#0A2C2B</color>
+    <color name="dot_inactive_screen4">#0e1e49</color>
+    <color name="dot_inactive_screen5">#4E4E4E</color>
+    <color name="dot_inactive_screen6">#183A97</color>
+    <color name="dot_inactive_screen7">#380055</color>
+    <color name="dot_inactive_screen8">#39060D</color>
+
+    <!-- dots active colors -->
+    <color name="dot_active_screen1">#f9c772</color>
+    <color name="dot_active_screen2">#f9c772</color>
+    <color name="dot_active_screen3">#74f7c5</color>
+    <color name="dot_active_screen4">#3a99e0</color>
+    <color name="dot_active_screen5">#F4F2EE</color>
+    <color name="dot_active_screen6">#5381FF</color>
+    <color name="dot_active_screen7">#7A558D</color>
+    <color name="dot_active_screen8">#EB8787</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_active_screen1</item>
+        <item>@color/dot_active_screen2</item>
+        <item>@color/dot_active_screen3</item>
+        <item>@color/dot_active_screen4</item>
+        <item>@color/dot_active_screen5</item>
+        <item>@color/dot_active_screen6</item>
+        <item>@color/dot_active_screen7</item>
+        <item>@color/dot_active_screen8</item>
+    </array>
+    <array name="array_dot_inactive">
+        <item>@color/dot_inactive_screen1</item>
+        <item>@color/dot_inactive_screen2</item>
+        <item>@color/dot_inactive_screen3</item>
+        <item>@color/dot_inactive_screen4</item>
+        <item>@color/dot_inactive_screen5</item>
+        <item>@color/dot_inactive_screen6</item>
+        <item>@color/dot_inactive_screen7</item>
+        <item>@color/dot_inactive_screen8</item>
+    </array>
+
+
+
+
+
+    <color name="colortab">#082C3F</color>
+    <color name="colororange">#FF7E00</color>
+    <color name="colorored">#DC281E</color>
+    <color name="color1_card_pro">#B7A17F</color>
 
 </resources>

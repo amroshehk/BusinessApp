@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.firatnet.businessapp.activities.LoginActivity;
+import com.firatnet.businessapp.activities.MainActivity;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,8 +77,9 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
         PreferenceHelper helper=new PreferenceHelper(context);
        String loginInState= helper.getLoginState();
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && !loginInState.isEmpty()) {
-            Intent intent = new Intent(this, ProfileActivity.class);
+      //  if (FirebaseAuth.getInstance().getCurrentUser() != null && !loginInState.isEmpty()) {
+            if (!loginInState.isEmpty()) {
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(intent);

@@ -9,15 +9,12 @@ import android.net.wifi.WifiManager;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.format.Formatter;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,9 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.StaticMethod;
-import com.firatnet.businessapp.classes.VolleyMultipartRequest;
 import com.firatnet.businessapp.entities.Register;
-import com.firatnet.businessapp.phoneauth.ProfileActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -41,12 +36,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_GENERATED_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_IP_ADDRESS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
-import static com.firatnet.businessapp.classes.URLTAG.LOGIN_URL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
 import static com.firatnet.businessapp.classes.URLTAG.REGISTER_URL;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -178,11 +172,13 @@ public class RegisterActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                      //  Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                         try {
                             String responseBody = new String( error.networkResponse.data, "utf-8" );
                             JSONObject jsonObject = new JSONObject( responseBody );
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
                         } catch ( JSONException e ) {
                             //Handle a malformed json response
                         } catch (UnsupportedEncodingException error2){
@@ -216,14 +212,15 @@ public class RegisterActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-
+                    params.put("Content-Type", "application/json; charset=utf-8");
                     params.put(TAG_NAME, register.getName());
                     params.put(TAG_EMAIL, register.getEmail());
                     params.put(TAG_PHONE, register.getPhone());
                     params.put(TAG_COUNTRY, register.getCountry());
                     params.put(TAG_PASSWORD, register.getPassword());
                     params.put(TAG_IP_ADDRESS, register.getIp());
-                    params.put(TAG_GENERATED_ID, "123456789");
+                    params.put(TAG_PHOTO_URL, "");
+//                    params.put(TAG_GENERATED_ID, "123456789");
 
 
                 return params;

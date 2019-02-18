@@ -7,34 +7,22 @@ import android.content.Intent;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
-import com.firatnet.businessapp.classes.VolleyMultipartRequest;
 import com.firatnet.businessapp.entities.Register;
-import com.firatnet.businessapp.phoneauth.ProfileActivity;
-import com.firatnet.businessapp.phoneauth.VerifyPhoneActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -42,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +47,6 @@ import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_RESULTS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_STATUS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.firatnet.businessapp.classes.URLTAG.LOGIN_URL;
@@ -190,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else if (obj.getString("message").equals("Incorrect email or password")) {
@@ -212,6 +198,8 @@ public class LoginActivity extends AppCompatActivity {
                     String responseBody = new String(volleyError.networkResponse.data, "utf-8");
                     JSONObject jsonObject = new JSONObject(responseBody);
                     progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+
                 } catch (JSONException e) {
                     //Handle a malformed json response
                 } catch (UnsupportedEncodingException error) {

@@ -28,6 +28,9 @@ public class JsonTAG {
 
     public static final String TAG_IP_ADDRESS="ip";
 
+    public static final String TAG_NEW_EMAIL="new_email";
+    public static final String TAG_NEW_PHONE="new_phone";
+
 
 
 }

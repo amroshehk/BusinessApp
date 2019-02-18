@@ -33,6 +33,7 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_NAME = "";
     public static String SETTING_VALUE_EMAIL = "";
     public static String SETTING_VALUE_CREATED_AT = "";
+    public static String SETTING_VALUE_UPDATED_AT = "";
     public static String SETTING_VALUE_PASSWORD = "";
     public static String SETTING_VALUE__PHONE = "";
     public static String SETTING_VALUE_COUNTRY = "";
@@ -46,12 +47,49 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_LOGIN_DATE = "";
 
 
+
     private Context context;
+
 
     public PreferenceHelper(Context context) {
         this.context = context;
     }
 
+    public String getSettingValueEmail() {
+        return readSharedPreference(KEY, SETTING_KEY_EMAIL);
+    }
+
+    public  String getSettingValueCreatedAt() {
+        return readSharedPreference(KEY,SETTING_KEY_CREATED_AT);
+    }
+
+    public  String getSettingValue_phone() {
+        return readSharedPreference(KEY,SETTING_KEY_PHONE);
+    }
+
+    public  String getSettingValueCountry() {
+        return readSharedPreference(KEY,SETTING_KEY_COUNTRY);
+    }
+
+    public  String getSettingValueGeneratedId() {
+        return readSharedPreference(KEY,SETTING_KEY_GENERATED_ID);
+    }
+
+    public  String getSettingValueStatus() {
+        return readSharedPreference(KEY,SETTING_KEY_STATUS);
+    }
+
+    public  String getSettingValuePhotoUrl() {
+        return readSharedPreference(KEY,SETTING_KEY_PHOTO_URL);
+    }
+
+    public  String getSettingValueUpdatedAt() {
+        return readSharedPreference(KEY,SETTING_KEY_UPDATED_AT);
+    }
+
+    public String getSettingValueName() {
+        return readSharedPreference(KEY, SETTING_KEY_NAME);
+    }
 
     /**
      * Returns a value saved in SharedPreference
@@ -135,6 +173,16 @@ public class PreferenceHelper {
         writeSharedPreference(register.getPhoto_url(), KEY, SETTING_KEY_PHOTO_URL);
         writeSharedPreference(register.getIp(), KEY, SETTING_KEY_IP);
         writeSharedPreference(register.getDefault_file(), KEY, SETTING_KEY_DEFAULT_FILE);
+
+    }
+    public void editUser(Register register) {
+
+        writeSharedPreference(register.getName(), KEY, SETTING_KEY_NAME);
+        writeSharedPreference(register.getEmail(), KEY, SETTING_KEY_EMAIL);
+
+//        writeSharedPreference(register.getPassword(), KEY, SETTING_KEY_PASSWORD);
+        writeSharedPreference(register.getPhone(), KEY, SETTING_KEY_PHONE);
+       // writeSharedPreference(register.getPhoto_url(), KEY, SETTING_KEY_PHOTO_URL);
 
     }
 
