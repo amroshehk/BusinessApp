@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Business App</string>
-    <string name="name">Name</string>
-    <string name="email">E-Mail</string>
+    <string name="name">Name *</string>
+    <string name="email">E-Mail *</string>
     <string name="current_email">Current E-Mail</string>
-    <string name="pass">Password</string>
-    <string name="confpass">Confirm Password</string>
+    <string name="pass">Password *</string>
+    <string name="confpass">Confirm Password *</string>
     <string name="register">Register</string>
     <string name="login">LOGIN</string>
     <string name="title_activity_main">MainActivity</string>
@@ -14,11 +14,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="oldpass">Current Password</string>
+    <string name="oldpass">Current Password *</string>
     <string name="newpass">New Password</string>
     <string name="confnewpass">Confirm New Password</string>
     <string name="edit">Edit</string>
-    <string name="phone">Phone</string>
+    <string name="phone">Phone *</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
+    <string name="title_activity_mp3_files">Mp3FilesActivity</string>
+    <string name="read_file">This app needs access to your file storage so that it can read files.</string>
 </resources>

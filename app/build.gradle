@@ -33,6 +33,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
+    //Easy permissions for handling Run time permissions
+    implementation 'pub.devrel:easypermissions:0.2.0'
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 

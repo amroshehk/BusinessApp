@@ -63,35 +63,13 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:hint="@string/phone"
-                android:inputType="textPersonName"
+                android:inputType="phone"
                 android:padding="2dp"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/old_email_ly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/customborder"
-            android:textColorHint="@color/colorPrimaryDark">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/old_email_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:hint="@string/current_email"
-                android:inputType="textEmailAddress"
-                android:padding="2dp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textColorHint="@color/colorPrimaryDark" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_ly"

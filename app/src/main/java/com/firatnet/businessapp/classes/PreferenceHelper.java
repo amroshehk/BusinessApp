@@ -50,6 +50,9 @@ public class PreferenceHelper {
 
     private Context context;
 
+    public  String getSettingValueId() {
+        return readSharedPreference(KEY,SETTING_KEY_ID);
+    }
 
     public PreferenceHelper(Context context) {
         this.context = context;
@@ -71,6 +74,7 @@ public class PreferenceHelper {
         return readSharedPreference(KEY,SETTING_KEY_COUNTRY);
     }
 
+
     public  String getSettingValueGeneratedId() {
         return readSharedPreference(KEY,SETTING_KEY_GENERATED_ID);
     }
@@ -89,6 +93,11 @@ public class PreferenceHelper {
 
     public String getSettingValueName() {
         return readSharedPreference(KEY, SETTING_KEY_NAME);
+    }
+
+    public  void setSettingValuePhotoUrl(String settingValuePhotoUrl) {
+        SETTING_VALUE_PHOTO_URL = settingValuePhotoUrl;
+        writeSharedPreference(SETTING_VALUE_PHOTO_URL, KEY, SETTING_KEY_PHOTO_URL);
     }
 
     /**

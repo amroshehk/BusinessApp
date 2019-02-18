@@ -40,9 +40,11 @@ import java.util.Map;
 
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_IP_ADDRESS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_EMAIL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_PASSWORD;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_PHONE;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
@@ -51,7 +53,7 @@ import static com.firatnet.businessapp.classes.URLTAG.REGISTER_URL;
 import static com.firatnet.businessapp.classes.URLTAG.UPDATE_USER_URL;
 
 public class EditMyProfileActivity extends AppCompatActivity {
-    private TextInputEditText name_et, phone_et,old_email_et, email_et, old_pw_signup_et, new_pw_et, conf_new_pw_et;
+    private TextInputEditText name_et, phone_et, email_et, old_pw_signup_et, new_pw_et, conf_new_pw_et;
     private Context context;
     private TextView error2;
     private ProgressDialog progressDialog;
@@ -59,6 +61,7 @@ public class EditMyProfileActivity extends AppCompatActivity {
     Dialog dialog;
     Button cancel;
     Button ensure;
+    String id;
 
 
 
@@ -70,7 +73,6 @@ public class EditMyProfileActivity extends AppCompatActivity {
         name_et = findViewById(R.id.name_et);
         phone_et = findViewById(R.id.phone_et);
         email_et = findViewById(R.id.email_et);
-        old_email_et = findViewById(R.id.old_email_et);
         old_pw_signup_et = findViewById(R.id.old_pw_signup_et);
         new_pw_et = findViewById(R.id.new_pw_et);
         conf_new_pw_et = findViewById(R.id.conf_new_pw_et);
@@ -79,11 +81,12 @@ public class EditMyProfileActivity extends AppCompatActivity {
         context=this;
 
 
-        PreferenceHelper helper = new PreferenceHelper(context);
+        final PreferenceHelper helper = new PreferenceHelper(context);
 
         name_et.setText(helper.getSettingValueName());
         phone_et.setText(helper.getSettingValue_phone());
-        old_email_et.setText(helper.getSettingValueEmail());
+        email_et.setText(helper.getSettingValueEmail());
+        id=helper.getSettingValueId();
 
         ActivityCompat.requestPermissions(EditMyProfileActivity.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -94,24 +97,37 @@ public class EditMyProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                final String name = name_et.getText().toString();
-                final String email = email_et.getText().toString();
-                final String old_email = old_email_et.getText().toString();
-                final String phone = phone_et.getText().toString();
+                String name = name_et.getText().toString();
+                String email = email_et.getText().toString();
+                String phone = phone_et.getText().toString();
                 final String old_pw = old_pw_signup_et.getText().toString();
-                final String new_pw = new_pw_et.getText().toString();
+                String new_pw = new_pw_et.getText().toString();
                 String conf_new_pw = conf_new_pw_et.getText().toString();
 
                 String error_m = "";
-                if (email.equals("") || phone.equals("") || old_pw.equals("") || new_pw.equals("") || conf_new_pw.equals("")) {
-                    error_m = " Please Enter All Filed";
+                if (name.equals("") || email.equals("") || phone.equals("") || old_pw.equals("") ) {
+                    error_m = " Please Enter All Filed *";
                 } else if (!isValidEmail(email)) {
                     error_m = "Please Enter Valid Email";
-                }else if (!isValidEmail(old_email)) {
-                    error_m = "Please Enter Valid Current Email";
-                }  else if (!new_pw.equals(conf_new_pw)) {
+                } else if (!new_pw.equals(conf_new_pw)) {
                     error_m = "Password does not match Confirm New Password";
                 }
+
+                if(new_pw.equals("") && conf_new_pw.equals(""))
+                {
+                    new_pw="";
+                }
+
+                if(name.equals(helper.getSettingValueName()))
+                name="";
+                if(email.equals(helper.getSettingValueEmail()))
+                    email="";
+                if(phone.equals(helper.getSettingValue_phone()))
+                    phone="";
+
+                final Register register = new Register(id,name, email, phone, new_pw);
+
+
                 error2.setText(error_m);
                 if (error_m.equals("")) {
                     if (StaticMethod.ConnectChecked(context)) {
@@ -134,16 +150,17 @@ public class EditMyProfileActivity extends AppCompatActivity {
                             }
                         });
                         // if button is clicked, close the custom dialog
+
                         ensure.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
 
                                 if (StaticMethod.ConnectChecked(context)) {
-                                    ensure.setEnabled(false);
+                                   // ensure.setEnabled(false);
 
-                                    Register register = new Register(name, email, phone,new_pw);
-                                    EditUserServer(register,old_pw,old_email);
+
+                                    EditUserServer(register,old_pw);
 
                                 } else {
                                     dialog.dismiss();
@@ -177,7 +194,7 @@ public class EditMyProfileActivity extends AppCompatActivity {
 
 
 
-    private void EditUserServer(final Register register,final String old_pw,final String old_email) {
+    private void EditUserServer(final Register register,final String old_pw) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Edit.....");
@@ -201,6 +218,12 @@ public class EditMyProfileActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
                          //save new data in shared
                         PreferenceHelper  helper=new PreferenceHelper(context);
+                        if(register.getName().equals(""))
+                            register.setName(helper.getSettingValueName());
+                        if(register.getEmail().equals(""))
+                            register.setEmail(helper.getSettingValueEmail());
+                        if(register.getPhone().equals(""))
+                            register.setPhone(helper.getSettingValue_phone());
                         helper.editUser(register);
 
                         //relanch application
@@ -251,16 +274,17 @@ public class EditMyProfileActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
                 params.put("Content-Type", "application/json; charset=utf-8");
+                params.put(TAG_ID, register.getId());
+                if(!register.getName().equals(""))
                 params.put(TAG_NAME, register.getName());
-                params.put(TAG_EMAIL,old_email);
+                if(!register.getEmail().equals(""))
                 params.put(TAG_NEW_EMAIL,  register.getEmail());
+                if(!register.getPhone().equals(""))
                 params.put(TAG_NEW_PHONE, register.getPhone());
-                params.put(TAG_PASSWORD, register.getPassword());
-                params.put(TAG_PHOTO_URL, "no url");
-
-
-
-
+                if(!register.getPassword().equals(""))
+                params.put(TAG_NEW_PASSWORD, register.getPassword());
+                params.put(TAG_PASSWORD, old_pw);
+              //  params.put(TAG_PHOTO_URL, "no url");
                 return params;
 
             }

@@ -20,6 +20,9 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     private String name,email;
     private CircleImageView photo_nav_header;
     private TextView name_tv,email_tv;
+    public static final ImageLoader imageLoader = ImageLoader.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, SaveBusinessActivity.class);
+
+                startActivity(intent);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -88,6 +96,21 @@ public class MainActivity extends AppCompatActivity
 
         name_tv.setText(name);
         email_tv.setText(email);
+
+        ImageLoaderConfiguration config;
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        config= new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
+        else
+            photo_nav_header.setBackgroundResource(R.drawable.user512);
+
 
         hView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,10 +158,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        ImageLoaderConfiguration config;
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        config= new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        PreferenceHelper helper=new PreferenceHelper(context);
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
+
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_mp3) {
+
+            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
+
+            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

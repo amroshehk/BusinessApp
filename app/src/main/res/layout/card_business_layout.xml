@@ -49,25 +49,12 @@
                 />
 
 
-            <TextView
-                android:id="@+id/storeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_below="@+id/title"
-                android:layout_marginLeft="7dp"
-
-                android:gravity="center_vertical"
-                android:text="Title"
-                android:textColor="@color/colorGray4"
-                android:textSize="14sp"
-                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/storeName"
+                android:layout_below="@+id/title"
                 android:layout_marginLeft="2dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="date"
@@ -86,39 +73,37 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.30"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="$199"
+                android:text="sssss"
                 android:textColor="@color/color1_card_pro"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/pricediscount"
+                android:id="@+id/tv2"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="2dp"
                 android:layout_weight="0.30"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="$199"
+                android:text="sssss"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/discount"
+                android:id="@+id/tv3"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.30"
-                android:background="@drawable/customborder10"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="0% off"
-                android:textColor="@color/white"
+                android:text="ssss"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>

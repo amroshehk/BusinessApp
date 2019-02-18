@@ -8,6 +8,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -25,18 +26,48 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.BuildConfig;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.GalleryUtil;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.ProcessProfilePhotoTask;
+import com.firatnet.businessapp.classes.VolleyMultipartRequest;
+import com.firatnet.businessapp.entities.Register;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_EMAIL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_PASSWORD;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NEW_PHONE;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_RESULTS;
+import static com.firatnet.businessapp.classes.URLTAG.REGISTER_URL;
+import static com.firatnet.businessapp.classes.URLTAG.SAVE_PHOTO_URL;
+import static com.firatnet.businessapp.classes.URLTAG.UPDATE_USER_URL;
 
 public class ImagesViewerActivity extends AppCompatActivity {
     Context context;
@@ -50,6 +81,7 @@ public class ImagesViewerActivity extends AppCompatActivity {
     private final int GALLERY_ACTIVITY_CODE = 200;
     private final int RESULT_CROP = 400;
     private static final String TEMP_PHOTO_FILE = "tempPhoto.jpg";
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,9 +284,10 @@ public class ImagesViewerActivity extends AppCompatActivity {
             protected void onPostExecute(Bitmap result) {
                 bitmap=result;
 
-                photoView.setImageBitmap(bitmap);
-                photoView.setScaleType(CircleImageView.ScaleType.CENTER_CROP);
-                //  ChangeImageServer(student_form_db.getId(),bitmap);
+
+                PreferenceHelper helper = new PreferenceHelper(context);
+                String id=helper.getSettingValueId();
+                  ChangeImageServer(id,bitmap);
                 //pic.setImageBitmap(bitmap);
             }
 
@@ -278,6 +311,108 @@ public class ImagesViewerActivity extends AppCompatActivity {
         //  startActivityForResult(i, 100);
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+    }
+
+    //------------------------------------Edit image
+    private void ChangeImageServer(final String id,final Bitmap bitmap) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Edit photo.....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, SAVE_PHOTO_URL,
+                new Response.Listener<NetworkResponse>() {
+
+
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            progressDialog.dismiss();
+                            if(obj.getBoolean("success"))
+                            {
+
+
+                                photoView.setImageBitmap(bitmap);
+                                photoView.setScaleType(CircleImageView.ScaleType.CENTER_CROP);
+
+                                //save photo url
+                                PreferenceHelper helper = new PreferenceHelper(context);
+                                helper.setSettingValuePhotoUrl(obj.getString("data"));
+
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            }
+                            else {
+
+                                Toast.makeText(getApplicationContext(), "Error File not correct", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        try {
+
+                            String responseBody = new String( error.networkResponse.data, "utf-8" );
+                            JSONObject jsonObject = new JSONObject( responseBody );
+                            Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                        } catch ( JSONException e ) {
+                            //Handle a malformed json response
+                        } catch (UnsupportedEncodingException error2){
+
+                        }
+                    }
+                }) {
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+             //   params.put("Content-Type", "application/json; charset=utf-8");
+                params.put(TAG_ID, id);
+
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put(TAG_PHOTO, new DataPart(imagename + ".jpeg", getFileDataFromDrawable(bitmap)));
+                return params;
+            }
+
+
+
+        };
+
+        //adding the request to volley
+
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 
 }

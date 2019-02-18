@@ -23,6 +23,7 @@ public class JsonTAG {
     public static final String TAG_GENERATED_ID="generated_id";
     public static final String TAG_STATUS="status";
     public static final String TAG_PHOTO_URL="photo_url";
+    public static final String TAG_PHOTO="photo";
     public static final String TAG_IP="ip";
     public static final String TAG_DEFAULT_FILE="default_file";
 
@@ -30,6 +31,8 @@ public class JsonTAG {
 
     public static final String TAG_NEW_EMAIL="new_email";
     public static final String TAG_NEW_PHONE="new_phone";
+    public static final String TAG_NEW_PASSWORD="new_password";
+    public static final String TAG_MP3="mp3";
 
 
 

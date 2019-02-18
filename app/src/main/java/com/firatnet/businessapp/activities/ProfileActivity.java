@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageButton edit_btn;
     ImageLoaderConfiguration config;
     public static final ImageLoader imageLoader = ImageLoader.getInstance();
-    private ImageView pic;
+    private CircleImageView pic;
 
 
     @Override
@@ -95,8 +95,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-        if (!helper.getSettingValueUpdatedAt().isEmpty())
-            imageLoader.displayImage(helper.getSettingValueUpdatedAt(), pic, options);
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), pic, options);
 
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,5 +120,16 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ImageLoader.getInstance().init(config);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        PreferenceHelper helper = new PreferenceHelper(context);
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), pic, options);
+    }
 }

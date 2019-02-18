@@ -33,8 +33,13 @@ public class Register {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.country = country;
-        this.ip = ip;
+        this.password = password;
+    }
+    public Register(String id,String name, String email, String phone, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
         this.password = password;
     }
 
