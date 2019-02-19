@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String conf_pw=  confpw_signup_et.getText().toString();
 
                 String error_m="";
-                if(email.equals("") || pw.equals("")||pw.equals("")||conf_pw.equals(""))
+                if(email.equals("") || name.equals("")||pw.equals("")||conf_pw.equals(""))
                 {
                     error_m=" Please Enter All Filed";
                 }
