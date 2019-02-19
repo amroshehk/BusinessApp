@@ -130,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
         PreferenceHelper helper = new PreferenceHelper(context);
         if (!helper.getSettingValuePhotoUrl().isEmpty())
-            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), pic, options);
+        { String photo=helper.getSettingValuePhotoUrl();
+            imageLoader.displayImage(photo, pic, options);}
     }
 }

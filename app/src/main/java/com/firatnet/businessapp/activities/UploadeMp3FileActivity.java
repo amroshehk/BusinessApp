@@ -47,24 +47,27 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO;
+import static com.firatnet.businessapp.classes.URLTAG.SAVE_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.SAVE_PHOTO_URL;
-import static com.firatnet.businessapp.classes.URLTAG.SAVE_SEARCH_MP3;
+
 
 public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = UploadeMp3FileActivity.class.getSimpleName();
     TextView fileName;
-    Button fileBrowseBtn,uploadBtn;
-    int REQ_CODE_PICK_SOUNDFILE=1;
+    Button fileBrowseBtn, uploadBtn;
+    int REQ_CODE_PICK_SOUNDFILE = 1;
     private static final int REQUEST_FILE_CODE = 200;
     private static final int READ_REQUEST_CODE = 300;
     Uri fileUri;
@@ -72,24 +75,25 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
     private File sourceFile;
     Context context;
     int totalSize = 0;
-   // LinearLayout uploader_area;
+    // LinearLayout uploader_area;
     LinearLayout progress_area;
     private ProgressDialog progressDialog;
     public DonutProgress donut_progress;
-    String realpath;
+    String realpath,id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uploade_mp3_file);
 
-        fileName=findViewById(R.id.filepath);
-        fileBrowseBtn=findViewById(R.id.select);
-        uploadBtn=findViewById(R.id.upload);
-       // uploader_area = findViewById(R.id.uploader_area);
+        fileName = findViewById(R.id.filepath);
+        fileBrowseBtn = findViewById(R.id.select);
+        uploadBtn = findViewById(R.id.upload);
+        // uploader_area = findViewById(R.id.uploader_area);
         progress_area = findViewById(R.id.progress_area);
         donut_progress = findViewById(R.id.donut_progress);
 
-        context=this;
+        context = this;
 
         fileBrowseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +114,8 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
             @Override
             public void onClick(View v) {
                 if (sourceFile != null) {
+                    PreferenceHelper helper = new PreferenceHelper(context);
+                    id=helper.getSettingValueId();
                     new UploadFileToServer().execute();
 
                 } else {
@@ -144,6 +150,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         showFileChooserIntent();
     }
+
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Log.d(TAG, "Permission has been denied");
@@ -155,30 +162,22 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
     private void hideFileChooser() {
         fileBrowseBtn.setVisibility(View.GONE);
         uploadBtn.setVisibility(View.VISIBLE);
-       // fileName.setVisibility(View.VISIBLE);
+        // fileName.setVisibility(View.VISIBLE);
 
     }
 
     /**
-     *  Displays Choose file button and Hides the file preview, file name and upload button
+     * Displays Choose file button and Hides the file preview, file name and upload button
      */
     private void showFileChooser() {
         fileBrowseBtn.setVisibility(View.VISIBLE);
         uploadBtn.setVisibility(View.GONE);
-     //   fileName.setVisibility(View.GONE);
+        //   fileName.setVisibility(View.GONE);
     }
-
-//   public void showFileChooserIntent()
-//    {
-//        Intent intent;
-//        intent = new Intent();
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.setType("audio/mpeg");
-//        startActivityForResult(Intent.createChooser(intent, "Select MP3 file:"), REQ_CODE_PICK_SOUNDFILE);
-//    }
 
     /**
      * Show the file name and preview once the file is chosen
+     *
      * @param uri
      */
     private void previewFile(Uri uri) {
@@ -198,11 +197,11 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK){
-            if ((data != null) && (data.getData() != null)){
+        if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
+            if ((data != null) && (data.getData() != null)) {
                 Uri audioFileUri = data.getData();
                 previewFile(audioFileUri);
-                realpath=getRealPathFromURIPath(audioFileUri,UploadeMp3FileActivity.this);
+                realpath = getRealPathFromURIPath(audioFileUri, UploadeMp3FileActivity.this);
                 // Now you can use that Uri to get the file path, or upload it, ...
             }
         }
@@ -252,8 +251,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             progressDialog.dismiss();
-                            if(obj.getBoolean("success"))
-                            {
+                            if (obj.getBoolean("success")) {
 
 
                                 //save photo url
@@ -262,8 +260,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
 
                                 Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                            }
-                            else {
+                            } else {
 
                                 Toast.makeText(getApplicationContext(), "Error File not correct", Toast.LENGTH_SHORT).show();
 
@@ -280,12 +277,12 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
                         progressDialog.dismiss();
                         try {
 
-                            String responseBody = new String( error.networkResponse.data, "utf-8" );
-                            JSONObject jsonObject = new JSONObject( responseBody );
+                            String responseBody = new String(error.networkResponse.data, "utf-8");
+                            JSONObject jsonObject = new JSONObject(responseBody);
                             Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
-                        } catch ( JSONException e ) {
+                        } catch (JSONException e) {
                             //Handle a malformed json response
-                        } catch (UnsupportedEncodingException error2){
+                        } catch (UnsupportedEncodingException error2) {
 
                         }
                     }
@@ -317,7 +314,6 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
 //            }
 
 
-
         };
 
         //adding the request to volley
@@ -335,14 +331,20 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
 
 
     private class UploadFileToServer extends AsyncTask<String, String, String> {
+
+        private HttpURLConnection httpConn;
+        private DataOutputStream request;
+        private final String boundary =  "*****";
+        private final String crlf = "\r\n";
+        private final String twoHyphens = "--";
         @Override
         protected void onPreExecute() {
             // setting progress bar to zero
             donut_progress.setProgress(0);
-           // uploader_area.setVisibility(View.GONE); // Making the uploader area screen invisible
+            // uploader_area.setVisibility(View.GONE); // Making the uploader area screen invisible
             progress_area.setVisibility(View.VISIBLE); // Showing the stylish material progressbar
             sourceFile = new File(realpath);
-            totalSize = (int)sourceFile.length();
+            totalSize = (int) sourceFile.length();
             super.onPreExecute();
         }
 
@@ -354,13 +356,17 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
 
         @Override
         protected String doInBackground(String... args) {
+
             HttpURLConnection.setFollowRedirects(false);
             HttpURLConnection connection = null;
             String fileName = sourceFile.getName();
 
+
             try {
-                connection = (HttpURLConnection) new URL(SAVE_SEARCH_MP3).openConnection();
+                connection = (HttpURLConnection) new URL(SAVE_MP3).openConnection();
                 connection.setRequestMethod("POST");
+                connection.setDoOutput(true); // indicates POST method
+                connection.setDoInput(true);
                 String boundary = "---------------------------boundary";
                 String tail = "\r\n--" + boundary + "--\r\n";
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
@@ -373,25 +379,38 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
                 String fileHeader1 = "--" + boundary + "\r\n"
                         + "Content-Disposition: form-data; name=\"mp3\"; filename=\""
                         + fileName + "\"\r\n"
-                        + "Content-Type: application/octet-stream\r\n"
+                        + "Content-Type: "+ URLConnection.guessContentTypeFromName(sourceFile.getName())+"\r\n"
+                       // + "Content-Type: application/octet-stream\r\n"
                         + "Content-Transfer-Encoding: binary\r\n";
 
+
+                String Header3 = "--" + boundary + this.crlf
+                        + "Content-Disposition: form-data; name=\"id\""+this.crlf
+                        + "Content-Type: application/json; charset=utf-8"+this.crlf
+                        +this.crlf
+                        +id+ this.crlf;
+//                        + "Content-Type: application/json ; charset=UTF-8"+this.crlf
+//                        + "Content-Type: text/plain ; charset=UTF-8"+this.crlf
                 long fileLength = sourceFile.length() + tail.length();
                 String fileHeader2 = "Content-length: " + fileLength + "\r\n";
-                String fileHeader = fileHeader1 + fileHeader2 + "\r\n";
+                String fileHeader =  Header3 +fileHeader1 + fileHeader2 + "\r\n";
                 String stringData = metadataPart + fileHeader;
+
 
                 long requestLength = stringData.length() + fileLength;
                 connection.setRequestProperty("Content-length", "" + requestLength);
                 connection.setFixedLengthStreamingMode((int) requestLength);
                 connection.connect();
 
+
                 DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                 out.writeBytes(stringData);
                 out.flush();
+//
 
                 int progress = 0;
                 int bytesRead = 0;
+              //  int maxBufferSize = 1024 * 1024;
                 byte buf[] = new byte[1024];
                 BufferedInputStream bufInput = new BufferedInputStream(new FileInputStream(sourceFile));
                 while ((bytesRead = bufInput.read(buf)) != -1) {
@@ -400,7 +419,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
                     out.flush();
                     progress += bytesRead; // Here progress is total uploaded bytes
 
-                    publishProgress(""+(int)((progress*100)/totalSize)); // sending progress percent to publishProgress
+                    publishProgress("" + (int) ((progress * 100) / totalSize)); // sending progress percent to publishProgress
                 }
 
                 // Write closing boundary and close stream
@@ -408,16 +427,39 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
                 out.flush();
                 out.close();
 
+                InputStream stream  = null;
+                try {
+                    //Get Response
+                stream = connection.getInputStream();
+                    int responseCode = connection.getResponseCode();
+
+                } catch (Exception e) {
+                    try {
+                        int responseCode = connection.getResponseCode();
+                        String responseCode2 = connection.getResponseMessage();
+                        Log.d(TAG,"responseCode : "+responseCode+" message"+responseCode2);
+                        if (responseCode >= 400 && responseCode < 500)
+                        {   stream = connection.getErrorStream();
+                        Log.d(TAG,stream+""+responseCode);
+                        }
+                        else
+                            throw e;
+                    } catch (Exception es) {
+                        es.printStackTrace();
+
+                    }
+                }
                 // Get server response
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 StringBuilder builder = new StringBuilder();
-                while((line = reader.readLine()) != null) {
+                while ((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
 
             } catch (Exception e) {
                 // Exception
+                e.printStackTrace();
             } finally {
                 if (connection != null) connection.disconnect();
             }

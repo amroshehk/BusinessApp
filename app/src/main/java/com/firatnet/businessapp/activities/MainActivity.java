@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity
     private String name,email;
     private CircleImageView photo_nav_header;
     private TextView name_tv,email_tv;
-    public static final ImageLoader imageLoader = ImageLoader.getInstance();
+
+    ImageLoaderConfiguration config;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,19 +98,8 @@ public class MainActivity extends AppCompatActivity
         name_tv.setText(name);
         email_tv.setText(email);
 
-        ImageLoaderConfiguration config;
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        config= new ImageLoaderConfiguration.Builder(context)
-                .build();
-        ImageLoader.getInstance().init(config);
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        if (!helper.getSettingValuePhotoUrl().isEmpty())
-            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
-        else
-            photo_nav_header.setBackgroundResource(R.drawable.user512);
+
+        getUserPhoto();
 
 
         hView.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +128,29 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserPhoto();
+    }
+
+    void getUserPhoto()
+    {
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        config= new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        PreferenceHelper helper = new PreferenceHelper(context);
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
+        else
+            photo_nav_header.setBackgroundResource(R.drawable.user512);
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -158,18 +171,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        ImageLoaderConfiguration config;
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        config= new ImageLoaderConfiguration.Builder(context)
-                .build();
-        ImageLoader.getInstance().init(config);
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        PreferenceHelper helper=new PreferenceHelper(context);
-        if (!helper.getSettingValuePhotoUrl().isEmpty())
-            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
 
         int id = item.getItemId();
 

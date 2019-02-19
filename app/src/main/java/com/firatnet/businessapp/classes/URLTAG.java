@@ -10,8 +10,8 @@ public class URLTAG {
     public static final String SET_DEFAULT_FILE_URL ="http://business.firatnet.com/api/setDefaultFile";
     public static final String SAVE_PHOTO_URL ="http://business.firatnet.com/api/save_photo";
 
-    public static final String SAVE_SAVE_MP3 ="http://business.firatnet.com/api/save_mp3";
-    public static final String SAVE_GET_MP3 ="http://business.firatnet.com/api/get_mp3";
-    public static final String SAVE_SEARCH_MP3 ="http://business.firatnet.com/api/search_mp3";
+    public static final String SAVE_MP3 ="http://business.firatnet.com/api/save_mp3";
+    public static final String GET_MP3 ="http://business.firatnet.com/api/get_mp3";
+    public static final String SEARCH_MP3 ="http://business.firatnet.com/api/search_mp3";
 
 }

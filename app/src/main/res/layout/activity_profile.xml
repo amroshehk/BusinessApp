@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorGray2"
     tools:context=".activities.ProfileActivity">
 
     <RelativeLayout
@@ -13,23 +13,23 @@
         android:layout_height="match_parent">
 
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/lin1"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:background="@drawable/waves"-->
-            <!--android:orientation="vertical" />-->
+        <LinearLayout
+            android:id="@+id/lin1"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:background="@drawable/waves"
+            android:orientation="vertical" />
 
-        <!--<View-->
-            <!--android:id="@+id/view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="125dp" />-->
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
 
         <RelativeLayout
             android:id="@+id/cardview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:layout_below="@+id/view"
             android:layout_margin="5dp"
             android:background="@drawable/customborder"
             android:elevation="2dp"
@@ -63,7 +63,7 @@
                 android:layout_height="130sp"
                 android:layout_below="@+id/textView"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/user512"
+                android:src="@drawable/user512"
                 android:contentDescription="@string/nav_header_desc"
                 />
 

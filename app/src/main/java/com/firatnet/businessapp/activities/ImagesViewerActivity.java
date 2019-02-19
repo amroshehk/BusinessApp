@@ -97,7 +97,6 @@ public class ImagesViewerActivity extends AppCompatActivity {
 
 
         String image_url=helper.getSettingValuePhotoUrl() ;
-
         ImageLoaderConfiguration config;
         ImageLoader imageLoader = ImageLoader.getInstance();
         config= new ImageLoaderConfiguration.Builder(context)
@@ -107,7 +106,12 @@ public class ImagesViewerActivity extends AppCompatActivity {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-        imageLoader.displayImage(image_url,photoView,options);
+
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(image_url, photoView, options);
+        else
+            photoView.setBackgroundResource(R.drawable.user512);
+
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,7 +338,8 @@ public class ImagesViewerActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             if(obj.getBoolean("success"))
                             {
-
+                                ImageLoader.getInstance().clearDiskCache();
+                                ImageLoader.getInstance().clearMemoryCache();
 
                                 photoView.setImageBitmap(bitmap);
                                 photoView.setScaleType(CircleImageView.ScaleType.CENTER_CROP);

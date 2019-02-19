@@ -5,21 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/light_gray"
     tools:context=".activities.ImagesViewerActivity">
 
     <RelativeLayout
         android:id="@+id/activity_location_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/photo_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/pic"
-            android:layout_below="@+id/close"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/user512" />
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/user512"
+            android:background="@color/colorGray2"
+           />
 
         <ImageView
             android:id="@+id/close"
