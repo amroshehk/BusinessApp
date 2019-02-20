@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".activities.SaveBusinessActivity">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/businessName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Business Name *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/businessTypeLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/nameLayout"
+            app:layout_constraintStart_toStartOf="@+id/nameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/nameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/businessType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Business Type *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/partnershipLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/businessTypeLayout"
+            app:layout_constraintStart_toStartOf="@+id/businessTypeLayout"
+            app:layout_constraintTop_toBottomOf="@+id/businessTypeLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/partnershipType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Partnership Type *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/yearEstablishedLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/partnershipLayout"
+            app:layout_constraintStart_toStartOf="@+id/partnershipLayout"
+            app:layout_constraintTop_toBottomOf="@+id/partnershipLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yearEstablished"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Year Established *"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/employeesLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/yearEstablishedLayout"
+            app:layout_constraintStart_toStartOf="@+id/yearEstablishedLayout"
+            app:layout_constraintTop_toBottomOf="@+id/yearEstablishedLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/employeesNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Employees Number *"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/turnoverLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/employeesLayout"
+            app:layout_constraintStart_toStartOf="@+id/employeesLayout"
+            app:layout_constraintTop_toBottomOf="@+id/employeesLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/turnover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Turnover *"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/turnoverLayout"
+            app:layout_constraintStart_toStartOf="@+id/turnoverLayout"
+            app:layout_constraintTop_toBottomOf="@+id/turnoverLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="top"
+                android:hint="Address *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/addressLayout"
+            app:layout_constraintStart_toStartOf="@+id/addressLayout"
+            app:layout_constraintTop_toBottomOf="@+id/addressLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Country *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/countryLayout"
+            app:layout_constraintStart_toStartOf="@+id/countryLayout"
+            app:layout_constraintTop_toBottomOf="@+id/countryLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="City *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pinCodeLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/cityLayout"
+            app:layout_constraintStart_toStartOf="@+id/cityLayout"
+            app:layout_constraintTop_toBottomOf="@+id/cityLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pinCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PIN Code *"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productsLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/pinCodeLayout"
+            app:layout_constraintStart_toStartOf="@+id/pinCodeLayout"
+            app:layout_constraintTop_toBottomOf="@+id/pinCodeLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productsAndServices"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="top"
+                android:hint="Products and Services  *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/keywordsLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="@+id/productsLayout"
+            app:layout_constraintStart_toStartOf="@+id/productsLayout"
+            app:layout_constraintTop_toBottomOf="@+id/productsLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/keywords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Keywords *" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/saveBusiness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/roundedbutton"
+            android:text="Save Business"
+            app:layout_constraintEnd_toEndOf="@+id/keywordsLayout"
+            app:layout_constraintStart_toStartOf="@+id/keywordsLayout"
+            app:layout_constraintTop_toBottomOf="@+id/keywordsLayout" />
+
+        <TextView
+            android:id="@+id/errors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saveBusiness"
+            android:textColor="@color/colorError"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

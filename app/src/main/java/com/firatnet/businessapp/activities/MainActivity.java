@@ -12,7 +12,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
+import com.firatnet.businessapp.adapter.BusinessAdapter;
+import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
+import com.firatnet.businessapp.classes.StaticMethod;
+import com.firatnet.businessapp.entities.Business;
+import com.firatnet.businessapp.entities.Mp3File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -29,6 +34,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.view.Menu;
@@ -36,59 +43,90 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_ADDRESS;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_CITY;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_COUNTRY;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_EMPLOYESS_NUMBER;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_KEYWORDS;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_NAME;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PARTNERSHIP_TYPE;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PIN_CODE;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PRODUCTS;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TURNOVER;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TYPE;
+import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
+import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.LOGOUT_URL;
+import static com.firatnet.businessapp.classes.URLTAG.URL_RECENT_BUSINESS;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private static JSONArray businessArray = null;
+
     private ProgressDialog progressDialog;
-    Context context;
+    private Context context;
     private String name,email;
     private CircleImageView photo_nav_header;
     private TextView name_tv,email_tv;
 
     ImageLoaderConfiguration config;
+
+    private ArrayList<Business> businesses;
+
+    private RecyclerView businessRecyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        context=this;
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        context = this;
+
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(MainActivity.this, SaveBusinessActivity.class);
-
                 startActivity(intent);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
-        PreferenceHelper helper=new PreferenceHelper(context);
+        PreferenceHelper helper = new PreferenceHelper(context);
 
         email= helper.getSettingValueEmail();
         name= helper.getSettingValueName();
 
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View hView =  navigationView.getHeaderView(0);
         photo_nav_header= hView.findViewById(R.id.photo);
@@ -98,9 +136,7 @@ public class MainActivity extends AppCompatActivity
         name_tv.setText(name);
         email_tv.setText(email);
 
-
         getUserPhoto();
-
 
         hView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,11 +146,26 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        businesses = new ArrayList<>();
+
+        businessRecyclerView = findViewById(R.id.businessRecycleView);
+        layoutManager = new LinearLayoutManager(context);
+
+        if (StaticMethod.ConnectChecked(context)) {
+            getRecentBusiness();
+        } else {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -122,22 +173,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
         getUserPhoto();
     }
 
-    void getUserPhoto()
-    {
+
+
+    void getUserPhoto() {
         ImageLoader imageLoader = ImageLoader.getInstance();
-        config= new ImageLoaderConfiguration.Builder(context)
+        config = new ImageLoaderConfiguration.Builder(context)
                 .build();
         ImageLoader.getInstance().init(config);
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -151,6 +208,9 @@ public class MainActivity extends AppCompatActivity
             photo_nav_header.setBackgroundResource(R.drawable.user512);
 
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,6 +227,9 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -177,7 +240,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_mp3) {
 
             Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
-
             startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {
@@ -192,19 +254,18 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_logout) {
-
-
-            LoginServer(email );
-
+            LogoutServer(email);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
-    private void LoginServer(final String email) {
+
+
+    private void LogoutServer(final String email) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logout.....");
@@ -236,10 +297,7 @@ public class MainActivity extends AppCompatActivity
 
                         startActivity(intent);
 
-
-
                     } else  {
-
                         Toast.makeText(getApplicationContext(), "User logged out Not successfully", Toast.LENGTH_SHORT).show();
                     }
 
@@ -275,6 +333,99 @@ public class MainActivity extends AppCompatActivity
                 return params;
             }
         };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        requestQueue.add(request);
+
+    }
+
+
+
+    private void getRecentBusiness() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, URL_RECENT_BUSINESS,
+
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    try {
+
+                        JSONObject obj = new JSONObject(response);
+
+                        if (obj.getBoolean("success")) {
+
+                            businessArray = obj.getJSONArray(TAG_DATA);
+
+                            for (int i = 0; i < businessArray.length(); i++) {
+
+                                JSONObject jsonObject = businessArray.getJSONObject(i);
+
+                                Business business = new Business();
+
+                                business.setBusinessName(jsonObject.getString(BUSINESS_NAME));
+                                business.setBusinessType(jsonObject.getString(BUSINESS_TYPE));
+                                business.setPartnershipType(jsonObject.getString(BUSINESS_PARTNERSHIP_TYPE));
+                                business.setYearEstablished(jsonObject.getString(BUSINESS_YEAR_ESTABLISHED));
+                                business.setEmployeesNumber(jsonObject.getString(BUSINESS_EMPLOYESS_NUMBER));
+                                business.setTurnover(jsonObject.getString(BUSINESS_TURNOVER));
+                                business.setAddress(jsonObject.getString(BUSINESS_ADDRESS));
+                                business.setCountry(jsonObject.getString(BUSINESS_COUNTRY));
+                                business.setCity(jsonObject.getString(BUSINESS_CITY));
+                                business.setPinCode(jsonObject.getString(BUSINESS_PIN_CODE));
+                                business.setProducts(jsonObject.getString(BUSINESS_PRODUCTS));
+                                business.setKeywords(jsonObject.getString(BUSINESS_KEYWORDS));
+
+                                businesses.add(business);
+
+                            }
+
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+//                            nofiles.setVisibility(View.GONE);
+//                            CircularProgress.setVisibility(View.GONE);
+                            businessRecyclerView.setLayoutManager(layoutManager);
+                            adapter = new BusinessAdapter(context, businesses);
+                            businessRecyclerView.setAdapter(adapter);
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+//                        CircularProgress.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            },
+
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    try {
+
+                        String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+                        JSONObject jsonObject = new JSONObject(responseBody);
+//                        CircularProgress.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+
+                    } catch (JSONException e) {
+                        //Handle a malformed json response
+                    } catch (UnsupportedEncodingException error) {
+
+                    }
+                }
+            } )
+
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                return null;
+            }
+        };
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
         requestQueue.add(request);

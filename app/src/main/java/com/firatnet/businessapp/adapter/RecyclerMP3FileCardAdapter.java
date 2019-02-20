@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +12,6 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,38 +22,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
-import com.firatnet.businessapp.activities.LoginActivity;
-import com.firatnet.businessapp.activities.Mp3FilesActivity;
 import com.firatnet.businessapp.activities.PlayMp3FilesActivity;
-import com.firatnet.businessapp.activities.RegisterActivity;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.entities.Mp3File;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
-import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.SET_DEFAULT_FILE_URL;
 
 
@@ -101,6 +82,8 @@ public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3
             // Here you apply the animation when the view is bound
             setAnimation(holder.itemView, position);
         }
+
+
     /**
      * Here is the key method to apply the animation
      */
@@ -114,6 +97,8 @@ public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3
             lastPosition = position;
         }
     }
+
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -124,8 +109,8 @@ public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3
         return position;
     }
 
-        @Override
-        public int getItemCount() {
+    @Override
+    public int getItemCount() {
             return mp3Files.size();
         }
 
