@@ -36,6 +36,19 @@ public class JsonTAG {
     public static final String TAG_NEW_PASSWORD="new_password";
     public static final String TAG_MP3="mp3";
 
+    public static final String BUSINESS_ID = "id";
+    public static final String BUSINESS_NAME = "name";
+    public static final String BUSINESS_TYPE = "business_type";
+    public static final String BUSINESS_PARTNERSHIP_TYPE = "partnership_type";
+    public static final String BUSINESS_YEAR_ESTABLISHED = "year_established";
+    public static final String BUSINESS_EMPLOYESS_NUMBER = "employees_number";
+    public static final String BUSINESS_TURNOVER = "turnover";
+    public static final String BUSINESS_ADDRESS = "address";
+    public static final String BUSINESS_COUNTRY = "country";
+    public static final String BUSINESS_CITY = "city";
+    public static final String BUSINESS_PIN_CODE = "pin_code";
+    public static final String BUSINESS_PRODUCTS = "products_services";
+    public static final String BUSINESS_KEYWORDS = "keywords";
 
 
 }

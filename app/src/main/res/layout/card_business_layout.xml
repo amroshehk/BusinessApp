@@ -11,7 +11,8 @@
     card_view:cardBackgroundColor="#FCFCFB"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="3dp"
-    card_view:contentPadding="2dp">
+    card_view:contentPadding="2dp"
+    android:focusable="true">
 
 
     <LinearLayout
