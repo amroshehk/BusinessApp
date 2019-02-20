@@ -24,6 +24,7 @@ public class JsonTAG {
     public static final String TAG_GENERATED_ID="generated_id";
     public static final String TAG_STATUS="status";
     public static final String TAG_PHOTO_URL="photo_url";
+    public static final String TAG_URL="url";
     public static final String TAG_PHOTO="photo";
     public static final String TAG_IP="ip";
     public static final String TAG_DEFAULT_FILE="default_file";

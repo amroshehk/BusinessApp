@@ -54,6 +54,7 @@ import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_STATUS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
 import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.LOGIN_URL;
@@ -128,12 +129,13 @@ private Context context;
                             JSONObject objc = mp3fileArray.getJSONObject(i);
                             String id = objc.getString(TAG_ID);
                             String name = objc.getString(TAG_NAME);
+                            String url = objc.getString(TAG_URL);
                             String user_id = objc.getString(TAG_USER_ID);
                             String created_at = objc.getString(TAG_CREATED_AT);
                             String updated_at = objc.getString(TAG_UPDATED_AT);
 
 
-                          Mp3File  mp3File = new Mp3File(id, name, user_id, created_at, updated_at);
+                          Mp3File  mp3File = new Mp3File(id, name,url, user_id, created_at, updated_at);
                             mp3Files.add(mp3File);
                         }
 

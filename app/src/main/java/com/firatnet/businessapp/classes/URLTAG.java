@@ -7,7 +7,7 @@ public class URLTAG {
     public static final String LOGOUT_URL ="http://business.firatnet.com/api/logout";
 
     public static final String UPDATE_USER_URL ="http://business.firatnet.com/api/update_user";
-    public static final String SET_DEFAULT_FILE_URL ="http://business.firatnet.com/api/setDefaultFile";
+    public static final String SET_DEFAULT_FILE_URL ="http://business.firatnet.com/api/set_default_file";
     public static final String SAVE_PHOTO_URL ="http://business.firatnet.com/api/save_photo";
 
     public static final String SAVE_MP3 ="http://business.firatnet.com/api/save_mp3";

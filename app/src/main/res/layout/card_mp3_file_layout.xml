@@ -63,6 +63,19 @@
                 android:textSize="14sp" />
 
 
+            <TextView
+                android:id="@+id/default_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date"
+                android:layout_marginLeft="2dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="default"
+                android:textColor="@color/colorGray4"
+                android:visibility="gone"
+                android:textSize="14sp" />
+
+
         </RelativeLayout>
 
 

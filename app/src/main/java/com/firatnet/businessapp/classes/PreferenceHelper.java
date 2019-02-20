@@ -47,6 +47,9 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_LOGIN_DATE = "";
 
 
+    public  String getSettingValueDefaultFile() {
+        return readSharedPreference(KEY, SETTING_KEY_DEFAULT_FILE);
+    }
 
     private Context context;
 
@@ -98,6 +101,13 @@ public class PreferenceHelper {
     public  void setSettingValuePhotoUrl(String settingValuePhotoUrl) {
         SETTING_VALUE_PHOTO_URL = settingValuePhotoUrl;
         writeSharedPreference(SETTING_VALUE_PHOTO_URL, KEY, SETTING_KEY_PHOTO_URL);
+    }
+
+    public  void setSettingValueDefaultFile(String settingValueDefaultFile) {
+        SETTING_VALUE_DEFAULT_FILE = settingValueDefaultFile;
+
+        writeSharedPreference(SETTING_VALUE_DEFAULT_FILE, KEY, SETTING_KEY_DEFAULT_FILE);
+
     }
 
     /**
