@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.SettingActivity"
+    tools:showIn="@layout/activity_setting">
+
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/customborder"
+        android:padding="5dp"
+        android:text="Select"
+        android:textColor="@color/black"
+
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/rg1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tts_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TTS" />
+
+        <RadioButton
+            android:id="@+id/mp3_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MP3" />
+    </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rg1"
+        android:background="@drawable/customborder"
+        android:padding="5dp"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+
+    <RadioGroup
+        android:id="@+id/rg2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv2"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/call_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ready To Call" />
+
+        <RadioButton
+            android:id="@+id/vm_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VM" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/saveSetting_btn"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rg2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Save Setting" />
+
+
+</RelativeLayout>

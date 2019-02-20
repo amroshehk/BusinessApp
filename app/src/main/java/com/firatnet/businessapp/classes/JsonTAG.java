@@ -37,6 +37,11 @@ public class JsonTAG {
     public static final String TAG_MP3="mp3";
     public static final String TAG_Query="query";
 
+    public static final String TAG_MP3_TTS="mp3_tts";
+    public static final String TAG_VM_CALL="vm_call";
+
+
+
     public static final String BUSINESS_ID = "id";
     public static final String BUSINESS_NAME = "name";
     public static final String BUSINESS_TYPE = "business_type";
