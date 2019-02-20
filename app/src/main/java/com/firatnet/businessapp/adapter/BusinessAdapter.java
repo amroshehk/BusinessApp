@@ -11,30 +11,12 @@ import android.widget.TextView;
 
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.activities.BusinessDetailsActivity;
-import com.firatnet.businessapp.activities.PlayMp3FilesActivity;
-import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.entities.Business;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_ADDRESS;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_CITY;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_COUNTRY;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_EMPLOYESS_NUMBER;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_KEYWORDS;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_NAME;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PARTNERSHIP_TYPE;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PIN_CODE;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PRODUCTS;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TURNOVER;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TYPE;
-import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
 
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHolder>{
@@ -145,21 +127,6 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
                     Intent detailsIntent = new Intent(context, BusinessDetailsActivity.class);
 
                     detailsIntent.putExtra("BUSINESS", businesses.get(position));
-                /*    detailsIntent.putExtra(BUSINESS_NAME, businesses.get(position).getBusinessName());
-                    detailsIntent.putExtra(BUSINESS_TYPE, businesses.get(position).getBusinessType());
-                    detailsIntent.putExtra(BUSINESS_PARTNERSHIP_TYPE,
-                                            businesses.get(position).getPartnershipType());
-                    detailsIntent.putExtra(BUSINESS_YEAR_ESTABLISHED,
-                                             businesses.get(position).getYearEstablished());
-                    detailsIntent.putExtra(BUSINESS_EMPLOYESS_NUMBER,
-                                            businesses.get(position).getEmployeesNumber());
-                    detailsIntent.putExtra(BUSINESS_ADDRESS, businesses.get(position).getAddress());
-                    detailsIntent.putExtra(BUSINESS_COUNTRY, businesses.get(position).getCountry());
-                    detailsIntent.putExtra(BUSINESS_CITY, businesses.get(position).getCity());
-                    detailsIntent.putExtra(BUSINESS_PIN_CODE, businesses.get(position).getPinCode());
-                    detailsIntent.putExtra(BUSINESS_KEYWORDS, businesses.get(position).getKeywords());
-                    detailsIntent.putExtra(BUSINESS_PRODUCTS, businesses.get(position).getProducts());
-                    detailsIntent.putExtra(BUSINESS_TURNOVER, businesses.get(position).getTurnover());*/
 
                     context.startActivity(detailsIntent);
 

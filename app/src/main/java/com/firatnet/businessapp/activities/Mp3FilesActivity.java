@@ -1,9 +1,12 @@
 package com.firatnet.businessapp.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -11,25 +14,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Mp3File;
-import com.firatnet.businessapp.entities.Register;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firatnet.businessapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,24 +31,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_DEFAULT_FILE;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_GENERATED_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_IP;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_PASSWORD;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHONE;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_STATUS;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
 import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
-import static com.firatnet.businessapp.classes.URLTAG.LOGIN_URL;
 
 public class Mp3FilesActivity extends AppCompatActivity {
 private ProgressBar CircularProgress;

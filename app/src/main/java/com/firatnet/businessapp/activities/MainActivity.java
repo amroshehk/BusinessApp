@@ -297,10 +297,7 @@ public class MainActivity extends AppCompatActivity
 
                         startActivity(intent);
 
-
-
                     } else  {
-
                         Toast.makeText(getApplicationContext(), "User logged out Not successfully", Toast.LENGTH_SHORT).show();
                     }
 
