@@ -20,22 +20,7 @@ import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Mp3File;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firatnet.businessapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +44,9 @@ import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
 import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 
+
 public class Mp3FilesActivity extends AppCompatActivity {
+
     private ProgressBar CircularProgress;
     private Context context;
 

@@ -16,6 +16,7 @@ public class URLTAG {
 
     public static final String URL_SAVE_BUSINESS ="http://business.firatnet.com/api/set_business";
     public static final String URL_RECENT_BUSINESS ="http://business.firatnet.com/api/recent_business";
+    public static final String URL_SEARCH_BUSINESS ="http://business.firatnet.com/api/search_business";
 
 
 }

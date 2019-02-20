@@ -16,14 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.SearchForBusinessActivity"></activity>
+        <activity android:name=".activities.BusinessDetailsActivity" />
+        <activity android:name=".activities.SearchMp3FilesActivity" />
         <activity
             android:name=".activities.SettingActivity"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activities.SearchMp3FilesActivity" />
-        <activity android:name=".activities.BusinessDetailsActivity"></activity>
 
-        <activity android:name=".activities.SearchMp3FilesActivity"></activity>
         <activity android:name=".activities.PlayMp3FilesActivity" />
         <activity android:name=".activities.SaveBusinessActivity" />
         <activity android:name=".activities.UploadeMp3FileActivity" />

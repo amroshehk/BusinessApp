@@ -4,6 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,35 +18,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.adapter.BusinessAdapter;
-import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Business;
-import com.firatnet.businessapp.entities.Mp3File;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +37,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_ADDRESS;
 import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_CITY;
@@ -64,15 +59,8 @@ import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_PRODUCTS;
 import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TURNOVER;
 import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_TYPE;
 import static com.firatnet.businessapp.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
-import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
-import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.LOGOUT_URL;
 import static com.firatnet.businessapp.classes.URLTAG.URL_RECENT_BUSINESS;
 
@@ -96,21 +84,39 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
 
+    private FloatingActionMenu searchMenu;
+    private com.github.clans.fab.FloatingActionButton searchItem;
+    private com.github.clans.fab.FloatingActionButton addItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        searchMenu = findViewById(R.id.menu);
+        searchItem = findViewById(R.id.searchItem);
+        addItem = findViewById(R.id.addItem);
+
         context = this;
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        addItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SaveBusinessActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        searchItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchForBusinessActivity.class);
                 startActivity(intent);
             }
         });

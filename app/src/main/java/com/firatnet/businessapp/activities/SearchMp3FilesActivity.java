@@ -46,6 +46,8 @@ import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
 import static com.firatnet.businessapp.classes.URLTAG.SEARCH_MP3;
 
 public class SearchMp3FilesActivity extends AppCompatActivity {
+
+
     private ProgressBar CircularProgress;
     private Context context;
 
@@ -56,8 +58,12 @@ public class SearchMp3FilesActivity extends AppCompatActivity {
     private static JSONArray mp3fileArray = null;
     ArrayList<Mp3File> mp3Files;
     SearchView searchView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_mp3_files);
 
@@ -196,6 +202,7 @@ public class SearchMp3FilesActivity extends AppCompatActivity {
                 return params;
             }
         };
+
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
         requestQueue.add(request);
