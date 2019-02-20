@@ -23,6 +23,7 @@ import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Business;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -102,7 +103,10 @@ public class SaveBusinessActivity extends AppCompatActivity {
 
             } else {
 
+
                 if (StaticMethod.ConnectChecked(context)) {
+
+//                    saveBusiness.setEnabled(false);
 
                     Business business = new Business();
 
@@ -195,14 +199,15 @@ public class SaveBusinessActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(SaveBusinessActivity.this, MainActivity.class);
-//                        intent.putExtra("email", register.getEmail());
-//                        intent.putExtra("password", register.getPassword());
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
 
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+
+                        JSONArray message = obj.getJSONArray("message");
+                        JSONObject error = message.getJSONObject(0);
+                        Toast.makeText(getApplicationContext(), error.getString("year_established"), Toast.LENGTH_LONG).show();
+                        errors.setText(error.getString("year_established"));
                     }
 
                 } catch (JSONException e) {

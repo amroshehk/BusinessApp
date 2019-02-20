@@ -1,6 +1,8 @@
 package com.firatnet.businessapp.entities;
 
-public class Business {
+import java.io.Serializable;
+
+public class Business implements Serializable {
 
     private String businessName;
     private String businessType;
