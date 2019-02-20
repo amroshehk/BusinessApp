@@ -29,6 +29,9 @@ public class PreferenceHelper {
     public static String SETTING_KEY_LOGIN_STATE = "com.firatnet.businessapp.SETTING_KEY_LOGIN_STATE";
     public static String SETTING_KEY_LOGIN_DATE = "com.firatnet.businessapp.SETTING_KEY_LOGIN_DATE";
 
+    public static String SETTING_KEY_LAST_RUN_MP3_FILE= "com.firatnet.businessapp.SETTING_KEY_LAST_RUN_MP3_FILE";
+    public static String SETTING_KEY_LAST_RUN_MP3_FILE_TITLE= "com.firatnet.businessapp.SETTING_KEY_LAST_RUN_MP3_FILE_TITLE";
+
     public static String SETTING_VALUE_ID = "";
     public static String SETTING_VALUE_NAME = "";
     public static String SETTING_VALUE_EMAIL = "";
@@ -45,6 +48,8 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_DEFAULT_FILE = "";
     public static String SETTING_VALUE_LOGIN_STATE = "";
     public static String SETTING_VALUE_LOGIN_DATE = "";
+    public static String SETTING_VALUE_LAST_RUN_MP3_FILE= "";
+    public static String SETTING_VALUE_LAST_RUN_MP3_FILE_TITLE = "";
 
 
     public  String getSettingValueDefaultFile() {
@@ -108,6 +113,24 @@ public class PreferenceHelper {
 
         writeSharedPreference(SETTING_VALUE_DEFAULT_FILE, KEY, SETTING_KEY_DEFAULT_FILE);
 
+    }
+
+    public  String getSettingKeyLastRunMp3File() {
+        return readSharedPreference(KEY,SETTING_KEY_LAST_RUN_MP3_FILE);
+    }
+
+    public  void setSettingKeyLastRunMp3File(String settingKeyLastRunMp3File) {
+        SETTING_KEY_LAST_RUN_MP3_FILE = settingKeyLastRunMp3File;
+        writeSharedPreference(SETTING_KEY_LAST_RUN_MP3_FILE, KEY, SETTING_KEY_LAST_RUN_MP3_FILE);
+    }
+
+    public  String getSettingKeyLastRunMp3FileTitle() {
+        return readSharedPreference(KEY,SETTING_KEY_LAST_RUN_MP3_FILE_TITLE);
+    }
+
+    public  void setSettingKeyLastRunMp3FileTitle(String settingKeyLastRunMp3FileTitle) {
+        SETTING_KEY_LAST_RUN_MP3_FILE_TITLE = settingKeyLastRunMp3FileTitle;
+        writeSharedPreference(SETTING_KEY_LAST_RUN_MP3_FILE_TITLE, KEY, SETTING_KEY_LAST_RUN_MP3_FILE_TITLE);
     }
 
     /**

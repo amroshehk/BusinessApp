@@ -25,7 +25,7 @@
             android:layout_width="105dp"
             android:layout_height="105dp"
             android:padding="5dp"
-            android:background="@drawable/mp3flat"/>
+            android:background="@drawable/mp3512"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -89,5 +89,6 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/new_busniss" />
+        android:background="@drawable/new_busniss"
+        android:visibility="gone"/>
 </androidx.cardview.widget.CardView>

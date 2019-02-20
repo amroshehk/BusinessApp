@@ -17,7 +17,7 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/mp3flat"/>
+        android:background="@drawable/mp3512"/>
     <TextView
         android:id="@+id/filepath"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:id="@+id/upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload"
+            android:text="Upload File"
             android:visibility="gone"
             style="@style/AppTheme.Button"
             android:gravity="center_horizontal|center_vertical"/>
