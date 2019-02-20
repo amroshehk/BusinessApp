@@ -1,8 +1,12 @@
 package com.firatnet.businessapp.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -20,22 +24,6 @@ import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Mp3File;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firatnet.businessapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,20 +34,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_Query;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_USER_ID;
 import static com.firatnet.businessapp.classes.URLTAG.GET_MP3;
+import static com.firatnet.businessapp.classes.URLTAG.SEARCH_MP3;
 
-public class Mp3FilesActivity extends AppCompatActivity {
+public class SearchMp3FilesActivity extends AppCompatActivity {
     private ProgressBar CircularProgress;
     private Context context;
 
@@ -69,71 +55,61 @@ public class Mp3FilesActivity extends AppCompatActivity {
     private TextView nofiles;
     private static JSONArray mp3fileArray = null;
     ArrayList<Mp3File> mp3Files;
-    private FloatingActionMenu menuRed;
-    private com.github.clans.fab.FloatingActionButton search_item;
-    private com.github.clans.fab.FloatingActionButton add_item;
-
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mp3_files);
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-        CircularProgress = findViewById(R.id.progressbar_mp3file);
-        context = this;
-        recyclerView = findViewById(R.id.recyclerview);
-        layoutManager = new LinearLayoutManager(context);
-        nofiles = findViewById(R.id.no_file);
-        mp3Files = new ArrayList<>();
-        menuRed = findViewById(R.id.menu);
-        search_item = findViewById(R.id.search_item);
-        add_item = findViewById(R.id.add_item);
+        setContentView(R.layout.activity_search_mp3_files);
 
-        //hide no file textview
+        CircularProgress=findViewById(R.id.progressbar_mp3file);
+        context=this;
+        recyclerView=findViewById(R.id.recyclerview);
+        layoutManager=new LinearLayoutManager(context);
+        nofiles=findViewById(R.id.no_file);
+        mp3Files = new ArrayList<>();
+        searchView= findViewById(R.id.search);
+
         nofiles.setVisibility(View.GONE);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        add_item.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
-            public void onClick(View view) {
+            public boolean onQueryTextSubmit(String query) {
 
-                Intent intent = new Intent(Mp3FilesActivity.this, UploadeMp3FileActivity.class);
-                startActivity(intent);
 
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                if ( StaticMethod.ConnectChecked(context))  {
+                    PreferenceHelper helper=new PreferenceHelper(context);
+                    nofiles.setVisibility(View.GONE);
+                    mp3Files.clear();
+                    SearchMp3FileServer(helper.getSettingValueId(), query);
+
+                    return false;
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
 
-        search_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(Mp3FilesActivity.this, SearchMp3FilesActivity.class);
-                startActivity(intent);
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-            }
-        });
-
-
-        if (StaticMethod.ConnectChecked(context)) {
-            PreferenceHelper helper = new PreferenceHelper(context);
-            GetMp3FileServer(helper.getSettingValueId());
-        } else {
-
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
     }
 
-
-    private void GetMp3FileServer(final String id) {
+    private void SearchMp3FileServer(final String id,final String query) {
 
         CircularProgress.setVisibility(View.VISIBLE);
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, GET_MP3, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, SEARCH_MP3, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -142,7 +118,8 @@ public class Mp3FilesActivity extends AppCompatActivity {
 
                     if (obj.getBoolean("success")) {
 
-
+                        //Files retrieved successfully
+                        if( obj.getString("message").equals("Files retrieved successfully")){
                         mp3fileArray = obj.getJSONArray(TAG_DATA);
 
                         for (int i = 0; i < mp3fileArray.length(); i++) {
@@ -156,7 +133,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
                             String updated_at = objc.getString(TAG_UPDATED_AT);
 
 
-                            Mp3File mp3File = new Mp3File(id, name, url, user_id, created_at, updated_at);
+                            Mp3File  mp3File = new Mp3File(id, name,url, user_id, created_at, updated_at);
                             mp3Files.add(mp3File);
                         }
 
@@ -165,10 +142,21 @@ public class Mp3FilesActivity extends AppCompatActivity {
                         nofiles.setVisibility(View.GONE);
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter = new RecyclerMP3FileCardAdapter(mp3Files, context);
+                        adapter=new RecyclerMP3FileCardAdapter(mp3Files,context);
                         recyclerView.setAdapter(adapter);
+                        }
+                        else if(obj.getString("message").equals("No files match the query string"))
+                        {
+                            nofiles.setVisibility(View.VISIBLE);
+                            CircularProgress.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            nofiles.setVisibility(View.VISIBLE);
+                            CircularProgress.setVisibility(View.GONE);
+                        }
 
-                    } else {
+                    } else  {
                         nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
                         //  Toast.makeText(getApplicationContext(), "error ", Toast.LENGTH_SHORT).show();
@@ -203,7 +191,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/json; charset=utf-8");
                 params.put(TAG_ID, id);
-
+                params.put(TAG_Query, query);
 
                 return params;
             }
@@ -213,5 +201,4 @@ public class Mp3FilesActivity extends AppCompatActivity {
         requestQueue.add(request);
 
     }
-
 }

@@ -473,6 +473,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
             progress_area.setVisibility(View.VISIBLE); // Showing the stylish material progressbar
             sourceFile = new File(realpath);
             totalSize = (int) sourceFile.length();
+            uploadBtn.setText("Please Watting....");
             super.onPreExecute();
         }
 
@@ -597,6 +598,8 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
         @Override
         protected void onPostExecute(String result) {
             Log.e("Response", "Response from server: " + result);
+            uploadBtn.setText("PUpload File");
+
             showFileChooser();
             super.onPostExecute(result);
         }

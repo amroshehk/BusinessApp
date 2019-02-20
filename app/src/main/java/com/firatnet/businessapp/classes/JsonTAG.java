@@ -35,6 +35,7 @@ public class JsonTAG {
     public static final String TAG_NEW_PHONE="new_phone";
     public static final String TAG_NEW_PASSWORD="new_password";
     public static final String TAG_MP3="mp3";
+    public static final String TAG_Query="query";
 
     public static final String BUSINESS_ID = "id";
     public static final String BUSINESS_NAME = "name";

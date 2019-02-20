@@ -17,6 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.BusinessDetailsActivity"></activity>
+
+        <activity android:name=".activities.SearchMp3FilesActivity"></activity>
         <activity android:name=".activities.PlayMp3FilesActivity" />
         <activity android:name=".activities.SaveBusinessActivity" />
         <activity android:name=".activities.UploadeMp3FileActivity" />
