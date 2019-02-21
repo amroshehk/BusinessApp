@@ -9,8 +9,8 @@ public class StaticMethod {
   public   static  boolean ConnectChecked(Context context)
     {
 
-        boolean online = ConnectionStatus.isNetworkAvailable( context ) &&
-                ConnectionStatus.isOnline();
+        boolean online = ConnectionStatus.isNetworkAvailable( context );
+//                &&  ConnectionStatus.isOnline();
 
         return online;
     }
