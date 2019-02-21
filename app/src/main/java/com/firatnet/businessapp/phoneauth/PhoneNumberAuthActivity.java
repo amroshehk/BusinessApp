@@ -26,6 +26,7 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_number_auth);
         context=this;
@@ -73,16 +74,17 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         //check login state
-        PreferenceHelper helper=new PreferenceHelper(context);
-       String loginInState= helper.getLoginState();
+        PreferenceHelper helper = new PreferenceHelper(context);
+        String loginInState = helper.getLoginState();
 
       //  if (FirebaseAuth.getInstance().getCurrentUser() != null && !loginInState.isEmpty()) {
-            if (!loginInState.isEmpty()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (!loginInState.isEmpty()) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            startActivity(intent);
+        startActivity(intent);
         }
     }
 }

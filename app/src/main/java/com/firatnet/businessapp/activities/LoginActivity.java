@@ -145,10 +145,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (error_m.equals("")) {
                     if (StaticMethod.ConnectChecked(context)) {
-
                         LoginServer(email, pw);
                     } else {
-
                         Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -216,19 +214,17 @@ public class LoginActivity extends AppCompatActivity {
 
                         //30 day
                         Long tsLong = System.currentTimeMillis()/1000;//time stamp
-                        Long cuuentTimeexpired=tsLong+(30*24*60*60)+1;//
-                        helper.setSettingValueLoginDataExpired(cuuentTimeexpired.toString());
-
-
-
+                        long cuuentTimeexpired=tsLong+(30*24*60*60)+1;//
+                        helper.setSettingValueLoginDataExpired(Long.toString(cuuentTimeexpired));
 
                         Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, VoiceActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                    } else if (obj.getString("message").equals("Incorrect email or password")) {
 
+
+                    } else if (obj.getString("message").equals("Incorrect email or password")) {
                         error.setText("Incorrect email or password");
                     }
 

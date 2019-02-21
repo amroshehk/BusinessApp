@@ -16,22 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".activities.VoiceActivity"
+            android:parentActivityName=".activities.MainActivity" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
         <activity
             android:name=".activities.SaveTTSActivity"
             android:label="@string/title_activity_save_tts"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:label="@string/title_activity_search_business"
-            android:name=".activities.SearchForBusinessActivity" />
+            android:name=".activities.SearchForBusinessActivity"
+            android:label="@string/title_activity_search_business" />
         <activity
-            android:label="@string/title_activity_business_details"
-            android:name=".activities.BusinessDetailsActivity" />
+            android:name=".activities.BusinessDetailsActivity"
+            android:label="@string/title_activity_business_details" />
         <activity
-            android:label="@string/title_activity_search_Mp3_files"
-            android:name=".activities.SearchMp3FilesActivity" />
+            android:name=".activities.SearchMp3FilesActivity"
+            android:label="@string/title_activity_search_Mp3_files" />
         <activity
             android:name=".activities.SettingActivity"
             android:label="@string/title_activity_setting"
@@ -40,9 +45,8 @@
         <activity android:name=".activities.SaveBusinessActivity" />
         <activity android:name=".activities.UploadeMp3FileActivity" />
         <activity
-            android:label="@string/title_activity_mp3_files"
             android:name=".activities.Mp3FilesActivity"
-           />
+            android:label="@string/title_activity_mp3_files" />
         <activity
             android:name=".activities.ImagesViewerActivity"
             android:theme="@style/AppTheme.NoActionBar" />

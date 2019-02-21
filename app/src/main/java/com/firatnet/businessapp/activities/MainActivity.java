@@ -25,7 +25,6 @@ import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Business;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -118,8 +117,7 @@ public class MainActivity extends AppCompatActivity
         email= helper.getSettingValueEmail();
         name= helper.getSettingValueName();
 
-        if(Long.parseLong(helper.getSettingValueLoginDataExpired())>tsLong)
-        {
+        if( Long.parseLong(helper.getSettingValueLoginDataExpired())>tsLong) {
             Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(tsLong) , Toast.LENGTH_LONG).show();
         }
         else
