@@ -1,14 +1,18 @@
 package com.firatnet.businessapp.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +92,11 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView businessRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+
+    Dialog dialog;
+    Button cancel;
+    Button ensure;
+    Button eval;
 
     private FloatingActionMenu searchMenu;
     private com.github.clans.fab.FloatingActionButton searchItem;
@@ -198,12 +207,62 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+// custom dialog
+            dialog = new Dialog(context);
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.exit_dialog_layout);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+
+            cancel = dialog.findViewById(R.id.cancel);
+            ensure =  dialog.findViewById(R.id.ensure);
+            eval = dialog.findViewById(R.id.eval);
+
+            // if button is clicked, close the custom dialog
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+
+            // if button is clicked, close the custom dialog
+            ensure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+                    finishAffinity();
+
+
+                }
+            });
+
+            // if button is clicked, close the custom dialog
+            eval.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        dialog.dismiss();
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        dialog.dismiss();
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
+
+                }
+            });
+
+            dialog.show();
         }
+
     }
 
 
