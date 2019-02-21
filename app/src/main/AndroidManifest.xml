@@ -17,7 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.VoiceActivity"
+        <service android:name=".fcm.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".activities.AboutUsActivity" />
+        <activity
+            android:name=".activities.VoiceActivity"
             android:parentActivityName=".activities.MainActivity" />
 
         <meta-data

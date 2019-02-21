@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "319757658685-9jbblpbjn4tmu5efuku6u5qvlvvlhid0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firatnet.businessapp",
+            "certificate_hash": "fdd33baf8b7e22121231aaac7eb6e8a33fb8e11e"
+          }
+        },
+        {
+          "client_id": "319757658685-huvbo4ve3s3eq3sq2a4q4jhpo6prm59c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firatnet.businessapp",
+            "certificate_hash": "4978f39f1dbd5c89397873d0e071b14c9e37aa5b"
+          }
+        },
+        {
+          "client_id": "319757658685-tucq5gnmdg9edt9ru1ph2kil4avkmlq1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firatnet.businessapp",
+            "certificate_hash": "bb413efa6eefea980923d82a2a975c953e73a7ad"
+          }
+        },
+        {
           "client_id": "319757658685-9vtud8nmd2c3fbu7amp3q7103kvht5ii.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +53,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319757658685-9vtud8nmd2c3fbu7amp3q7103kvht5ii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

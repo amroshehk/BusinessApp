@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,8 +36,12 @@ import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Business;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -46,6 +57,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -84,6 +96,19 @@ public class MainActivity extends AppCompatActivity
     private String name,email;
     private CircleImageView photo_nav_header;
     private TextView name_tv,email_tv;
+
+    private static final String TAG = "MainActivity";
+    //keys
+    private static final String SETTING_KEY_PUSH = "com.firatnet.businessapp.SETTING_KEY_PUSH";
+    private static final String SETTING_KEY_SOUND = "com.firatnet.businessapp.SETTING_KEY_SOUND";
+    private static final String SETTING_KEY_VIBRATE = "com.firatnet.businessapp.SETTING_KEY_VIBRATE";
+
+    //getString
+    private   String SETTING_PUSH;
+    private   String SETTING_SOUND;
+    private   String SETTING_VIBRATE;
+    private ProgressDialog progressDialog2;
+
 
     ImageLoaderConfiguration config;
 
@@ -126,8 +151,9 @@ public class MainActivity extends AppCompatActivity
         email= helper.getSettingValueEmail();
         name= helper.getSettingValueName();
 
-        if( Long.parseLong(helper.getSettingValueLoginDataExpired())>tsLong) {
-            Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(tsLong) , Toast.LENGTH_LONG).show();
+        Long validdate=Long.parseLong(helper.getSettingValueLoginDataExpired());
+        if( validdate>tsLong) {
+            Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(validdate) , Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -154,6 +180,26 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+
 
 
 
@@ -420,17 +466,25 @@ public class MainActivity extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                try {
-                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-                    JSONObject jsonObject = new JSONObject(responseBody);
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
-
-                } catch (JSONException e) {
-                    //Handle a malformed json response
-                } catch (UnsupportedEncodingException error) {
-
+                String message = "";
+                if (volleyError instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ServerError) {
+                    message = "The server could not be found. Please try again after some time!!";
+                } else if (volleyError instanceof AuthFailureError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (volleyError instanceof NoConnectionError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
                 }
+
+//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    JSONObject jsonObject = new JSONObject(responseBody);
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
             }
         }
         ) {
@@ -518,19 +572,25 @@ public class MainActivity extends AppCompatActivity
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    try {
-
-                        String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-                        JSONObject jsonObject = new JSONObject(responseBody);
-                        CircularProgress.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
-
-                    } catch (JSONException e) {
-                        //Handle a malformed json response
-                 //       CircularProgress.setVisibility(View.GONE);
-                    } catch (UnsupportedEncodingException error) {
-                   //     CircularProgress.setVisibility(View.GONE);
+                    String message = "";
+                    if (volleyError instanceof NetworkError) {
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (volleyError instanceof ServerError) {
+                        message = "The server could not be found. Please try again after some time!!";
+                    } else if (volleyError instanceof AuthFailureError) {
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (volleyError instanceof ParseError) {
+                        message = "Parsing error! Please try again after some time!!";
+                    } else if (volleyError instanceof NoConnectionError) {
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (volleyError instanceof TimeoutError) {
+                        message = "Connection TimeOut! Please check your internet connection.";
                     }
+
+//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    JSONObject jsonObject = new JSONObject(responseBody);
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
                 }
             } )
 

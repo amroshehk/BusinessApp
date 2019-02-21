@@ -35,4 +35,6 @@
     <string name="callee">client identity or phone number</string>
     <string name="callHint">Dial a client name or phone number. Leaving the field empty results in an automated response.</string>
 
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
 </resources>

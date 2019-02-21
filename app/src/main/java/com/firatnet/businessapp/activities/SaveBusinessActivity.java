@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -217,19 +223,26 @@ public class SaveBusinessActivity extends AppCompatActivity {
         },
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(VolleyError volleyError) {
 
-                        //  Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        try {
-                            String responseBody = new String( error.networkResponse.data, "utf-8" );
-                            JSONObject jsonObject = new JSONObject( responseBody );
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
-                        } catch ( JSONException e ) {
-                            //Handle a malformed json response
-                        } catch (UnsupportedEncodingException error2){
-
+                        String message = "";
+                        if (volleyError instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (volleyError instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (volleyError instanceof NoConnectionError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
                         }
+                        //                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    JSONObject jsonObject = new JSONObject(responseBody);
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
