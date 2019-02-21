@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="bottom|center_horizontal"
         android:text="No Business match the query string"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
