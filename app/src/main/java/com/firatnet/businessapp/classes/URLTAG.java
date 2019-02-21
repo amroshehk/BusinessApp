@@ -13,6 +13,8 @@ public class URLTAG {
     public static final String SAVE_MP3 ="http://business.firatnet.com/api/save_mp3";
     public static final String GET_MP3 ="http://business.firatnet.com/api/get_mp3";
     public static final String SEARCH_MP3 ="http://business.firatnet.com/api/search_mp3";
+    public static final String SET_PREFERENC_URL ="http://business.firatnet.com/api/set_preference";
+    public static final String SAVE_TTS_URL ="http://business.firatnet.com/api/set_tts";
 
     public static final String URL_SAVE_BUSINESS ="http://business.firatnet.com/api/set_business";
     public static final String URL_RECENT_BUSINESS ="http://business.firatnet.com/api/recent_business";

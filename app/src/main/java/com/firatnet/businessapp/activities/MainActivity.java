@@ -3,10 +3,13 @@ package com.firatnet.businessapp.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,9 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -69,7 +74,8 @@ public class MainActivity extends AppCompatActivity
 
 
     private static JSONArray businessArray = null;
-
+    private ProgressBar CircularProgress;
+    private TextView no_business;
     private ProgressDialog progressDialog;
     private Context context;
     private String name,email;
@@ -96,12 +102,33 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        CircularProgress = findViewById(R.id.progressbar_mp3file);
+        no_business = findViewById(R.id.no_business);
         searchMenu = findViewById(R.id.menu);
         searchItem = findViewById(R.id.searchItem);
         addItem = findViewById(R.id.addItem);
 
         context = this;
+        no_business.setVisibility(View.GONE);
+
+//        check login data expired
+        Long tsLong = System.currentTimeMillis()/1000;
+
+        PreferenceHelper helper = new PreferenceHelper(context);
+        email= helper.getSettingValueEmail();
+        name= helper.getSettingValueName();
+
+        if(Long.parseLong(helper.getSettingValueLoginDataExpired())>tsLong)
+        {
+            Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(tsLong) , Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            LogoutServer(email);
+            Toast.makeText(getApplicationContext(), "You must login again to renew the validity", Toast.LENGTH_LONG).show();
+        }
+
+
 
 
         addItem.setOnClickListener(new View.OnClickListener() {
@@ -121,10 +148,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        PreferenceHelper helper = new PreferenceHelper(context);
 
-        email= helper.getSettingValueEmail();
-        name= helper.getSettingValueName();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -166,7 +190,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
 
 
     @Override
@@ -225,10 +254,10 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -248,16 +277,28 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_TTS) {
+            Intent intent = new Intent(MainActivity.this, SaveTTSActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-
+        }  else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
-
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+            shareIntent.setType("text/plain");
+            startActivity(shareIntent);
         } else if (id == R.id.nav_send) {
-
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            }
+            catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
         }
         else if (id == R.id.nav_logout) {
             LogoutServer(email);
@@ -348,7 +389,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void getRecentBusiness() {
-
+        CircularProgress.setVisibility(View.VISIBLE);
         StringRequest request = new StringRequest(Request.Method.POST, URL_RECENT_BUSINESS,
 
             new Response.Listener<String>() {
@@ -386,19 +427,26 @@ public class MainActivity extends AppCompatActivity
 
                             }
 
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-//                            nofiles.setVisibility(View.GONE);
-//                            CircularProgress.setVisibility(View.GONE);
+
+                            no_business.setVisibility(View.GONE);
+                            CircularProgress.setVisibility(View.GONE);
                             businessRecyclerView.setLayoutManager(layoutManager);
                             adapter = new BusinessAdapter(context, businesses);
                             businessRecyclerView.setAdapter(adapter);
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            no_business.setVisibility(View.VISIBLE);
+                            CircularProgress.setVisibility(View.GONE);
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-//                        CircularProgress.setVisibility(View.GONE);
+                        CircularProgress.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
                     }
 
@@ -412,13 +460,14 @@ public class MainActivity extends AppCompatActivity
 
                         String responseBody = new String(volleyError.networkResponse.data, "utf-8");
                         JSONObject jsonObject = new JSONObject(responseBody);
-//                        CircularProgress.setVisibility(View.GONE);
+                        CircularProgress.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {
                         //Handle a malformed json response
+                 //       CircularProgress.setVisibility(View.GONE);
                     } catch (UnsupportedEncodingException error) {
-
+                   //     CircularProgress.setVisibility(View.GONE);
                     }
                 }
             } )

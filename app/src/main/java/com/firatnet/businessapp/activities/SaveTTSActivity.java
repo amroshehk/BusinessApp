@@ -10,10 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.firatnet.businessapp.adapter.RecyclerMP3FileCardAdapter;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
-import com.firatnet.businessapp.entities.Mp3File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -22,10 +20,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.firatnet.businessapp.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,88 +34,63 @@ import java.util.Map;
 
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_MP3_TTS;
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_TTS_TEXT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_VM_CALL;
+import static com.firatnet.businessapp.classes.URLTAG.SAVE_TTS_URL;
 import static com.firatnet.businessapp.classes.URLTAG.SET_PREFERENC_URL;
 
-public class SettingActivity extends AppCompatActivity {
-
-    Button saveSetting_btn;
-    RadioButton call_rb, vm_rb, tts_rb, mp3_rb;
-    String mp3_tts, vm_call;
+public class SaveTTSActivity extends AppCompatActivity {
     Context context;
     private ProgressDialog progressDialog;
+    TextInputEditText mess_text;
+    Button add;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_save_tts);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        context=this;
+        context = this;
+        mess_text = findViewById(R.id.mess_text);
+        add = findViewById(R.id.add);
 
-        saveSetting_btn = findViewById(R.id.saveSetting_btn);
-        call_rb = findViewById(R.id.call_rb);
-        vm_rb = findViewById(R.id.vm_rb);
-
-        tts_rb = findViewById(R.id.tts_rb);
-        mp3_rb = findViewById(R.id.mp3_rb);
-
-
-        PreferenceHelper helper=new PreferenceHelper(context);
-        mp3_tts=helper.getSettingValueMa3Tts();
-        vm_call=helper.getSettingValueCallVm();
-
-        if(mp3_tts.equals("")||mp3_tts.equals("mp3"))
-            mp3_rb.setChecked(true);
-        else
-            tts_rb.setChecked(true);
-
-        if(vm_call.equals("")||vm_call.equals("call"))
-            call_rb.setChecked(true);
-        else
-            vm_rb.setChecked(true);
-
-
-
-        saveSetting_btn.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-
-                if (mp3_rb.isChecked()) {
-                    mp3_tts = "mp3";
-                } else {
-                    mp3_tts = "tts";
-                }
-
-                if (call_rb.isChecked()) {
-                    vm_call="call";
-                } else {
-                    vm_call="vm";
-                }
-
+            public void onClick(View v) {
                 if (StaticMethod.ConnectChecked(context)) {
-                    PreferenceHelper helper=new PreferenceHelper(context);
-                    SaveSettingServer(helper.getSettingValueId(),mp3_tts,vm_call);
+                    String message = mess_text.getText().toString();
+
+                    if (!message.equals("")) {
+                        PreferenceHelper helper = new PreferenceHelper(context);
+                        SaveTTSServer(helper.getSettingValueId(), message);
+                    } else {
+
+                        Snackbar.make(mess_text, "Please enter your TTS.", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
                 } else {
 
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+
     }
 
-
-    private void SaveSettingServer(final String id,final String mp3_tts,final String vm_call ) {
+    private void SaveTTSServer(final String id, final String tts) {
 
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Save.....");
+        progressDialog.setMessage("Save TTS.....");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        StringRequest request = new StringRequest(Request.Method.POST, SET_PREFERENC_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, SAVE_TTS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -126,12 +99,9 @@ public class SettingActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     if (obj.getBoolean("success")) {
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                        PreferenceHelper helper=new PreferenceHelper(context);
-                        helper.setSettingValueMa3Tts(mp3_tts);
-                        helper.setSettingValueCallVm(vm_call);
 
 
-                    } else  {
+                    } else {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
 
@@ -165,8 +135,8 @@ public class SettingActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/json; charset=utf-8");
                 params.put(TAG_ID, id);
-                params.put(TAG_MP3_TTS, mp3_tts);
-                params.put(TAG_VM_CALL, vm_call);
+                params.put(TAG_TTS_TEXT, tts);
+
 
                 return params;
             }

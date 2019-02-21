@@ -23,6 +23,10 @@ import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.PreferenceHelper;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Register;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -30,6 +34,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,12 +66,49 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private static JSONArray jsonArray = null;
     private String email, password;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //ads------here----------
+        mAdView = findViewById(R.id.adView);
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
 
         email_et = findViewById(R.id.email_et);
         pw_signin_et = findViewById(R.id.pw_signin_et);
@@ -170,6 +213,11 @@ public class LoginActivity extends AppCompatActivity {
                         PreferenceHelper helper=new PreferenceHelper(context);
                         helper.setLoginState(true);
                         helper.saveUser(register);
+
+                        //30 day
+                        Long tsLong = System.currentTimeMillis()/1000;//time stamp
+                        Long cuuentTimeexpired=tsLong+(30*24*60*60)+1;//
+                        helper.setSettingValueLoginDataExpired(cuuentTimeexpired.toString());
 
 
 

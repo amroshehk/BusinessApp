@@ -39,6 +39,7 @@ public class JsonTAG {
 
     public static final String TAG_MP3_TTS="mp3_tts";
     public static final String TAG_VM_CALL="vm_call";
+    public static final String TAG_TTS_TEXT="tts_text";
 
 
 

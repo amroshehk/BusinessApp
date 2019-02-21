@@ -21,8 +21,14 @@
     <string name="phone">Phone *</string>
     <string name="cancel">Cancel</string>
     <string name="accept">Accept</string>
-    <string name="title_activity_mp3_files">Mp3FilesActivity</string>
+    <string name="title_activity_mp3_files">Mp3 Files</string>
     <string name="read_file">This app needs access to your file storage so that it can read files.</string>
     <string name="search_hint">Search Here...</string>
-    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_setting">Setting</string>
+    <string name="share_text"> BudinessApp  is an app to know before go Shopping .Market url: play.google.com/store/apps/details?id=com.firatnet.businessapp </string>
+    <string name="title_activity_save_tts">Save TTS</string>
+    <string name="title_activity_search_business">Search For Business</string>
+    <string name="title_activity_business_details">Business Details</string>
+    <string name="title_activity_search_Mp3_files">Search for MP3 file</string>
+
 </resources>

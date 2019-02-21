@@ -35,6 +35,9 @@ public class PreferenceHelper {
     public static String SETTING_KEY_MA3_TTS= "com.firatnet.businessapp.SETTING_KEY_MA3_TTS=";
     public static String SETTING_KEY_CALL_VM= "com.firatnet.businessapp.SETTING_KEY_CALL_VM";
 
+
+    public static String SETTING_KEY_LOGIN_DATA_EXPIRED= "com.firatnet.businessapp.SETTING_KEY_LOGIN_DATA_EXPIRED";
+
     public static String SETTING_VALUE_ID = "";
     public static String SETTING_VALUE_NAME = "";
     public static String SETTING_VALUE_EMAIL = "";
@@ -53,6 +56,7 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_LOGIN_DATE = "";
     public static String SETTING_VALUE_LAST_RUN_MP3_FILE= "";
     public static String SETTING_VALUE_LAST_RUN_MP3_FILE_TITLE = "";
+    public static String SETTING_VALUE_LOGIN_DATA_EXPIRED = "";
 
     public static String SETTING_VALUE_MA3_TTS = "";
     public static String SETTING_VALUE_CALL_VM= "";
@@ -60,6 +64,15 @@ public class PreferenceHelper {
 
     public  String getSettingValueDefaultFile() {
         return readSharedPreference(KEY, SETTING_KEY_DEFAULT_FILE);
+    }
+
+    public  String getSettingValueLoginDataExpired() {
+        return readSharedPreference(KEY, SETTING_KEY_LOGIN_DATA_EXPIRED);
+    }
+
+    public  void setSettingValueLoginDataExpired(String settingValueLoginDataExpired) {
+        SETTING_VALUE_LOGIN_DATA_EXPIRED = settingValueLoginDataExpired;
+        writeSharedPreference(SETTING_VALUE_LOGIN_DATA_EXPIRED, KEY, SETTING_KEY_LOGIN_DATA_EXPIRED);
     }
 
     private Context context;

@@ -474,6 +474,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
             sourceFile = new File(realpath);
             totalSize = (int) sourceFile.length();
             uploadBtn.setText("Please Watting....");
+            Toast.makeText(getApplicationContext(), "Please Watting Till 100%....", Toast.LENGTH_LONG).show();
             super.onPreExecute();
         }
 
@@ -599,7 +600,7 @@ public class UploadeMp3FileActivity extends AppCompatActivity implements EasyPer
         protected void onPostExecute(String result) {
             Log.e("Response", "Response from server: " + result);
             uploadBtn.setText("PUpload File");
-
+            Toast.makeText(getApplicationContext(), "Upload File successfully", Toast.LENGTH_LONG).show();
             showFileChooser();
             super.onPostExecute(result);
         }

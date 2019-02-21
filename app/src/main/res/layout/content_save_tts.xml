@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_save_tts">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:text="You can  type text Maximum 500 words and this text"
+        android:textColor="@color/colortab"
+        android:textSize="17sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/mess_text_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_margin="25dp"
+        android:background="@drawable/customborder"
+        android:textColorHint="@color/colortab">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/mess_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="Write your TTS here ......."
+            android:inputType="textMultiLine|textPostalAddress"
+            android:maxLength="@android:integer/status_bar_notification_info_maxnum"
+            android:maxLines="8"
+            android:minLines="7"
+            android:padding="10dp"
+            android:textColor="@color/colortab"
+            android:textColorHint="@color/colorPrimaryDark"
+            android:textSize="15dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/add"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_text_ly"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="1dp"
+        android:text="Submit"
+        android:textColor="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colortab"
+        android:max="100"
+        android:visibility="gone" />
+
+</RelativeLayout>
