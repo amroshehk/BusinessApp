@@ -36,6 +36,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_FILE_URL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_ID;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_NAME;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_PHOTO_URL;
@@ -264,7 +265,7 @@ public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3
                 Map<String, String> params = new HashMap<>();
                 params.put("Content-Type", "application/json; charset=utf-8");
                 params.put(TAG_ID, helper.getSettingValueId());
-                params.put(TAG_PHOTO_URL, url);
+                params.put(TAG_FILE_URL, url);
 
 
                 return params;

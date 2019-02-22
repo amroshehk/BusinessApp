@@ -28,6 +28,7 @@ public class JsonTAG {
     public static final String TAG_PHOTO="photo";
     public static final String TAG_IP="ip";
     public static final String TAG_DEFAULT_FILE="default_file";
+    public static final String TAG_FILE_URL="file_url";
 
     public static final String TAG_IP_ADDRESS="ip";
 
