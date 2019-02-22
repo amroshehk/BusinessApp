@@ -7,6 +7,7 @@ import android.content.Intent;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -33,7 +35,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,8 +51,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_API_TOKEN;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_CREATED_AT;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_DATA;
@@ -73,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private static JSONArray jsonArray = null;
     private String email, password;
     private AdView mAdView;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +144,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email = email_et.getText().toString();
-                String pw = pw_signin_et.getText().toString();
+                final String email = email_et.getText().toString();
+                final String pw = pw_signin_et.getText().toString();
                 String error_m = "";
 
                 if (email.equals(""))
@@ -151,7 +160,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (error_m.equals("")) {
                     if (StaticMethod.ConnectChecked(context)) {
-                        LoginServer(email, pw);
+
+
+                        FirebaseInstanceId.getInstance().getInstanceId()
+                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.w( "LoginActivity", "getInstanceId failed", task.getException());
+                                            return;
+                                        }
+
+                                        // Get new Instance ID token
+                                        token = task.getResult().getToken();
+
+                                        // Log and toast
+                                        String msg = getString(R.string.msg_token_fmt, token);
+                                        Log.d("RegisterActivity", msg);
+                                        // Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
+                                        LoginServer(email, pw,token);
+                                    }
+                                });
+
                     } else {
                         Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }
@@ -168,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void LoginServer(final String email, final String pw) {
+    private void LoginServer(final String email, final String pw,final  String token) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Login.....");
@@ -274,12 +304,16 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("Content-Type", "application/json; charset=utf-8");
                 params.put(TAG_EMAIL, email);
                 params.put(TAG_PASSWORD, pw);
-
+                params.put(TAG_API_TOKEN, token);
                 return params;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
     }

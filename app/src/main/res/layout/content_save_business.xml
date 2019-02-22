@@ -80,7 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Year Established *"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="4" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -229,7 +230,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/roundedbutton"
+            style="@style/AppTheme.Button"
             android:text="Save Business"
             app:layout_constraintEnd_toEndOf="@+id/keywordsLayout"
             app:layout_constraintStart_toStartOf="@+id/keywordsLayout"

@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
@@ -29,7 +32,11 @@ import com.android.volley.toolbox.Volley;
 import com.firatnet.businessapp.R;
 import com.firatnet.businessapp.classes.StaticMethod;
 import com.firatnet.businessapp.entities.Register;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,8 +45,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_API_TOKEN;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_COUNTRY;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
 import static com.firatnet.businessapp.classes.JsonTAG.TAG_IP_ADDRESS;
@@ -57,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnSignup;
     private TextView error2;
     private ProgressDialog progressDialog;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +114,30 @@ public class RegisterActivity extends AppCompatActivity {
                 error2.setText(error_m);
                 if(error_m.equals(""))
                 {
+
                     if (StaticMethod.ConnectChecked(context))
                     {
-                        Register register=new Register(name,email,phonenumber,counterName,ip,pw);
-                        RegisterNewUserServer(register);
+                        final Register register=new Register(name,email,phonenumber,counterName,ip,pw);
+                        FirebaseInstanceId.getInstance().getInstanceId()
+                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.w( "RegisterActivity", "getInstanceId failed", task.getException());
+                                            return;
+                                        }
+
+                                        // Get new Instance ID token
+                                        token = task.getResult().getToken();
+
+                                        // Log and toast
+                                        String msg = getString(R.string.msg_token_fmt, token);
+                                        Log.d("RegisterActivity", msg);
+                                       // Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
+                                        RegisterNewUserServer(register,token);
+                                    }
+                                });
+
                     } else {
 
                         Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -135,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void RegisterNewUserServer(final Register register) {
+    private void RegisterNewUserServer(final Register register, final String token) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Register.....");
@@ -234,7 +264,7 @@ public class RegisterActivity extends AppCompatActivity {
                     params.put(TAG_PASSWORD, register.getPassword());
                     params.put(TAG_IP_ADDRESS, register.getIp());
                     params.put(TAG_PHOTO_URL, "");
-//                    params.put(TAG_GENERATED_ID, "123456789");
+                   params.put(TAG_API_TOKEN, token);
 
 
                 return params;
@@ -255,7 +285,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         //adding the request to volley
 
-        Volley.newRequestQueue(context).add(request);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
     }
 
 

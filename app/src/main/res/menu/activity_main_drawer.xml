@@ -7,7 +7,15 @@
         <item
             android:id="@+id/nav_mp3"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="MP3 Files" />
+            android:title="MP3 Files 1" />
+        <item
+            android:id="@+id/nav_mp3_2"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="MP3 Files 2" />
+        <item
+            android:id="@+id/nav_voice"
+            android:icon="@drawable/ic_call_black_24dp"
+            android:title="Voice" />
         <item
             android:id="@+id/nav_TTS"
             android:icon="@drawable/ic_edit"

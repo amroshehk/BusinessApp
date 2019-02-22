@@ -13,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
@@ -105,10 +107,15 @@ public class SaveBusinessActivity extends AppCompatActivity {
                  address.isEmpty() || country.isEmpty() || city.isEmpty() || pinCode.isEmpty() ||
                  products.isEmpty() || keywords.isEmpty() ) {
 
-                errors.setText("Please Enter All The Fields");
+
+                    errors.setText("Please Enter All The Fields");
 
             } else {
 
+                if(yearEstablished.length()!=4)
+
+                    errors.setText("Please 'Year Established' must be 4 digits ");
+                else {
 
                 if (StaticMethod.ConnectChecked(context)) {
 
@@ -133,7 +140,7 @@ public class SaveBusinessActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                }
+                }}
 
             }
 
@@ -281,9 +288,13 @@ public class SaveBusinessActivity extends AppCompatActivity {
 
 
         };
-
-        //adding the request to volley
-        Volley.newRequestQueue(context).add(request);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
     }
 
 

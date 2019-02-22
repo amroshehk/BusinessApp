@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
         Long validdate=Long.parseLong(helper.getSettingValueLoginDataExpired());
         if( validdate>tsLong) {
-            Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(validdate) , Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getApplicationContext(),"Your Login Valid Till : "+getDate(validdate) , Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity
                         // Log and toast
                         String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -326,6 +327,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         getUserPhoto();
+//        businesses.clear();
+//        getRecentBusiness();
     }
 
 
@@ -378,6 +381,17 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_mp3) {
 
             Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
+            startActivity(intent);
+
+        }
+        else if (id == R.id.nav_mp3_2) {
+
+            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
+            startActivity(intent);
+
+        }else if (id == R.id.nav_voice) {
+
+            Intent intent = new Intent(MainActivity.this, VoiceActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_TTS) {
@@ -498,6 +512,10 @@ public class MainActivity extends AppCompatActivity
         };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
     }
@@ -589,7 +607,7 @@ public class MainActivity extends AppCompatActivity
 
 //                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
 //                    JSONObject jsonObject = new JSONObject(responseBody);
-                    progressDialog.dismiss();
+                    CircularProgress.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
                 }
             } )
@@ -605,6 +623,10 @@ public class MainActivity extends AppCompatActivity
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
     }

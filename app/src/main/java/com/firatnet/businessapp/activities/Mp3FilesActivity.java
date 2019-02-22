@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -56,6 +57,8 @@ public class Mp3FilesActivity extends AppCompatActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
+
+    boolean checkfirstresume=false;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -114,6 +117,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
 
         if (StaticMethod.ConnectChecked(context)) {
             PreferenceHelper helper = new PreferenceHelper(context);
+
             GetMp3FileServer(helper.getSettingValueId());
         } else {
 
@@ -154,9 +158,12 @@ public class Mp3FilesActivity extends AppCompatActivity {
                             mp3Files.add(mp3File);
                         }
 
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
+                        if(mp3Files.size()>0)
                         nofiles.setVisibility(View.GONE);
+                        else
+                         nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
                         adapter = new RecyclerMP3FileCardAdapter(mp3Files, context);
@@ -211,8 +218,29 @@ public class Mp3FilesActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(request);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!checkfirstresume)
+            checkfirstresume=true;
+        else
+        {
+            mp3Files.clear();
+        if (StaticMethod.ConnectChecked(context)) {
+            PreferenceHelper helper = new PreferenceHelper(context);
+            GetMp3FileServer(helper.getSettingValueId());
+        } else {
+
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+        }
+    }
 }
