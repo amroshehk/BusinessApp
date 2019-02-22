@@ -50,6 +50,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import static com.firatnet.businessapp.classes.JsonTAG.TAG_EMAIL;
+
 public class VoiceActivity extends AppCompatActivity {
 
 
@@ -105,6 +107,8 @@ public class VoiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+
+        identity = getIntent().getStringExtra(TAG_EMAIL);
 
         // These flags ensure that the activity can be launched when the screen is locked.
         Window window = getWindow();
