@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.firatnet.businessapp"
+        applicationId "com.digits.business"
         minSdkVersion 19
         buildToolsVersion = '28.0.3'
         targetSdkVersion 28

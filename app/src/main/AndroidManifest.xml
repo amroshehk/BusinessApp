@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.firatnet.businessapp">
+    package="com.digits.business">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".app.MyApplication"
+        android:name="com.digits.business.app.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,60 +18,60 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".fcm.MyFirebaseMessagingService">
+        <service android:name="com.digits.business.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.AboutUsActivity" />
+        <activity android:name="com.digits.business.activities.AboutUsActivity" />
         <activity
-            android:name=".activities.VoiceActivity"
-            android:parentActivityName=".activities.MainActivity" />
+            android:name="com.digits.business.activities.VoiceActivity"
+            android:parentActivityName="com.digits.business.activities.MainActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
-            android:name=".activities.SaveTTSActivity"
+            android:name="com.digits.business.activities.SaveTTSActivity"
             android:label="@string/title_activity_save_tts"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SearchForBusinessActivity"
+            android:name="com.digits.business.activities.SearchForBusinessActivity"
             android:label="@string/title_activity_search_business" />
         <activity
-            android:name=".activities.BusinessDetailsActivity"
+            android:name="com.digits.business.activities.BusinessDetailsActivity"
             android:label="@string/title_activity_business_details" />
         <activity
-            android:name=".activities.SearchMp3FilesActivity"
+            android:name="com.digits.business.activities.SearchMp3FilesActivity"
             android:label="@string/title_activity_search_Mp3_files" />
         <activity
-            android:name=".activities.SettingActivity"
+            android:name="com.digits.business.activities.SettingActivity"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.PlayMp3FilesActivity" />
-        <activity android:name=".activities.SaveBusinessActivity" />
-        <activity android:name=".activities.UploadeMp3FileActivity" />
+        <activity android:name="com.digits.business.activities.PlayMp3FilesActivity" />
+        <activity android:name="com.digits.business.activities.SaveBusinessActivity" />
+        <activity android:name="com.digits.business.activities.UploadeMp3FileActivity" />
         <activity
-            android:name=".activities.Mp3FilesActivity"
+            android:name="com.digits.business.activities.Mp3FilesActivity"
             android:label="@string/title_activity_mp3_files" />
         <activity
-            android:name=".activities.ImagesViewerActivity"
+            android:name="com.digits.business.activities.ImagesViewerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.EditMyProfileActivity" />
+        <activity android:name="com.digits.business.activities.EditMyProfileActivity" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.digits.business.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name="com.digits.business.activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.digits.business.activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".phoneauth.PhoneNumberAuthActivity"
+            android:name="com.digits.business.phoneauth.PhoneNumberAuthActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -81,11 +81,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".phoneauth.VerifyPhoneActivity"
+            android:name="com.digits.business.phoneauth.VerifyPhoneActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name="com.digits.business.activities.ProfileActivity" />
         <activity
-            android:name=".classes.GalleryUtil"
+            android:name="com.digits.business.classes.GalleryUtil"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider

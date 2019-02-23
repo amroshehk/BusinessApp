@@ -1,51 +1,35 @@
 {
   "project_info": {
-    "project_number": "319757658685",
-    "firebase_url": "https://businessappauth.firebaseio.com",
-    "project_id": "businessappauth",
-    "storage_bucket": "businessappauth.appspot.com"
+    "project_number": "690902548946",
+    "firebase_url": "https://digitsapp-2d05f.firebaseio.com",
+    "project_id": "digitsapp-2d05f",
+    "storage_bucket": "digitsapp-2d05f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:319757658685:android:aba8e4b0fd7ad7c7",
+        "mobilesdk_app_id": "1:690902548946:android:126a79f143c8a3a0",
         "android_client_info": {
-          "package_name": "com.firatnet.businessapp"
+          "package_name": "com.digits.business"
         }
       },
       "oauth_client": [
         {
-          "client_id": "319757658685-9jbblpbjn4tmu5efuku6u5qvlvvlhid0.apps.googleusercontent.com",
+          "client_id": "690902548946-j0umk18r7k0ffjetp5j59q3ivqvcg3l4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.firatnet.businessapp",
-            "certificate_hash": "fdd33baf8b7e22121231aaac7eb6e8a33fb8e11e"
-          }
-        },
-        {
-          "client_id": "319757658685-huvbo4ve3s3eq3sq2a4q4jhpo6prm59c.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.firatnet.businessapp",
-            "certificate_hash": "4978f39f1dbd5c89397873d0e071b14c9e37aa5b"
-          }
-        },
-        {
-          "client_id": "319757658685-tucq5gnmdg9edt9ru1ph2kil4avkmlq1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.firatnet.businessapp",
+            "package_name": "com.digits.business",
             "certificate_hash": "bb413efa6eefea980923d82a2a975c953e73a7ad"
           }
         },
         {
-          "client_id": "319757658685-9vtud8nmd2c3fbu7amp3q7103kvht5ii.apps.googleusercontent.com",
+          "client_id": "690902548946-ftkudr4nskqh90755190dqklkv5ggbcc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGV496C72xdaMVpJ_REGTJpVFsCith66k"
+          "current_key": "AIzaSyBCPXUaCO0dojHDBYzWoCfr1QbMGl4DqZU"
         }
       ],
       "services": {
@@ -56,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "319757658685-9vtud8nmd2c3fbu7amp3q7103kvht5ii.apps.googleusercontent.com",
+              "client_id": "690902548946-ftkudr4nskqh90755190dqklkv5ggbcc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
