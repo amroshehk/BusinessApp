@@ -31,6 +31,7 @@ import com.digits.business.R;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Register;
+import com.digits.business.twilio_old.VoiceActivityOld;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -252,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(LoginActivity.this, VoiceActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, VoiceActivityOld.class);
                         intent.putExtra(TAG_EMAIL, email);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

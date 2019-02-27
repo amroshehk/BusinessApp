@@ -37,4 +37,21 @@
 
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 
+
+    <!--<string name="app_name">Voice Quickstart</string>-->
+    <!--<string name="turn_speaker_on">Speaker ON</string>-->
+    <!--<string name="callee">client identity or phone number</string>-->
+    <!--<string name="callHint">Dial a client name or phone number. Leaving the field empty results in an automated response.</string>-->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <!--<string name="register">Register</string>-->
+    <string name="full_name">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_having_account">Already Having an Account?</string>
+    <string name="log_in">Log In</string>
+    <string name="not_having_account">Not Having an Account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logout">Logout</string>
+
 </resources>

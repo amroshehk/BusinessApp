@@ -18,6 +18,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+        <!-- [START fcm_listener] -->
+        <service android:name=".twilio.fcm.VoiceFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END fcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service android:name=".twilio.fcm.VoiceFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".twilio.Voice"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".twilio.vc"/>
+        <activity
+            android:name=".twilio.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".twilio.RegisterActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".twilio.DashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".twilio.VoiceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+
         <service android:name="com.digits.business.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -26,7 +65,7 @@
 
         <activity android:name="com.digits.business.activities.AboutUsActivity" />
         <activity
-            android:name="com.digits.business.activities.VoiceActivity"
+            android:name="com.digits.business.twilio_old.VoiceActivityOld"
             android:parentActivityName="com.digits.business.activities.MainActivity" />
 
         <meta-data

@@ -1,6 +1,7 @@
-package com.digits.business.activities;
+package com.digits.business.twilio;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,8 +15,16 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+//import android.support.annotation.NonNull;
+//import android.support.design.widget.CoordinatorLayout;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.Snackbar;
+//import android.support.v4.app.ActivityCompat;
+//import android.support.v4.content.ContextCompat;
+//import android.support.v4.content.LocalBroadcastManager;
+//import android.support.v7.app.AlertDialog;
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +36,6 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 
 import com.digits.business.R;
-import com.digits.business.twilio.SoundPoolManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.koushikdutta.async.future.FutureCallback;
@@ -50,14 +57,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VoiceActivity extends AppCompatActivity {
 
-
-
+    private SessionHandler session;
     private static final String TAG = "VoiceActivity";
-    private static String identity;
+    //private String identity;
+    private static String identity = "6666";
     /*
      * You must provide the URL to the publicly accessible Twilio access token server route
      *
@@ -70,6 +77,7 @@ public class VoiceActivity extends AppCompatActivity {
     private static final String TWILIO_ACCESS_TOKEN_SERVER_URL = "https://live.dopenpbx.com/twilio/accessToken.php";
 
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
+    private static final int SNACKBAR_DURATION = 4000;
 
     private String accessToken;
     private AudioManager audioManager;
@@ -102,13 +110,13 @@ public class VoiceActivity extends AppCompatActivity {
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
-
-        identity = getIntent().getStringExtra(TAG_EMAIL);
+        session = new SessionHandler(getApplicationContext());
+        User user = session.getUserDetails();
+        //identity= user.getUsername();
 
         // These flags ensure that the activity can be launched when the screen is locked.
         Window window = getWindow();
@@ -182,24 +190,26 @@ public class VoiceActivity extends AppCompatActivity {
                 Log.d(TAG, "Successfully registered FCM " + fcmToken);
             }
 
+            @SuppressLint("WrongConstant")
             @Override
             public void onError(RegistrationException error, String accessToken, String fcmToken) {
                 String message = String.format("Registration Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
-                Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout, message, SNACKBAR_DURATION).show();
             }
         };
     }
 
     private Call.Listener callListener() {
         return new Call.Listener() {
+            @SuppressLint("WrongConstant")
             @Override
             public void onConnectFailure(Call call, CallException error) {
                 setAudioFocus(false);
                 Log.d(TAG, "Connect failure");
                 String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                 Log.e(TAG, message);
-                Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(coordinatorLayout, message, SNACKBAR_DURATION).show();
                 resetUI();
             }
 
@@ -210,6 +220,7 @@ public class VoiceActivity extends AppCompatActivity {
                 activeCall = call;
             }
 
+            @SuppressLint("WrongConstant")
             @Override
             public void onDisconnected(Call call, CallException error) {
                 setAudioFocus(false);
@@ -217,7 +228,7 @@ public class VoiceActivity extends AppCompatActivity {
                 if (error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                     Log.e(TAG, message);
-                    Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, message, SNACKBAR_DURATION).show();
                 }
                 resetUI();
             }
@@ -241,7 +252,7 @@ public class VoiceActivity extends AppCompatActivity {
      */
     private void resetUI() {
         callActionFab.show();
-        muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_off_24dp));
+        muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
         muteActionFab.hide();
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
@@ -265,28 +276,6 @@ public class VoiceActivity extends AppCompatActivity {
         soundPoolManager.release();
         super.onDestroy();
     }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if ( keyCode == KeyEvent.KEYCODE_BACK
-             && event.getRepeatCount() == 0) {
-            onBackPressed();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-
-        Intent mainIntent = new Intent(VoiceActivity.this, MainActivity.class);
-//        setIntent.addCategory(Intent.CATEGORY_HOME);
-//        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(mainIntent);
-    }
-
 
     private void handleIncomingCallIntent(Intent intent) {
         if (intent != null && intent.getAction() != null) {
@@ -362,7 +351,7 @@ public class VoiceActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Place a call
-                EditText contact = ((AlertDialog) dialog).findViewById(R.id.contact);
+                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
                 twiMLParams.put("to", contact.getText().toString());
                 activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
                 setCallUI();
@@ -474,7 +463,7 @@ public class VoiceActivity extends AppCompatActivity {
             if (mute) {
                 muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_off_24dp));
             } else {
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_off_24dp));
+                muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
             }
         }
     }
@@ -522,11 +511,12 @@ public class VoiceActivity extends AppCompatActivity {
         return resultMic == PackageManager.PERMISSION_GRANTED;
     }
 
+    @SuppressLint("WrongConstant")
     private void requestPermissionForMicrophone() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
             Snackbar.make(coordinatorLayout,
                     "Microphone permissions needed. Please allow in your application settings.",
-                    Snackbar.LENGTH_LONG).show();
+                    SNACKBAR_DURATION).show();
         } else {
             ActivityCompat.requestPermissions(
                     this,
@@ -535,6 +525,7 @@ public class VoiceActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         /*
@@ -544,7 +535,7 @@ public class VoiceActivity extends AppCompatActivity {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Snackbar.make(coordinatorLayout,
                         "Microphone permissions needed. Please allow in your application settings.",
-                        Snackbar.LENGTH_LONG).show();
+                        SNACKBAR_DURATION).show();
             } else {
                 retrieveAccessToken();
             }
@@ -614,5 +605,4 @@ public class VoiceActivity extends AppCompatActivity {
             }
         });
     }
-
 }
