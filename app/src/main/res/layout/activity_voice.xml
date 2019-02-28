@@ -8,6 +8,8 @@
     android:fitsSystemWindows="true"
     tools:context=".twilio.VoiceActivity">
 
+
+
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
@@ -17,6 +19,14 @@
         android:textColor="@color/colorAccent"
         android:textSize="60sp"
         android:visibility="invisible" />
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/customborder"
+        android:layout_marginBottom="100dp"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/call_action_fab"
@@ -57,7 +67,9 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             app:srcCompat="@drawable/ic_call_end_white_24dp"
             android:visibility="invisible" />
+
     </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

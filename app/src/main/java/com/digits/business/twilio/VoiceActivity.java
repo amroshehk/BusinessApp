@@ -36,6 +36,8 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 
 import com.digits.business.R;
+import com.digits.business.dialpad.DialPadAnimationFragment;
+import com.digits.business.dialpad.IOnBackPressed;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.koushikdutta.async.future.FutureCallback;
@@ -55,6 +57,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -117,6 +121,15 @@ public class VoiceActivity extends AppCompatActivity {
         session = new SessionHandler(getApplicationContext());
         User user = session.getUserDetails();
         //identity= user.getUsername();
+
+        //----------------------fragment
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final Fragment fragment;
+        fragment = new DialPadAnimationFragment();
+        fragmentManager.beginTransaction().replace(
+                R.id.content_fragment, fragment)
+                .commit();
+        //--------------------------------------------end
 
         // These flags ensure that the activity can be launched when the screen is locked.
         Window window = getWindow();
@@ -181,6 +194,14 @@ public class VoiceActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIncomingCallIntent(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
+        if (!(fragment instanceof IOnBackPressed) ||
+                !((IOnBackPressed) fragment).onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
     private RegistrationListener registrationListener() {

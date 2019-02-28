@@ -36,6 +36,7 @@ import com.digits.business.adapter.BusinessAdapter;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Business;
+import com.digits.business.twilio.VoiceActivity;
 import com.digits.business.twilio_old.VoiceActivityOld;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -391,7 +392,7 @@ public class MainActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_voice) {
 
-            Intent intent = new Intent(MainActivity.this, VoiceActivityOld.class);
+            Intent intent = new Intent(MainActivity.this, VoiceActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_TTS) {
