@@ -19,6 +19,17 @@
         android:textColor="@color/colorAccent"
         android:textSize="60sp"
         android:visibility="invisible" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/call_action_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        app:srcCompat="@drawable/ic_call_white_24dp"
+        android:visibility="invisible"
+         />
     <!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--android:id="@+id/content_fragment"-->
         <!--android:layout_width="match_parent"-->
@@ -33,7 +44,6 @@
         android:id="@+id/dialpad_rel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
         >
 
         <ImageButton
@@ -191,16 +201,7 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/call_action_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:srcCompat="@drawable/ic_call_white_24dp"
-        android:visibility="invisible" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"

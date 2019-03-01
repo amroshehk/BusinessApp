@@ -2,6 +2,7 @@ package com.digits.business.twilio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -29,14 +31,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.digits.business.R;
 import com.digits.business.dialpad.DialPadAnimationFragment;
@@ -126,6 +132,7 @@ public class VoiceActivity extends AppCompatActivity {
     private ImageButton backspce;
 //-----------------------dialpad component end
 
+    private Dialog dialog2;
     private Fragment fragment;
     private FrameLayout content_fragment;
     @Override
@@ -297,7 +304,7 @@ public class VoiceActivity extends AppCompatActivity {
     private void resetUI() {
        // content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.VISIBLE);
-        callActionFab.show();
+        callActionFab.hide();
         muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
         muteActionFab.hide();
         hangupActionFab.hide();
@@ -329,11 +336,15 @@ public class VoiceActivity extends AppCompatActivity {
                 activeCallInvite = intent.getParcelableExtra(INCOMING_CALL_INVITE);
                 if (activeCallInvite != null && (activeCallInvite.getState() == CallInvite.State.PENDING)) {
                     soundPoolManager.playRinging();
-                    alertDialog = createIncomingCallDialog(VoiceActivity.this,
+//                    alertDialog = createIncomingCallDialog(VoiceActivity.this,
+//                            activeCallInvite,
+//                            answerCallClickListener(),
+//                            cancelCallClickListener());
+//                    alertDialog.show();
+                    showIncommingDialog(VoiceActivity.this,
                             activeCallInvite,
-                            answerCallClickListener(),
-                            cancelCallClickListener());
-                    alertDialog.show();
+                            answerCallClickListenernew(),
+                            cancelCallClickListenerNew());
                     activeCallNotificationId = intent.getIntExtra(INCOMING_CALL_NOTIFICATION_ID, 0);
                 } else {
                     if (alertDialog != null && alertDialog.isShowing()) {
@@ -392,6 +403,19 @@ public class VoiceActivity extends AppCompatActivity {
         };
     }
 
+    private View.OnClickListener answerCallClickListenernew() {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View dialog) {
+                soundPoolManager.stopRinging();
+                answer();
+                setCallUI();
+                dialog2.dismiss();
+            }
+        };
+    }
+
     private DialogInterface.OnClickListener callClickListener() {
         return new DialogInterface.OnClickListener() {
             @Override
@@ -433,11 +457,27 @@ public class VoiceActivity extends AppCompatActivity {
         };
     }
 
+    private View.OnClickListener cancelCallClickListenerNew() {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View dialogInterface) {
+                soundPoolManager.stopRinging();
+                if (activeCallInvite != null) {
+                    activeCallInvite.reject(VoiceActivity.this);
+                    notificationManager.cancel(activeCallNotificationId);
+                }
+                dialog2.dismiss();
+            }
+        };
+    }
+
     public static AlertDialog createIncomingCallDialog(
             Context context,
             CallInvite callInvite,
             DialogInterface.OnClickListener answerCallClickListener,
             DialogInterface.OnClickListener cancelClickListener) {
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setIcon(R.drawable.ic_call_black_24dp);
         alertDialogBuilder.setTitle("Incoming Call");
@@ -445,6 +485,36 @@ public class VoiceActivity extends AppCompatActivity {
         alertDialogBuilder.setNegativeButton("Reject", cancelClickListener);
         alertDialogBuilder.setMessage(callInvite.getFrom() + " is calling.");
         return alertDialogBuilder.create();
+    }
+
+    void showIncommingDialog( Context context,
+                                         CallInvite callInvite,
+                                         View.OnClickListener answerCallClickListener,
+                                         View.OnClickListener cancelClickListener) {
+
+
+        TextView textDisplayName;
+        ImageView buttonHangup;
+        ImageView buttonAnswer;
+
+        dialog2 = new Dialog(context);
+        dialog2.setCancelable(false);
+        dialog2.setCanceledOnTouchOutside(false);
+
+        dialog2.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setContentView(R.layout.incomming_call_dialog_layout);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        textDisplayName = dialog2.findViewById(R.id.textDisplayName);
+        buttonHangup = dialog2.findViewById(R.id.buttonHangup);
+        buttonAnswer = dialog2.findViewById(R.id.buttonAnswer);
+
+        textDisplayName.setText(callInvite.getFrom());
+        // if button is clicked, close the custom dialog
+        buttonHangup.setOnClickListener(cancelClickListener);
+        // if button is clicked, close the custom dialog
+        buttonAnswer.setOnClickListener(answerCallClickListener);
+        dialog2.show();
     }
 
     /*
