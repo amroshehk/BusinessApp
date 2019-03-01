@@ -31,14 +31,16 @@
 
             <EditText
                 android:id="@+id/number"
-               android:background="@drawable/customborder2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.85"
+                android:background="@drawable/customborder2"
+                android:enabled="false"
+                android:focusable="false"
+                android:freezesText="true"
                 android:gravity="center"
                 android:inputType="phone"
                 android:soundEffectsEnabled="true"
-                android:text="0945674721"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 

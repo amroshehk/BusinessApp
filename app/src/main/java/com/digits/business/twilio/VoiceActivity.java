@@ -17,25 +17,14 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-//import android.support.annotation.NonNull;
-//import android.support.design.widget.CoordinatorLayout;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
-//import android.support.v4.app.ActivityCompat;
-//import android.support.v4.content.ContextCompat;
-//import android.support.v4.content.LocalBroadcastManager;
-//import android.support.v7.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -45,8 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.digits.business.R;
-import com.digits.business.dialpad.DialPadAnimationFragment;
-import com.digits.business.dialpad.IOnBackPressed;
+import com.digits.business.dialpad.view.DialPadKey;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.koushikdutta.async.future.FutureCallback;
@@ -67,17 +56,14 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VoiceActivity extends AppCompatActivity {
 
     private SessionHandler session;
     private static final String TAG = "VoiceActivity";
     //private String identity;
-    private static String identity = "6666";
+    private static String identity = "704305157";
     /*
      * You must provide the URL to the publicly accessible Twilio access token server route
      *
@@ -87,7 +73,7 @@ public class VoiceActivity extends AppCompatActivity {
      *
      * For example : https://myurl.io/accessToken.php
      */
-    private static final String TWILIO_ACCESS_TOKEN_SERVER_URL = "https://live.dopenpbx.com/twilio/accessToken.php";
+    private static final String TWILIO_ACCESS_TOKEN_SERVER_URL = "http://45.63.23.112/twilio/accessToken.php";
 
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
     private static final int SNACKBAR_DURATION = 4000;
@@ -123,22 +109,43 @@ public class VoiceActivity extends AppCompatActivity {
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
 
-//-----------------------dialpad component
+    //-----------------------dialpad component
     private EditText number;
     private View mCallBtn;
     private RelativeLayout dialpad_rel;
 
 
     private ImageButton backspce;
-//-----------------------dialpad component end
+    //-----------------------dialpad component end
 
     private Dialog dialog2;
     private Fragment fragment;
     private FrameLayout content_fragment;
+
+
+    // Dialpad keys
+    private DialPadKey number1;
+    private DialPadKey number2;
+    private DialPadKey number3;
+    private DialPadKey number4;
+    private DialPadKey number5;
+    private DialPadKey number6;
+    private DialPadKey number7;
+    private DialPadKey number8;
+    private DialPadKey number9;
+    private DialPadKey number10;
+    private DialPadKey number11;
+    private DialPadKey number12;
+
+
+    private static StringBuilder numberBuilder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+
         session = new SessionHandler(getApplicationContext());
         User user = session.getUserDetails();
         //identity= user.getUsername();
@@ -216,6 +223,143 @@ public class VoiceActivity extends AppCompatActivity {
         } else {
             retrieveAccessToken();
         }
+
+        number.setEnabled(false);
+
+        number1 = findViewById(R.id.button1);
+        number2 = findViewById(R.id.button2);
+        number3 = findViewById(R.id.button3);
+        number4 = findViewById(R.id.button4);
+        number5 = findViewById(R.id.button5);
+        number6 = findViewById(R.id.button6);
+        number7 = findViewById(R.id.button7);
+        number8 = findViewById(R.id.button8);
+        number9 = findViewById(R.id.button9);
+        number10 = findViewById(R.id.button10);
+        number11 = findViewById(R.id.button11);
+        number12 = findViewById(R.id.button12);
+
+        backspce = findViewById(R.id.backspce);
+
+        numberBuilder = new StringBuilder();
+
+        number1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("1");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("2");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("3");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("4");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("5");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("6");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("7");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("8");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("9");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("*");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        number11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("0");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+
+        number11.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                numberBuilder.append("+");
+                number.setText(numberBuilder.toString());
+                return true;
+            }
+        } );
+
+
+        number12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numberBuilder.append("#");
+                number.setText(numberBuilder.toString());
+            }
+        });
+
+        backspce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (numberBuilder.length() > 0) {
+                    numberBuilder.deleteCharAt(numberBuilder.length()-1);
+                    number.setText(numberBuilder.toString());
+                }
+            }
+        });
+
     }
 
     @Override
