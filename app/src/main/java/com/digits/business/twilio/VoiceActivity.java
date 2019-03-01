@@ -34,6 +34,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.digits.business.R;
 import com.digits.business.dialpad.DialPadAnimationFragment;
@@ -94,7 +97,7 @@ public class VoiceActivity extends AppCompatActivity {
     HashMap<String, String> twiMLParams = new HashMap<>();
 
     private CoordinatorLayout coordinatorLayout;
-    private FloatingActionButton callActionFab;
+    public static FloatingActionButton callActionFab;
     private FloatingActionButton hangupActionFab;
     private FloatingActionButton muteActionFab;
     private Chronometer chronometer;
@@ -114,6 +117,17 @@ public class VoiceActivity extends AppCompatActivity {
     RegistrationListener registrationListener = registrationListener();
     Call.Listener callListener = callListener();
 
+//-----------------------dialpad component
+    private EditText number;
+    private View mCallBtn;
+    private RelativeLayout dialpad_rel;
+
+
+    private ImageButton backspce;
+//-----------------------dialpad component end
+
+    private Fragment fragment;
+    private FrameLayout content_fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,12 +137,12 @@ public class VoiceActivity extends AppCompatActivity {
         //identity= user.getUsername();
 
         //----------------------fragment
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment fragment;
-        fragment = new DialPadAnimationFragment();
-        fragmentManager.beginTransaction().replace(
-                R.id.content_fragment, fragment)
-                .commit();
+//        final FragmentManager fragmentManager = getSupportFragmentManager();
+//        content_fragment=findViewById(R.id.content_fragment);
+//        fragment = new DialPadAnimationFragment();
+//        fragmentManager.beginTransaction().replace(
+//                R.id.content_fragment, fragment)
+//                .commit();
         //--------------------------------------------end
 
         // These flags ensure that the activity can be launched when the screen is locked.
@@ -143,6 +157,13 @@ public class VoiceActivity extends AppCompatActivity {
         hangupActionFab = findViewById(R.id.hangup_action_fab);
         muteActionFab = findViewById(R.id.mute_action_fab);
         chronometer = findViewById(R.id.chronometer);
+
+        //---------------new Dialpad
+        dialpad_rel = findViewById(R.id.dialpad_rel);
+        number = findViewById(R.id.number);
+        mCallBtn = findViewById(R.id.call_button);
+        mCallBtn.setOnClickListener(callClickListenerNew());
+        //---------------new Dialpa End
 
         callActionFab.setOnClickListener(callActionFabClickListener());
         hangupActionFab.setOnClickListener(hangupActionFabClickListener());
@@ -195,14 +216,14 @@ public class VoiceActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         handleIncomingCallIntent(intent);
     }
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
-        if (!(fragment instanceof IOnBackPressed) ||
-                !((IOnBackPressed) fragment).onBackPressed()) {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
+//        if (!(fragment instanceof IOnBackPressed) ||
+//                !((IOnBackPressed) fragment).onBackPressed()) {
+//            super.onBackPressed();
+//        }
+//    }
 
     private RegistrationListener registrationListener() {
         return new RegistrationListener() {
@@ -260,6 +281,8 @@ public class VoiceActivity extends AppCompatActivity {
      * The UI state when there is an active call
      */
     private void setCallUI() {
+        //content_fragment.setVisibility(View.GONE);
+        dialpad_rel.setVisibility(View.GONE);
         callActionFab.hide();
         hangupActionFab.show();
         muteActionFab.show();
@@ -272,6 +295,8 @@ public class VoiceActivity extends AppCompatActivity {
      * Reset UI elements
      */
     private void resetUI() {
+       // content_fragment.setVisibility(View.GONE);
+        dialpad_rel.setVisibility(View.VISIBLE);
         callActionFab.show();
         muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
         muteActionFab.hide();
@@ -380,6 +405,18 @@ public class VoiceActivity extends AppCompatActivity {
             }
         };
     }
+    private View.OnClickListener callClickListenerNew() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Place a call
+                twiMLParams.put("to", number.getText().toString());
+                activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
+                setCallUI();
+            }
+        };
+    }
+
 
     private DialogInterface.OnClickListener cancelCallClickListener() {
         return new DialogInterface.OnClickListener() {

@@ -23,6 +23,36 @@
         android:layout_alignParentBottom="true"
         android:background="#FFF"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/number"
+               android:background="@drawable/customborder2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.85"
+                android:gravity="center"
+                android:inputType="phone"
+                android:soundEffectsEnabled="true"
+                android:text="0945674721"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/backspce"
+                style="@style/PadButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.15"
+                android:background="@color/colorWhiteTrans"
+                android:soundEffectsEnabled="true"
+                android:src="@drawable/ic_backspace" />
+
+        </LinearLayout>
 
         <com.digits.business.dialpad.view.PadLayout
             android:id="@+id/padLayout"
@@ -35,72 +65,84 @@
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button1"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterGone="false"
                 custom:numberText="1" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button2"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="ABC"
                 custom:numberText="2" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button3"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="DEF"
                 custom:numberText="3" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button4"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="GHI"
                 custom:numberText="4" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button5"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="JKL"
                 custom:numberText="5" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button6"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="MNO"
                 custom:numberText="6" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button7"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="PQRS"
                 custom:numberText="7" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button8"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="TUV"
                 custom:numberText="8" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button9"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="WXYZ"
                 custom:numberText="9" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button10"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterGone="false"
                 custom:numberText="*" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button11"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterText="+"
                 custom:numberText="0" />
 
             <com.digits.business.dialpad.view.DialPadKey
                 android:id="@+id/button12"
                 style="@style/PadButtonStyle.Animation"
+                android:soundEffectsEnabled="true"
                 custom:letterGone="false"
                 custom:numberText="#" />
 

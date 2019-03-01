@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.digits.business.R;
+import com.digits.business.twilio.VoiceActivity;
 //import com.github.ali.android.client.customview.R;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,8 @@ public class DialPadAnimationFragment extends Fragment implements IOnBackPressed
 
     private View mOpenPadFrameBtn, mPadFrame, mCallBtn;
     private boolean mPadOpen = false;
+    private EditText number;
+    private ImageButton backspce;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -32,6 +37,9 @@ public class DialPadAnimationFragment extends Fragment implements IOnBackPressed
         super.onViewCreated(view, savedInstanceState);
 
         mOpenPadFrameBtn = view.findViewById(R.id.num_pad_btn);
+        number = view.findViewById(R.id.number);
+        backspce = view.findViewById(R.id.backspce);
+
         mOpenPadFrameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +73,21 @@ public class DialPadAnimationFragment extends Fragment implements IOnBackPressed
         mCallBtn.setAlpha(0f);
         mCallBtn.setScaleX(0f);
         mCallBtn.setScaleY(0f);
+
+
+        mCallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        backspce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -81,5 +104,10 @@ public class DialPadAnimationFragment extends Fragment implements IOnBackPressed
             return true;
         }
         return false;
+    }
+
+   public String getNumber()
+    {
+        return number.getText().toString();
     }
 }
