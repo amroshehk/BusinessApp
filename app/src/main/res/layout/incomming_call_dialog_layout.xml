@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,9 +24,7 @@
         android:gravity="center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_centerHorizontal="true"
         tools:text="@tools:sample/full_names"
         />
 
@@ -38,9 +36,8 @@
         android:gravity="center_horizontal"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textDisplayName"
-        app:layout_constraintStart_toStartOf="@+id/textDisplayName"
-        app:layout_constraintTop_toBottomOf="@+id/textDisplayName"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textDisplayName"
         tools:text="Calling…" />
 
     <TextView
@@ -52,40 +49,36 @@
         android:text="00:00:00"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textStatus"
-        app:layout_constraintStart_toStartOf="@+id/textStatus"
-        app:layout_constraintTop_toBottomOf="@+id/textStatus" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textStatus" />
 
     <ImageView
         android:id="@+id/buttonHangup"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="40dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/end_call_button_selector"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_goneMarginEnd="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ic_call_end_white_24dp" />
 
     <ImageView
         android:id="@+id/buttonAnswer"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="40dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/call_button_selector"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/ic_call_white_24dp"
         tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

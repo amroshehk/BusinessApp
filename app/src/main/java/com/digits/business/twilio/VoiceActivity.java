@@ -359,6 +359,17 @@ public class VoiceActivity extends AppCompatActivity {
                 }
             }
         });
+        backspce.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (numberBuilder.length() > 0) {
+                    numberBuilder.delete(0,numberBuilder.length());
+                    number.setText("");
+
+                }
+                return true;
+            }
+        });
 
     }
 
