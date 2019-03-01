@@ -243,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
                         Register register=new Register(id,name,email,created_at,updated_at,phone,country,generated_id,status,photo_url,ip,default_file);
 
 
-                        PreferenceHelper helper=new PreferenceHelper(context);
+                        PreferenceHelper helper = new PreferenceHelper(context);
                         helper.setLoginState(true);
                         helper.saveUser(register);
 
@@ -255,8 +255,9 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, VoiceActivity.class);
-                        intent.putExtra(TAG_EMAIL, email);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        /*intent.putExtra(TAG_EMAIL, email);*/
+                        /*intent.putExtra(TAG_GENERATED_ID, generated_id);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
                         startActivity(intent);
 
 

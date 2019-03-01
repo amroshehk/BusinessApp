@@ -34,6 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.digits.business.R;
+import com.digits.business.classes.JsonTAG;
+import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.dialpad.view.DialPadKey;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -63,7 +65,7 @@ public class VoiceActivity extends AppCompatActivity {
     private SessionHandler session;
     private static final String TAG = "VoiceActivity";
     //private String identity;
-    private static String identity = "704305157";
+    private static String identity;
     /*
      * You must provide the URL to the publicly accessible Twilio access token server route
      *
@@ -147,8 +149,12 @@ public class VoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_voice);
 
         session = new SessionHandler(getApplicationContext());
+
         User user = session.getUserDetails();
-        //identity= user.getUsername();
+
+        PreferenceHelper helper = new PreferenceHelper(this);
+
+        identity = helper.getSettingValueGeneratedId();
 
         //----------------------fragment
 //        final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -350,6 +356,7 @@ public class VoiceActivity extends AppCompatActivity {
             }
         });
 
+
         backspce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -359,6 +366,8 @@ public class VoiceActivity extends AppCompatActivity {
                 }
             }
         });
+
+
         backspce.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

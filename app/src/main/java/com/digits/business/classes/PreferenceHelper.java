@@ -102,7 +102,7 @@ public class PreferenceHelper {
     }
 
 
-    public  String getSettingValueGeneratedId() {
+    public String getSettingValueGeneratedId() {
         return readSharedPreference(KEY,SETTING_KEY_GENERATED_ID);
     }
 

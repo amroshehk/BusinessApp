@@ -83,6 +83,7 @@ import static com.digits.business.classes.JsonTAG.BUSINESS_TYPE;
 import static com.digits.business.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
+import static com.digits.business.classes.JsonTAG.TAG_GENERATED_ID;
 import static com.digits.business.classes.URLTAG.LOGOUT_URL;
 import static com.digits.business.classes.URLTAG.URL_RECENT_BUSINESS;
 
@@ -128,6 +129,8 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionMenu searchMenu;
     private com.github.clans.fab.FloatingActionButton searchItem;
     private com.github.clans.fab.FloatingActionButton addItem;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-// custom dialog
+            // custom dialog
             dialog = new Dialog(context);
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.exit_dialog_layout);
@@ -393,6 +396,8 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_voice) {
 
             Intent intent = new Intent(MainActivity.this, VoiceActivity.class);
+            /*intent.putExtra(TAG_GENERATED_ID, generated_id);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
             startActivity(intent);
 
         } else if (id == R.id.nav_TTS) {
