@@ -182,8 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             progressDialog.dismiss();
 
-                            if(obj.getBoolean("success"))
-                            {
+                            if(obj.getBoolean("success")) {
 
                                 Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 
@@ -193,10 +192,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }
-                            else
-                            {
-
-                                Toast.makeText(getApplicationContext(),"The phone has already been taken", Toast.LENGTH_LONG).show();
+                            else {
+                                Toast.makeText(getApplicationContext(),obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(),"The phone has already been taken", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {
@@ -263,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity {
                     params.put(TAG_PASSWORD, register.getPassword());
                     params.put(TAG_IP_ADDRESS, register.getIp());
                     params.put(TAG_PHOTO_URL, "");
-                   params.put(TAG_API_TOKEN, token);
+                    params.put(TAG_API_TOKEN, token);
 
 
                 return params;
