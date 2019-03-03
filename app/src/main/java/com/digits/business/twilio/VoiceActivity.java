@@ -469,7 +469,8 @@ public class VoiceActivity extends AppCompatActivity {
        // content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.VISIBLE);
         callActionFab.hide();
-        muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
+        muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+     //   muteActionFab.setBackgroundResource( R.drawable.ic_mic);
         muteActionFab.hide();
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
@@ -514,6 +515,10 @@ public class VoiceActivity extends AppCompatActivity {
                     if (alertDialog != null && alertDialog.isShowing()) {
                         soundPoolManager.stopRinging();
                         alertDialog.cancel();
+                    }
+                    if (dialog2 != null && dialog2.isShowing()) {
+                        soundPoolManager.stopRinging();
+                        dialog2.cancel();
                     }
                 }
             } else if (intent.getAction().equals(ACTION_FCM_TOKEN)) {
@@ -753,9 +758,15 @@ public class VoiceActivity extends AppCompatActivity {
             boolean mute = !activeCall.isMuted();
             activeCall.mute(mute);
             if (mute) {
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_off_24dp));
+              //  muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic_off));
+              //  muteActionFab.setBackgroundResource(R.drawable.ic_mic_off);
+               // muteActionFab.setImageResource(R.drawable.ic_mic_off);
+                muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_off_24dp));
             } else {
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(VoiceActivity.this, R.drawable.ic_mic_white_24dp));
+//                muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic));
+//               // muteActionFab.setBackgroundResource( R.drawable.ic_mic);
+              //  muteActionFab.setImageResource( R.drawable.ic_mic);
+                muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
             }
         }
     }

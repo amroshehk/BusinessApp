@@ -54,7 +54,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".twilio.VoiceActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:parentActivityName="com.digits.business.activities.MainActivity"/>
 
 
         <service android:name="com.digits.business.fcm.MyFirebaseMessagingService">
@@ -108,7 +108,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.digits.business.activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        />
         <activity
             android:name="com.digits.business.phoneauth.PhoneNumberAuthActivity"
             android:theme="@style/AppTheme.NoActionBar">

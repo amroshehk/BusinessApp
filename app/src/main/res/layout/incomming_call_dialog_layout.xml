@@ -11,7 +11,7 @@
         android:id="@+id/imageBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_volume_up_white_24dp"
+        android:background="@drawable/cat"
         android:fitsSystemWindows="false"
         android:foreground="#33000000"
         />

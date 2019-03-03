@@ -164,4 +164,8 @@
         <item name="android:paddingStart">16dip</item>
         <item name="android:paddingEnd">16dip</item>
     </style>
+
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+    <item name="colorAccent">#179AE1</item>
+    </style>
 </resources>

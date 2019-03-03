@@ -102,9 +102,9 @@
             android:background="@drawable/customborder"
             android:textColorHint="@color/colorPrimaryDark"
             app:passwordToggleContentDescription="description"
-            app:passwordToggleDrawable="@drawable/check"
-            app:passwordToggleEnabled="true">
 
+            app:passwordToggleEnabled="true">
+            <!--app:passwordToggleDrawable="@drawable/check"-->
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/old_pw_signup_et"
                 android:layout_width="match_parent"
@@ -129,9 +129,9 @@
             android:background="@drawable/customborder"
             android:textColorHint="@color/colorPrimaryDark"
             app:passwordToggleContentDescription="description"
-            app:passwordToggleDrawable="@drawable/check"
-            app:passwordToggleEnabled="true">
 
+            app:passwordToggleEnabled="true">
+            <!--app:passwordToggleDrawable="@drawable/check"-->
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/new_pw_et"
                 android:layout_width="match_parent"
@@ -156,9 +156,9 @@
             android:background="@drawable/customborder"
             android:textColorHint="@color/colorPrimaryDark"
             app:passwordToggleContentDescription="description"
-            app:passwordToggleDrawable="@drawable/check"
-            app:passwordToggleEnabled="true">
 
+            app:passwordToggleEnabled="true">
+            <!--app:passwordToggleDrawable="@drawable/check"-->
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/conf_new_pw_et"
                 android:layout_width="match_parent"

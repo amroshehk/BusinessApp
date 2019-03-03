@@ -255,9 +255,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, VoiceActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         /*intent.putExtra(TAG_EMAIL, email);*/
                         /*intent.putExtra(TAG_GENERATED_ID, generated_id);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
+                       */
                         startActivity(intent);
 
 

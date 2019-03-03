@@ -73,8 +73,8 @@ public class Mp3FilesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mp3_files);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-         setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//         setSupportActionBar(toolbar);
         CircularProgress = findViewById(R.id.progressbar_mp3file);
         context = this;
         recyclerView = findViewById(R.id.recyclerview);

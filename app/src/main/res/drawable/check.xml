@@ -3,9 +3,11 @@
         android:state_pressed="true"
         android:drawable="@drawable/ic_visibility_black_24dp"
         />
-    <!--//currently pressed turning the toggle on-->
-    <item android:state_pressed="true" android:drawable="@drawable/ic_visibility_black_24dp"/> //currently pressed turning the toggle off
-    <item android:state_checked="true" android:drawable="@drawable/ic_visibility_black_24dp"/> //not pressed default checked state
+    <!--//currently pressed turning the toggle on
+     //currently pressed turning the toggle off-->
+    <item android:state_pressed="true" android:drawable="@drawable/ic_visibility_black_24dp"/>
+    <!--//not pressed default checked state-->
+    <item android:state_checked="true" android:drawable="@drawable/ic_visibility_black_24dp"/>
     <item android:drawable="@drawable/ic_visibility_off_black_24dp"/>
     <!--//default non-pressed non-checked-->
 </selector>
