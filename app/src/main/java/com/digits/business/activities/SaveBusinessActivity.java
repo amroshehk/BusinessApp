@@ -155,8 +155,8 @@ public class SaveBusinessActivity extends AppCompatActivity {
 
         context = this;
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         userId = preferenceHelper.getSettingValueId();
