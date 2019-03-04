@@ -140,6 +140,8 @@ public class VoiceActivity extends AppCompatActivity {
     private DialPadKey number12;
 
 
+    private ImageButton muteButton;
+
     private static StringBuilder numberBuilder;
 
     @Override
@@ -175,7 +177,8 @@ public class VoiceActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         callActionFab = findViewById(R.id.call_action_fab);
         hangupActionFab = findViewById(R.id.hangup_action_fab);
-        muteActionFab = findViewById(R.id.mute_action_fab);
+        /*muteActionFab = findViewById(R.id.mute_action_fab);*/
+        muteButton = findViewById(R.id.muteButton);
         chronometer = findViewById(R.id.chronometer);
 
         //---------------new Dialpad
@@ -183,11 +186,12 @@ public class VoiceActivity extends AppCompatActivity {
         number = findViewById(R.id.number);
         mCallBtn = findViewById(R.id.call_button);
         mCallBtn.setOnClickListener(callClickListenerNew());
-        //---------------new Dialpa End
+        //---------------new Dialpad End
 
         callActionFab.setOnClickListener(callActionFabClickListener());
         hangupActionFab.setOnClickListener(hangupActionFabClickListener());
-        muteActionFab.setOnClickListener(muteActionFabClickListener());
+        /*muteActionFab.setOnClickListener(muteActionFabClickListener());*/
+        muteButton.setOnClickListener(muteActionFabClickListener());
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -456,7 +460,8 @@ public class VoiceActivity extends AppCompatActivity {
         dialpad_rel.setVisibility(View.GONE);
         callActionFab.hide();
         hangupActionFab.show();
-        muteActionFab.show();
+        /*muteActionFab.show();*/
+        muteButton.setVisibility(View.VISIBLE);
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
@@ -469,9 +474,10 @@ public class VoiceActivity extends AppCompatActivity {
        // content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.VISIBLE);
         callActionFab.hide();
-        muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+        /*muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));*/
      //   muteActionFab.setBackgroundResource( R.drawable.ic_mic);
-        muteActionFab.hide();
+       /* muteActionFab.hide();*/
+        muteButton.setVisibility(View.INVISIBLE);
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
         chronometer.stop();
@@ -761,12 +767,19 @@ public class VoiceActivity extends AppCompatActivity {
               //  muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic_off));
               //  muteActionFab.setBackgroundResource(R.drawable.ic_mic_off);
                // muteActionFab.setImageResource(R.drawable.ic_mic_off);
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_off_24dp));
+               // muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_off_24dp));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_24dp));
+                }
+
             } else {
-//                muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic));
-//               // muteActionFab.setBackgroundResource( R.drawable.ic_mic);
+              //  muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic));
+               // muteActionFab.setBackgroundResource( R.drawable.ic_mic);
               //  muteActionFab.setImageResource( R.drawable.ic_mic);
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+                //muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_off_24dp));
+                }
             }
         }
     }

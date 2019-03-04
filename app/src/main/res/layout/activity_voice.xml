@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         app:srcCompat="@drawable/ic_call_white_24dp"
         android:visibility="invisible"
@@ -64,9 +63,12 @@
             android:layout_alignParentBottom="true"
             android:background="#FFF"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -75,7 +77,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.85"
-                    android:background="@drawable/customborder2"
                     android:enabled="false"
                     android:focusable="false"
                     android:freezesText="true"
@@ -214,7 +215,18 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
+            android:id="@+id/muteButton"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/circular_selector"
+            android:foreground="@drawable/ic_mic_white_24dp"
+            android:visibility="invisible" />
+
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/mute_action_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -223,7 +235,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             app:srcCompat="@drawable/ic_mic_white_24dp"
-            android:visibility="invisible" />
+            android:visibility="invisible" />-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/hangup_action_fab"
@@ -231,7 +243,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             app:srcCompat="@drawable/ic_call_end_white_24dp"
             android:visibility="invisible" />

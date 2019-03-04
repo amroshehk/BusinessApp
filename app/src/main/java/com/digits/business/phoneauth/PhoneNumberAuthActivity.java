@@ -1,7 +1,5 @@
 package com.digits.business.phoneauth;
 
-//import android.support.v7.app.AppCompatActivity;
-import android.content.Context;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
@@ -20,14 +18,26 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
 
     private Spinner spinner;
     private EditText editText;
-    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //check login state
+        PreferenceHelper helper = new PreferenceHelper(this);
+        String loginInState = helper.getLoginState();
+
+        //  if (FirebaseAuth.getInstance().getCurrentUser() != null && !loginInState.isEmpty()) {
+        if (!loginInState.isEmpty()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(intent);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_number_auth);
-        context=this;
+
         spinner = findViewById(R.id.spinnerCountries);
         spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CountryData.countryNames));
 
@@ -67,13 +77,15 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        //check login state
+        /*//check login state
         PreferenceHelper helper = new PreferenceHelper(context);
         String loginInState = helper.getLoginState();
 
@@ -83,6 +95,6 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         startActivity(intent);
-        }
+        }*/
     }
 }
