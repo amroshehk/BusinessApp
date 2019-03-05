@@ -82,6 +82,8 @@
                     android:freezesText="true"
                     android:gravity="center"
                     android:inputType="phone"
+                    android:maxLength="10"
+                    android:phoneNumber="true"
                     android:soundEffectsEnabled="true"
                     android:text=""
                     android:textColor="@color/black"
