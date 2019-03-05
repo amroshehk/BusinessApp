@@ -9,6 +9,14 @@
     tools:context=".twilio.VoiceActivity">
 
 
+    <ImageView
+        android:id="@+id/imageBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/cat"
+        android:fitsSystemWindows="false"
+        android:foreground="#33000000"
+        android:visibility="gone" />
 
     <Chronometer
         android:id="@+id/chronometer"

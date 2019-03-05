@@ -139,10 +139,10 @@ public class VoiceActivity extends AppCompatActivity {
     private DialPadKey number11;
     private DialPadKey number12;
 
+    private static StringBuilder numberBuilder;
 
     private ImageButton muteButton;
-
-    private static StringBuilder numberBuilder;
+    private ImageView imageBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +209,8 @@ public class VoiceActivity extends AppCompatActivity {
          */
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setSpeakerphoneOn(true);
+
+        imageBackground = findViewById(R.id.imageBackground);
 
         /*
          * Enable changing the volume using the up/down keys during a conversation
@@ -465,6 +467,7 @@ public class VoiceActivity extends AppCompatActivity {
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
+        imageBackground.setVisibility(View.VISIBLE);
     }
 
     /*
@@ -481,6 +484,7 @@ public class VoiceActivity extends AppCompatActivity {
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
         chronometer.stop();
+        imageBackground.setVisibility(View.INVISIBLE);
     }
 
     @Override

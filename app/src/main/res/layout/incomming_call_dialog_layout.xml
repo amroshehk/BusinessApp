@@ -13,8 +13,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/cat"
         android:fitsSystemWindows="false"
-        android:foreground="#33000000"
-        />
+        android:foreground="#33000000" />
 
     <TextView
         android:id="@+id/textDisplayName"
