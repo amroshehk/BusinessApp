@@ -10,12 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,11 +57,13 @@ import java.util.HashMap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class VoiceActivity extends AppCompatActivity {
 
@@ -141,7 +146,7 @@ public class VoiceActivity extends AppCompatActivity {
 
     private static StringBuilder numberBuilder;
 
-    private ImageButton muteButton;
+  //  private ImageButton muteButton;
     private ImageView imageBackground;
 
     @Override
@@ -177,8 +182,8 @@ public class VoiceActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         callActionFab = findViewById(R.id.call_action_fab);
         hangupActionFab = findViewById(R.id.hangup_action_fab);
-        /*muteActionFab = findViewById(R.id.mute_action_fab);*/
-        muteButton = findViewById(R.id.muteButton);
+        muteActionFab = findViewById(R.id.mute_action_fab);
+//        muteButton = findViewById(R.id.muteButton);
         chronometer = findViewById(R.id.chronometer);
 
         //---------------new Dialpad
@@ -190,8 +195,8 @@ public class VoiceActivity extends AppCompatActivity {
 
         callActionFab.setOnClickListener(callActionFabClickListener());
         hangupActionFab.setOnClickListener(hangupActionFabClickListener());
-        /*muteActionFab.setOnClickListener(muteActionFabClickListener());*/
-        muteButton.setOnClickListener(muteActionFabClickListener());
+        muteActionFab.setOnClickListener(muteActionFabClickListener());
+      //  muteButton.setOnClickListener(muteActionFabClickListener());
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -462,8 +467,8 @@ public class VoiceActivity extends AppCompatActivity {
         dialpad_rel.setVisibility(View.GONE);
         callActionFab.hide();
         hangupActionFab.show();
-        /*muteActionFab.show();*/
-        muteButton.setVisibility(View.VISIBLE);
+        muteActionFab.show();
+     //   muteButton.setVisibility(View.VISIBLE);
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
@@ -477,10 +482,14 @@ public class VoiceActivity extends AppCompatActivity {
        // content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.VISIBLE);
         callActionFab.hide();
-        /*muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));*/
+        muteActionFab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
      //   muteActionFab.setBackgroundResource( R.drawable.ic_mic);
-       /* muteActionFab.hide();*/
-        muteButton.setVisibility(View.INVISIBLE);
+//        Resources resources = getBaseContext().getResources();
+//        Resources.Theme theme = getBaseContext().getTheme();
+//        Drawable drawable = VectorDrawableCompat.create(resources, R.drawable.ic_mic_white_24dp, theme);
+//        muteActionFab.setImageDrawable(drawable);
+        muteActionFab.hide();
+        //muteButton.setVisibility(View.INVISIBLE);
         hangupActionFab.hide();
         chronometer.setVisibility(View.INVISIBLE);
         chronometer.stop();
@@ -771,19 +780,49 @@ public class VoiceActivity extends AppCompatActivity {
               //  muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic_off));
               //  muteActionFab.setBackgroundResource(R.drawable.ic_mic_off);
                // muteActionFab.setImageResource(R.drawable.ic_mic_off);
-               // muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_off_24dp));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_24dp));
-                }
+//                final Handler   handler = new Handler();
+//
+//                final Runnable r = new Runnable() {
+//                    public void run() {
+//
+////                        handler.postDelayed(this, 1000);
+//                        Resources resources = getBaseContext().getResources();
+//                        Resources.Theme theme = getBaseContext().getTheme();
+//                        Drawable drawable = VectorDrawableCompat.create(resources, R.drawable.ic_mic_white_off_24dp, theme);
+//                        muteActionFab.setImageDrawable(drawable);
+//                    }
+//                };
+//
+//                handler.postDelayed(r, 200);
+                muteActionFab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_mic_white_off_24dp));
+
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_24dp));
+//                }
 
             } else {
               //  muteActionFab.setImageDrawable(this.getResources().getDrawable(R.drawable.ic_mic));
                // muteActionFab.setBackgroundResource( R.drawable.ic_mic);
               //  muteActionFab.setImageResource( R.drawable.ic_mic);
-                //muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_off_24dp));
-                }
+                muteActionFab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+//                final Handler   handler = new Handler();
+//
+//                final Runnable r = new Runnable() {
+//                    public void run() {
+//
+////                        handler.postDelayed(this, 1000);
+//                        Resources resources = getBaseContext().getResources();
+//                        Resources.Theme theme = getBaseContext().getTheme();
+//                        Drawable drawable = VectorDrawableCompat.create(resources, R.drawable.ic_mic_white_24dp, theme);
+//                        muteActionFab.setImageDrawable(drawable);
+//                    }
+//                };
+//
+//                handler.postDelayed(r, 200);
+               // muteActionFab.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    muteButton.setForeground(this.getResources().getDrawable(R.drawable.ic_mic_white_off_24dp));
+//                }
             }
         }
     }

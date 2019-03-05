@@ -81,6 +81,7 @@
             android:label="@string/title_activity_search_business" />
         <activity
             android:name="com.digits.business.activities.BusinessDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_business_details" />
         <activity
             android:name="com.digits.business.activities.SearchMp3FilesActivity"
