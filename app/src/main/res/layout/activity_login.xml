@@ -20,7 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        android:visibility="gone">
     </com.google.android.gms.ads.AdView>
 
         <TextView
@@ -34,13 +35,14 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="230dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:layout_margin="30dp"
             android:contentDescription="@string/login"
-            android:background="@drawable/user512" />
+            android:background="@drawable/logo"
+            android:visibility="visible"/>
 
         <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_ly"

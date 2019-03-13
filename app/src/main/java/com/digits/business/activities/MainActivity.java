@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
+            finishAffinity();
             // custom dialog
             dialog = new Dialog(context);
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-            dialog.show();
+            //dialog.show();
         }
 
     }
@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_mp3_2) {
 
-            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
+            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity2.class);
             startActivity(intent);
 
         }else if (id == R.id.nav_voice) {

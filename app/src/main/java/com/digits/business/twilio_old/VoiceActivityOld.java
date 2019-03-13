@@ -561,15 +561,15 @@ public class VoiceActivityOld extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.speaker_menu_item:
-                if (audioManager.isSpeakerphoneOn()) {
-                    audioManager.setSpeakerphoneOn(false);
-                    item.setIcon(R.drawable.ic_phonelink_ring_white_24dp);
-                } else {
-                    audioManager.setSpeakerphoneOn(true);
-                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
-                }
-                break;
+//            case R.id.speaker_menu_item:
+//                if (audioManager.isSpeakerphoneOn()) {
+//                    audioManager.setSpeakerphoneOn(false);
+//                    item.setIcon(R.drawable.ic_phonelink_ring_white_24dp);
+//                } else {
+//                    audioManager.setSpeakerphoneOn(true);
+//                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
+//                }
+//                break;
         }
         return true;
     }

@@ -5,25 +5,26 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_voice"
+            android:icon="@drawable/ic_call_black_24dp"
+            android:title="Make Call" />
+        <item
             android:id="@+id/nav_mp3"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="MP3 Files 1" />
+            android:title="Check Voicemail" />
         <item
             android:id="@+id/nav_mp3_2"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="MP3 Files 2" />
-        <item
-            android:id="@+id/nav_voice"
-            android:icon="@drawable/ic_call_black_24dp"
-            android:title="Voice" />
+            android:title="Upload Greeting" />
+
         <item
             android:id="@+id/nav_TTS"
             android:icon="@drawable/ic_edit"
-            android:title="TTS" />
+            android:title="Text-to-Speech" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Setting" />
+            android:title="Call Routing" />
         <item
             android:id="@+id/nav_aboutus"
             android:icon="@drawable/ic_aboutus"

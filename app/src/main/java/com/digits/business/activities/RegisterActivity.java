@@ -184,7 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             if(obj.getBoolean("success")) {
 
-                                Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
+                        //        Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 intent.putExtra("email", register.getEmail());
@@ -193,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else {
-                                Toast.makeText(getApplicationContext(),obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
+                         //       Toast.makeText(getApplicationContext(),obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 //                                Toast.makeText(getApplicationContext(),"The phone has already been taken", Toast.LENGTH_LONG).show();
                             }
 

@@ -238,29 +238,49 @@
             <!--android:visibility="visible"-->
            <!--/>-->
 
-       <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom|start"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+    <ImageButton
+        android:id="@+id/speacker_action_fab"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:padding="15dp"
+        android:layout_gravity="bottom|start"
+        app:srcCompat="@drawable/ic_volume_up_white_24dp"
+        android:scaleType="fitCenter"
+        android:background="@color/colorPrimary"
+        android:visibility="visible" />
+        <ImageButton
             android:id="@+id/mute_action_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="75dp"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:scaleType="fitCenter"
+            android:padding="15dp"
+            android:background="@color/colorPrimary"
             app:srcCompat="@drawable/ic_mic_white_24dp"
             android:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/hangup_action_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_width="100dp"
+            android:layout_height="75dp"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:background="@color/colorPrimary"
             app:srcCompat="@drawable/ic_call_end_white_24dp"
             android:visibility="visible" />
-
     </LinearLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

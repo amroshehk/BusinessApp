@@ -11,7 +11,7 @@
     <application
         android:name="com.digits.business.app.MyApplication"
         android:allowBackup="true"
-        android:hardwareAccelerated="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -54,6 +54,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".twilio.VoiceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName="com.digits.business.activities.MainActivity"/>
 
 
@@ -97,12 +98,15 @@
             android:name="com.digits.business.activities.Mp3FilesActivity"
             android:label="@string/title_activity_mp3_files" />
         <activity
+            android:name="com.digits.business.activities.Mp3FilesActivity2"
+            android:label="@string/title_activity_mp3_files2" />
+        <activity
             android:name="com.digits.business.activities.ImagesViewerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.digits.business.activities.EditMyProfileActivity" />
         <activity
             android:name="com.digits.business.activities.MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/headline_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.digits.business.activities.RegisterActivity"

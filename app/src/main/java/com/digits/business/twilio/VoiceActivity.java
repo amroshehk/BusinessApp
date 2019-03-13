@@ -58,6 +58,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -97,8 +98,8 @@ public class VoiceActivity extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
     public static FloatingActionButton callActionFab;
-    private FloatingActionButton hangupActionFab;
-    private FloatingActionButton muteActionFab;
+    private ImageButton hangupActionFab;
+    private ImageButton muteActionFab;
     private Chronometer chronometer;
     private SoundPoolManager soundPoolManager;
 
@@ -148,6 +149,9 @@ public class VoiceActivity extends AppCompatActivity {
 
   //  private ImageButton muteButton;
     private ImageView imageBackground;
+
+    private ImageButton speacker_action_fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +225,20 @@ public class VoiceActivity extends AppCompatActivity {
          * Enable changing the volume using the up/down keys during a conversation
          */
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+
+        speacker_action_fab = findViewById(R.id.speacker_action_fab);
+        speacker_action_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (audioManager.isSpeakerphoneOn()) {
+                    audioManager.setSpeakerphoneOn(false);
+                    speacker_action_fab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_volume_up_white_24dp));
+                } else {
+                    audioManager.setSpeakerphoneOn(true);
+                    speacker_action_fab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_phonelink_ring_white_24dp));
+                }
+            }
+        });
 
         /*
          * Setup the UI
@@ -466,8 +484,10 @@ public class VoiceActivity extends AppCompatActivity {
         //content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.GONE);
         callActionFab.hide();
-        hangupActionFab.show();
-        muteActionFab.show();
+        hangupActionFab.setVisibility(View.VISIBLE);
+        muteActionFab.setVisibility(View.VISIBLE);
+        speacker_action_fab.setVisibility(View.VISIBLE);
+
      //   muteButton.setVisibility(View.VISIBLE);
         chronometer.setVisibility(View.VISIBLE);
         chronometer.setBase(SystemClock.elapsedRealtime());
@@ -488,9 +508,13 @@ public class VoiceActivity extends AppCompatActivity {
 //        Resources.Theme theme = getBaseContext().getTheme();
 //        Drawable drawable = VectorDrawableCompat.create(resources, R.drawable.ic_mic_white_24dp, theme);
 //        muteActionFab.setImageDrawable(drawable);
-        muteActionFab.hide();
+        muteActionFab.setVisibility(View.GONE);
+
+        speacker_action_fab.setVisibility(View.GONE);
+        audioManager.setSpeakerphoneOn(false);
+        speacker_action_fab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_volume_up_white_24dp));
         //muteButton.setVisibility(View.INVISIBLE);
-        hangupActionFab.hide();
+        hangupActionFab.setVisibility(View.GONE);
         chronometer.setVisibility(View.INVISIBLE);
         chronometer.stop();
         imageBackground.setVisibility(View.INVISIBLE);
@@ -621,10 +645,16 @@ public class VoiceActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Place a call
+                if(accessToken!=null)
+                {// Place a call
                 twiMLParams.put("to", number.getText().toString());
+
                 activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
-                setCallUI();
+                setCallUI();}
+                else
+                {
+                    Snackbar.make(v,"Wait",Snackbar.LENGTH_SHORT).show();
+                }
             }
         };
     }
@@ -908,21 +938,21 @@ public class VoiceActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.speaker_menu_item:
-                if (audioManager.isSpeakerphoneOn()) {
-                    audioManager.setSpeakerphoneOn(false);
-                    item.setIcon(R.drawable.ic_phonelink_ring_white_24dp);
-                } else {
-                    audioManager.setSpeakerphoneOn(true);
-                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
-                }
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.speaker_menu_item:
+//                if (audioManager.isSpeakerphoneOn()) {
+//                    audioManager.setSpeakerphoneOn(false);
+//                    item.setIcon(R.drawable.ic_phonelink_ring_white_24dp);
+//                } else {
+//                    audioManager.setSpeakerphoneOn(true);
+//                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
+//                }
+//                break;
+//        }
+//        return true;
+//    }
 
     public static AlertDialog createCallDialog(final DialogInterface.OnClickListener callClickListener,
                                                final DialogInterface.OnClickListener cancelClickListener,

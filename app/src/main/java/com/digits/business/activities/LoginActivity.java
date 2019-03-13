@@ -252,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
                         long cuuentTimeexpired=tsLong+(30*24*60*60)+1;//
                         helper.setSettingValueLoginDataExpired(Long.toString(cuuentTimeexpired));
 
-                        Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
+                 //       Toast.makeText(getApplicationContext(), "User logged in successfully", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(LoginActivity.this, VoiceActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -269,7 +269,7 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
                 }
 
             }
