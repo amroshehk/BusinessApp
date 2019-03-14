@@ -54,6 +54,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".twilio.VoiceActivity"
+            android:label="@string/make_call"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName="com.digits.business.activities.MainActivity"/>
 
@@ -95,10 +96,10 @@
         <activity android:name="com.digits.business.activities.SaveBusinessActivity" />
         <activity android:name="com.digits.business.activities.UploadeMp3FileActivity" />
         <activity
-            android:name="com.digits.business.activities.Mp3FilesActivity"
+            android:name="com.digits.business.activities.VoiceEmailActivity"
             android:label="@string/title_activity_mp3_files" />
         <activity
-            android:name="com.digits.business.activities.Mp3FilesActivity2"
+            android:name="com.digits.business.activities.UploadGreetingActivity2"
             android:label="@string/title_activity_mp3_files2" />
         <activity
             android:name="com.digits.business.activities.ImagesViewerActivity"

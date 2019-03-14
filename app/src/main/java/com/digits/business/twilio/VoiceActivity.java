@@ -4,21 +4,20 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,16 +34,42 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
-import com.digits.business.classes.JsonTAG;
+import com.digits.business.activities.AboutUsActivity;
+import com.digits.business.activities.LoginActivity;
+import com.digits.business.activities.MainActivity;
+import com.digits.business.activities.VoiceEmailActivity;
+import com.digits.business.activities.UploadGreetingActivity2;
+import com.digits.business.activities.ProfileActivity;
+import com.digits.business.activities.SaveTTSActivity;
+import com.digits.business.activities.SettingActivity;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.dialpad.view.DialPadKey;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.twilio.voice.Call;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
@@ -52,21 +77,30 @@ import com.twilio.voice.RegistrationException;
 import com.twilio.voice.RegistrationListener;
 import com.twilio.voice.Voice;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class VoiceActivity extends AppCompatActivity {
+import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
+import static com.digits.business.classes.URLTAG.LOGOUT_URL;
+
+public class VoiceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     private SessionHandler session;
     private static final String TAG = "VoiceActivity";
@@ -96,7 +130,7 @@ public class VoiceActivity extends AppCompatActivity {
     // Empty HashMap, never populated for the Quickstart
     HashMap<String, String> twiMLParams = new HashMap<>();
 
-    private CoordinatorLayout coordinatorLayout;
+    private RelativeLayout coordinatorLayout;
     public static FloatingActionButton callActionFab;
     private ImageButton hangupActionFab;
     private ImageButton muteActionFab;
@@ -152,21 +186,31 @@ public class VoiceActivity extends AppCompatActivity {
 
     private ImageButton speacker_action_fab;
 
-
+    private ProgressDialog progressDialog;
+    private Context context;
+    private String email,name;
+    ImageLoaderConfiguration config;
+    CircleImageView photo_nav_header;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        context=this;
+
         session = new SessionHandler(getApplicationContext());
 
         User user = session.getUserDetails();
 
-        PreferenceHelper helper = new PreferenceHelper(this);
+        PreferenceHelper helper = new PreferenceHelper(context);
 
         identity = helper.getSettingValueGeneratedId();
-
+        email= helper.getSettingValueEmail();
+        name= helper.getSettingValueName();
         //----------------------fragment
 //        final FragmentManager fragmentManager = getSupportFragmentManager();
 //        content_fragment=findViewById(R.id.content_fragment);
@@ -408,6 +452,57 @@ public class VoiceActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        setupDrawer();
+
+    }
+
+    void setupDrawer()
+    {
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View hView =  navigationView.getHeaderView(0);
+        photo_nav_header = hView.findViewById(R.id.photo);
+        TextView name_tv=hView.findViewById(R.id.name_tv);
+        TextView  email_tv=hView.findViewById(R.id.email_tv);
+
+        name_tv.setText(name);
+        email_tv.setText(email);
+
+        getUserPhoto();
+
+        hView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VoiceActivity.this, ProfileActivity.class);
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    void getUserPhoto() {
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        config = new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        PreferenceHelper helper = new PreferenceHelper(context);
+        if (!helper.getSettingValuePhotoUrl().isEmpty())
+            imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
+        else
+            photo_nav_header.setBackgroundResource(R.drawable.user512);
 
     }
 
@@ -994,4 +1089,161 @@ public class VoiceActivity extends AppCompatActivity {
             }
         });
     }
-}
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+
+            Intent intent = new Intent(VoiceActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        }
+        else if (id == R.id.nav_mp3) {
+            Intent intent = new Intent(VoiceActivity.this, VoiceEmailActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_mp3_2) {
+
+            Intent intent = new Intent(VoiceActivity.this, UploadGreetingActivity2.class);
+            startActivity(intent);
+
+        }else if (id == R.id.nav_voice) {
+
+            Intent intent = new Intent(VoiceActivity.this, VoiceActivity.class);
+            /*intent.putExtra(TAG_GENERATED_ID, generated_id);*/
+              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_TTS) {
+            Intent intent = new Intent(VoiceActivity.this, SaveTTSActivity.class);
+            startActivity(intent);
+
+
+        } else if (id == R.id.nav_aboutus) {
+            Intent intent = new Intent(VoiceActivity.this, AboutUsActivity.class);
+            startActivity(intent);
+
+
+        }  else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(VoiceActivity.this, SettingActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_share) {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+            shareIntent.setType("text/plain");
+            startActivity(shareIntent);
+        } else if (id == R.id.nav_send) {
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            }
+            catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+        }
+        else if (id == R.id.nav_logout) {
+            LogoutServer(email);
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    private void LogoutServer(final String email) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Logout.....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, LOGOUT_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    progressDialog.dismiss();
+                    if (obj.getBoolean("success")) {
+
+
+                        FirebaseAuth.getInstance().signOut();//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+                        PreferenceHelper helper=new PreferenceHelper(context);
+                        helper.setLoginState(false);
+                        helper.deleteUser();
+
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(VoiceActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                        startActivity(intent);
+
+                    } else  {
+                        Toast.makeText(getApplicationContext(), "User logged out Not successfully", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                String message = "";
+                if (volleyError instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ServerError) {
+                    message = "The server could not be found. Please try again after some time!!";
+                } else if (volleyError instanceof AuthFailureError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof ParseError) {
+                    message = "Parsing error! Please try again after some time!!";
+                } else if (volleyError instanceof NoConnectionError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (volleyError instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+
+//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    JSONObject jsonObject = new JSONObject(responseBody);
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+            }
+        }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("Content-Type", "application/json; charset=utf-8");
+                params.put(TAG_EMAIL, email);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
+
+    }
+
+
+    }

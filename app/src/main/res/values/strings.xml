@@ -55,5 +55,16 @@
     <string name="sign_up">Sign Up</string>
     <string name="logout">Logout</string>
     <string name="headline_name">Find Cross Promotion Partner</string>
+    <string name="make_call">Make Call</string>
+    <string name="home">Home</string>
+    <string name="check_voicemail">Check Voicemail</string>
+    <string name="upload_greeting">Upload Greeting</string>
+    <string name="text_to_speech">Text-to-Speech</string>
+    <string name="call_routing">Call Routing</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="logout2">LOGOUT</string>
+    <string name="about_us">About us</string>
 
 </resources>

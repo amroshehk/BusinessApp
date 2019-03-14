@@ -43,7 +43,7 @@ import static com.digits.business.classes.JsonTAG.TAG_URL;
 import static com.digits.business.classes.URLTAG.SET_DEFAULT_FILE_URL;
 
 
-public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3FileCardAdapter.ViewHolder> {
+public class RecyclerUploadGreetingCardAdapter extends RecyclerView.Adapter<RecyclerUploadGreetingCardAdapter.ViewHolder> {
 
     public  ArrayList<Mp3File> mp3Files;
     Context context;
@@ -51,7 +51,7 @@ public class RecyclerMP3FileCardAdapter extends RecyclerView.Adapter<RecyclerMP3
     private static int lastPosition=-1;
 
 
-    public RecyclerMP3FileCardAdapter(ArrayList<Mp3File> mp3Files, Context context) {
+    public RecyclerUploadGreetingCardAdapter(ArrayList<Mp3File> mp3Files, Context context) {
         this.mp3Files = mp3Files;
         this.context=context;
 

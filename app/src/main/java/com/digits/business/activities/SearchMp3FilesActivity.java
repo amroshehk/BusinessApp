@@ -27,7 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
-import com.digits.business.adapter.RecyclerMP3FileCardAdapter;
+import com.digits.business.adapter.RecyclerUploadGreetingCardAdapter;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Mp3File;
@@ -153,7 +153,7 @@ public class SearchMp3FilesActivity extends AppCompatActivity {
                         nofiles.setVisibility(View.GONE);
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter=new RecyclerMP3FileCardAdapter(mp3Files,context);
+                        adapter=new RecyclerUploadGreetingCardAdapter(mp3Files,context);
                         recyclerView.setAdapter(adapter);
                         }
                         else if(obj.getString("message").equals("No files match the query string"))

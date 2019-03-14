@@ -5,51 +5,55 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
             android:id="@+id/nav_voice"
             android:icon="@drawable/ic_call_black_24dp"
-            android:title="Make Call" />
+            android:title="@string/make_call" />
         <item
             android:id="@+id/nav_mp3"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Check Voicemail" />
+            android:title="@string/check_voicemail" />
         <item
             android:id="@+id/nav_mp3_2"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Upload Greeting" />
+            android:title="@string/upload_greeting" />
 
         <item
             android:id="@+id/nav_TTS"
             android:icon="@drawable/ic_edit"
-            android:title="Text-to-Speech" />
+            android:title="@string/text_to_speech" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Call Routing" />
+            android:title="@string/call_routing" />
         <item
             android:id="@+id/nav_aboutus"
             android:icon="@drawable/ic_aboutus"
-            android:title="About us" />
+            android:title="@string/about_us" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
 
-    <item android:title="LOGOUT">
+    <item android:title="@string/logout2">
         <menu>
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_exit"
-                android:title="logout" />
+                android:title="@string/logout" />
 
         </menu>
     </item>

@@ -23,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
-import com.digits.business.adapter.RecyclerMP3FileCardAdapter;
+import com.digits.business.adapter.RecyclerUploadGreetingCardAdapter;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Mp3File;
@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,7 +51,7 @@ import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
 import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
-public class Mp3FilesActivity extends AppCompatActivity {
+public class UploadGreetingActivity2 extends AppCompatActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
@@ -72,7 +71,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mp3_files);
+        setContentView(R.layout.activity_upload_greeting);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //         setSupportActionBar(toolbar);
         CircularProgress = findViewById(R.id.progressbar_mp3file);
@@ -93,7 +92,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Mp3FilesActivity.this, UploadeMp3FileActivity.class);
+                Intent intent = new Intent(UploadGreetingActivity2.this, UploadeMp3FileActivity.class);
                 startActivity(intent);
 
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -105,7 +104,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Mp3FilesActivity.this, SearchMp3FilesActivity.class);
+                Intent intent = new Intent(UploadGreetingActivity2.this, SearchMp3FilesActivity.class);
                 startActivity(intent);
 
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -165,7 +164,7 @@ public class Mp3FilesActivity extends AppCompatActivity {
                          nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter = new RecyclerMP3FileCardAdapter(mp3Files, context);
+                        adapter = new RecyclerUploadGreetingCardAdapter(mp3Files, context);
                         recyclerView.setAdapter(adapter);
 
                     } else {

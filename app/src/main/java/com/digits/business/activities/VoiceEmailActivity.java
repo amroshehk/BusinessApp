@@ -23,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
-import com.digits.business.adapter.RecyclerMP3FileCardAdapter;
+import com.digits.business.adapter.RecyclerVoiceEmailCardAdapter;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Mp3File;
@@ -51,7 +51,7 @@ import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
 import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
-public class Mp3FilesActivity2 extends AppCompatActivity {
+public class VoiceEmailActivity extends AppCompatActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
@@ -65,13 +65,11 @@ public class Mp3FilesActivity2 extends AppCompatActivity {
     private static JSONArray mp3fileArray = null;
     ArrayList<Mp3File> mp3Files;
     private FloatingActionMenu menuRed;
-    private com.github.clans.fab.FloatingActionButton search_item;
-    private com.github.clans.fab.FloatingActionButton add_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mp3_files2);
+        setContentView(R.layout.activity_voice_email);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //         setSupportActionBar(toolbar);
         CircularProgress = findViewById(R.id.progressbar_mp3file);
@@ -81,36 +79,9 @@ public class Mp3FilesActivity2 extends AppCompatActivity {
         nofiles = findViewById(R.id.no_file);
         mp3Files = new ArrayList<>();
         menuRed = findViewById(R.id.menu);
-        search_item = findViewById(R.id.search_item);
-        add_item = findViewById(R.id.add_item);
 
         //hide no file textview
         nofiles.setVisibility(View.GONE);
-
-
-        add_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(Mp3FilesActivity2.this, UploadeMp3FileActivity.class);
-                startActivity(intent);
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-            }
-        });
-
-        search_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(Mp3FilesActivity2.this, SearchMp3FilesActivity.class);
-                startActivity(intent);
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-            }
-        });
 
 
         if (StaticMethod.ConnectChecked(context)) {
@@ -164,7 +135,7 @@ public class Mp3FilesActivity2 extends AppCompatActivity {
                          nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter = new RecyclerMP3FileCardAdapter(mp3Files, context);
+                        adapter = new RecyclerVoiceEmailCardAdapter(mp3Files, context);
                         recyclerView.setAdapter(adapter);
 
                     } else {

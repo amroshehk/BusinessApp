@@ -37,7 +37,6 @@ import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Business;
 import com.digits.business.twilio.VoiceActivity;
-import com.digits.business.twilio_old.VoiceActivityOld;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +82,6 @@ import static com.digits.business.classes.JsonTAG.BUSINESS_TYPE;
 import static com.digits.business.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
-import static com.digits.business.classes.JsonTAG.TAG_GENERATED_ID;
 import static com.digits.business.classes.URLTAG.LOGOUT_URL;
 import static com.digits.business.classes.URLTAG.URL_RECENT_BUSINESS;
 
@@ -381,24 +379,28 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
 
         int id = item.getItemId();
+        if (id == R.id.nav_home) {
 
-        if (id == R.id.nav_mp3) {
 
-            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity.class);
+        }
+        else if (id == R.id.nav_mp3) {
+
+            Intent intent = new Intent(MainActivity.this, VoiceEmailActivity.class);
             startActivity(intent);
 
         }
         else if (id == R.id.nav_mp3_2) {
 
-            Intent intent = new Intent(MainActivity.this, Mp3FilesActivity2.class);
+            Intent intent = new Intent(MainActivity.this, UploadGreetingActivity2.class);
             startActivity(intent);
 
         }else if (id == R.id.nav_voice) {
 
             Intent intent = new Intent(MainActivity.this, VoiceActivity.class);
-            /*intent.putExtra(TAG_GENERATED_ID, generated_id);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
+            /*intent.putExtra(TAG_GENERATED_ID, generated_id);*/
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+
 
         } else if (id == R.id.nav_TTS) {
             Intent intent = new Intent(MainActivity.this, SaveTTSActivity.class);
