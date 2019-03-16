@@ -15,7 +15,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
         android:paddingRight="15dp"
-        android:text="You can  type text Maximum 500 words and this text"
+        android:text="You can type text Maximum 500 words"
         android:textColor="@color/colortab"
         android:textSize="17sp" />
 
@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:gravity="start|top"
             android:hint="Write your TTS here ......."
             android:inputType="textMultiLine|textPostalAddress"
             android:maxLength="@android:integer/status_bar_notification_info_maxnum"

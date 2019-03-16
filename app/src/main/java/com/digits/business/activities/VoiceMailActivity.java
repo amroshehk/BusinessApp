@@ -2,7 +2,6 @@ package com.digits.business.activities;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -51,7 +50,7 @@ import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
 import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
-public class VoiceEmailActivity extends AppCompatActivity {
+public class VoiceMailActivity extends AppCompatActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
@@ -69,9 +68,9 @@ public class VoiceEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voice_email);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//         setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_voice_mail);
+
+        
         CircularProgress = findViewById(R.id.progressbar_mp3file);
         context = this;
         recyclerView = findViewById(R.id.recyclerview);

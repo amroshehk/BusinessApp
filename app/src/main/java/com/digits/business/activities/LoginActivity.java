@@ -3,9 +3,8 @@ package com.digits.business.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-//import android.support.design.widget.TextInputEditText;
-//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,11 +29,8 @@ import com.digits.business.R;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Register;
+import com.digits.business.phoneauth.PhoneNumberAuthActivity;
 import com.digits.business.twilio.VoiceActivity;
-import com.digits.business.twilio_old.VoiceActivityOld;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,6 +65,9 @@ import static com.digits.business.classes.JsonTAG.TAG_STATUS;
 import static com.digits.business.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.digits.business.classes.URLTAG.LOGIN_URL;
 
+//import android.support.design.widget.TextInputEditText;
+//import android.support.v7.app.AppCompatActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText email_et, pw_signin_et;
@@ -82,20 +80,32 @@ public class LoginActivity extends AppCompatActivity {
     private AdView mAdView;
     String token;
 
+    private PreferenceHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        helper = new PreferenceHelper(getApplicationContext());
+
+        if (helper.getLoginState().equals("1")){
+            Intent home = new Intent(getBaseContext(), MainActivity.class);
+            home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(home);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         //ads------here----------
-        mAdView = findViewById(R.id.adView);
+        /*mAdView = findViewById(R.id.adView);
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
 
-        mAdView.setAdListener(new AdListener() {
+        /*mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
@@ -122,19 +132,20 @@ public class LoginActivity extends AppCompatActivity {
                 // Code to be executed when the user is about to return
                 // to the app after tapping on an ad.
             }
-        });
+        });*/
 
         email_et = findViewById(R.id.email_et);
         pw_signin_et = findViewById(R.id.pw_signin_et);
         btnSignin = findViewById(R.id.btnSignin);
         error = findViewById(R.id.error);
         context = this;
+
         try {
             email = getIntent().getStringExtra("email");
             password = getIntent().getStringExtra("password");
             email_et.setText(email);
             pw_signin_et.setText(password);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
@@ -145,21 +156,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 final String email = email_et.getText().toString();
                 final String pw = pw_signin_et.getText().toString();
-                String error_m = "";
 
-                if (email.equals(""))
-                    error_m = "Please Enter Email ";
-                else if (pw.equals(""))
-                    error_m = "Please Enter Password";
-                else if (!isValidEmail(email)) {
-                    error_m = "Please Enter Valid Email";
-                }
-
-                error.setText(error_m);
-
-                if (error_m.equals("")) {
+                if (isInputsValid()) {
                     if (StaticMethod.ConnectChecked(context)) {
-
 
                         FirebaseInstanceId.getInstance().getInstanceId()
                                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -177,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                                         String msg = getString(R.string.msg_token_fmt, token);
                                         Log.d("RegisterActivity", msg);
                                         // Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
-                                        LoginServer(email, pw,token);
+                                        LoginServer(email, pw, token);
                                     }
                                 });
 
@@ -186,11 +185,45 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
+            }
+        });
 
+
+        findViewById(R.id.signup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signup = new Intent(getBaseContext(), PhoneNumberAuthActivity.class);
+                startActivity(signup);
             }
         });
 
     }
+
+
+    private boolean isInputsValid() {
+
+        if ( !isValidEmail(email_et.getText().toString())) {
+            // nameLayout.setErrorEnabled(true);
+            email_et.setError("Please enter correct email");
+            return false;
+        }
+
+        else if ( !isPasswordValid(pw_signin_et.getText().toString()) ) {
+
+            pw_signin_et.setError("Please enter password");
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+    public boolean isPasswordValid(String target) {
+//        return Pattern.matches("^(?=.*\\d)[A-Za-z\\d@$!%*?&]{8,16}$", target);
+        return !target.isEmpty();
+    }
+
 
     public boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
@@ -200,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
     private void LoginServer(final String email, final String pw,final  String token) {
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Login.....");
+        progressDialog.setMessage("Login ... ");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -242,8 +275,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         Register register=new Register(id,name,email,created_at,updated_at,phone,country,generated_id,status,photo_url,ip,default_file);
 
-
-                        PreferenceHelper helper = new PreferenceHelper(context);
                         helper.setLoginState(true);
                         helper.saveUser(register);
 
@@ -281,13 +312,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (volleyError instanceof NetworkError) {
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ServerError) {
-                    message = "The server could not be found. Please try again after some time!!";
+                    message = "The email is not found, please register!";
                 } else if (volleyError instanceof AuthFailureError) {
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ParseError) {
                     message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof TimeoutError) {
                     message = "Connection TimeOut! Please check your internet connection.";
                 }

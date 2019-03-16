@@ -24,7 +24,7 @@
     <string name="title_activity_mp3_files">Check Voicemail</string>
     <string name="title_activity_mp3_files2">Upload Greeting</string>
     <string name="read_file">This app needs access to your file storage so that it can read files.</string>
-    <string name="search_hint">Search Here...</string>
+    <string name="search_hint">Search Here…</string>
     <string name="title_activity_setting">Call Routing</string>
     <string name="share_text"> BudinessApp  is an app to know before go Shopping .Market url: play.google.com/store/apps/details?id=com.firatnet.businessapp </string>
     <string name="title_activity_save_tts">Save Text-to-Speech</string>

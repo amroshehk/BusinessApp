@@ -96,7 +96,7 @@
         <activity android:name="com.digits.business.activities.SaveBusinessActivity" />
         <activity android:name="com.digits.business.activities.UploadeMp3FileActivity" />
         <activity
-            android:name="com.digits.business.activities.VoiceEmailActivity"
+            android:name="com.digits.business.activities.VoiceMailActivity"
             android:label="@string/title_activity_mp3_files" />
         <activity
             android:name="com.digits.business.activities.UploadGreetingActivity2"
@@ -111,19 +111,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.digits.business.activities.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <activity
-            android:name="com.digits.business.activities.LoginActivity"
-        />
-        <activity
-            android:name="com.digits.business.phoneauth.PhoneNumberAuthActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name="com.digits.business.activities.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.digits.business.phoneauth.PhoneNumberAuthActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name="com.digits.business.phoneauth.VerifyPhoneActivity"

@@ -28,12 +28,12 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
         String loginInState = helper.getLoginState();
 
         //  if (FirebaseAuth.getInstance().getCurrentUser() != null && !loginInState.isEmpty()) {
-        if (!loginInState.isEmpty()) {
+        /*if (!loginInState.isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             startActivity(intent);
-        }
+        }*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_number_auth);
@@ -59,7 +59,7 @@ public class PhoneNumberAuthActivity extends AppCompatActivity {
                     return;
                 }
 
-                String phoneNumber = "+" + code + number;
+                String phoneNumber = code + number;
 
                 Intent intent = new Intent(PhoneNumberAuthActivity.this, VerifyPhoneActivity.class);
                 intent.putExtra("phonenumber", phoneNumber);
