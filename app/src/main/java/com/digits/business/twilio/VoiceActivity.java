@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -53,7 +52,7 @@ import com.digits.business.R;
 import com.digits.business.activities.AboutUsActivity;
 import com.digits.business.activities.LoginActivity;
 import com.digits.business.activities.MainActivity;
-import com.digits.business.activities.VoiceEmailActivity;
+import com.digits.business.activities.VoiceMailActivity;
 import com.digits.business.activities.UploadGreetingActivity2;
 import com.digits.business.activities.ProfileActivity;
 import com.digits.business.activities.SaveTTSActivity;
@@ -1106,7 +1105,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
         }
         else if (id == R.id.nav_mp3) {
-            Intent intent = new Intent(VoiceActivity.this, VoiceEmailActivity.class);
+            Intent intent = new Intent(VoiceActivity.this, VoiceMailActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_mp3_2) {
@@ -1140,7 +1139,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
             shareIntent.setType("text/plain");
             startActivity(shareIntent);
-        } else if (id == R.id.nav_send) {
+        } /*else if (id == R.id.nav_send) {
             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -1148,7 +1147,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
             }
-        }
+        }*/
         else if (id == R.id.nav_logout) {
             LogoutServer(email);
         }

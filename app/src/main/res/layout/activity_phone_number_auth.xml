@@ -36,7 +36,7 @@
         android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="May I ask you phone number?"
+        android:text="May I ask your phone number?"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:textColor="@color/colorPrimary" />
 

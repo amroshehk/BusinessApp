@@ -52,9 +52,9 @@
                 android:id="@+id/email_ly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/colorPrimaryDark"
-                android:background="@drawable/customborder">
+                android:layout_marginTop="16dp"
+                android:background="@drawable/customborder"
+                android:textColorHint="@color/colorPrimaryDark">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_et"
@@ -62,8 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/email"
                     android:gravity="center"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:padding="2dp"
                     android:singleLine="true"
@@ -75,7 +75,7 @@
                 android:id="@+id/pw_signup_ly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/customborder"
                 android:textColorHint="@color/colorPrimaryDark"
                 app:passwordToggleContentDescription="description"
@@ -88,20 +88,21 @@
                     android:layout_height="27dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginRight="7dp"
-                    android:maxLength="44"
                     android:background="@android:color/transparent"
-                    android:hint="@string/pass"
                     android:gravity="center"
+                    android:hint="@string/pass"
                     android:inputType="textPassword"
+                    android:maxLength="44"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/colorPrimaryDark" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/confpw_signup_ly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/customborder"
                 android:textColorHint="@color/colorPrimaryDark"
                 app:passwordToggleContentDescription="description"
@@ -114,33 +115,36 @@
                     android:layout_height="27dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginRight="7dp"
-                    android:maxLength="44"
                     android:background="@android:color/transparent"
-                    android:hint="@string/confpass"
                     android:gravity="center"
+                    android:hint="@string/confpass"
                     android:inputType="textPassword"
+                    android:maxLength="44"
                     android:singleLine="true"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorHint="@color/colorPrimaryDark" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button  android:id="@+id/btnSignup"
-                android:background="@drawable/roundedbutton"
+            <Button
+                android:id="@+id/btnSignup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/roundedbutton"
                 android:padding="5dp"
-                android:textColor="@color/white"
                 android:text="@string/register"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/error2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorError"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
-                />
+                android:textColor="@color/colorError" />
         </LinearLayout>
 
     </ScrollView>

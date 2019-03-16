@@ -1,12 +1,11 @@
 package com.digits.business.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-//import android.support.design.widget.TextInputEditText;
-//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,16 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -57,6 +50,9 @@ import static com.digits.business.classes.JsonTAG.TAG_PHONE;
 import static com.digits.business.classes.JsonTAG.TAG_PHOTO_URL;
 import static com.digits.business.classes.URLTAG.REGISTER_URL;
 
+//import android.support.design.widget.TextInputEditText;
+//import android.support.v7.app.AppCompatActivity;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private String phonenumber,counterName,ip;
@@ -69,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -117,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (StaticMethod.ConnectChecked(context))
                     {
                         final Register register=new Register(name,email,phonenumber,counterName,ip,pw);
+
                         FirebaseInstanceId.getInstance().getInstanceId()
                                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                                     @Override
@@ -150,18 +148,20 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+
+
     public  boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    public String getIpAddress()
-    {
-        WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+    @SuppressLint("DefaultLocale")
+    public String getIpAddress()  {
+            
+        WifiManager wifiMan = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInf = wifiMan.getConnectionInfo();
         int ipAddress = wifiInf.getIpAddress();
         return String.format("%d.%d.%d.%d", (ipAddress & 0xff),(ipAddress >> 8 & 0xff),(ipAddress >> 16 & 0xff),(ipAddress >> 24 & 0xff));
-
-
     }
 
     private void RegisterNewUserServer(final Register register, final String token) {
@@ -182,20 +182,11 @@ public class RegisterActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             progressDialog.dismiss();
 
-                            if(obj.getBoolean("success")) {
-
-                        //        Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
-
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                intent.putExtra("email", register.getEmail());
-                                intent.putExtra("password", register.getPassword());
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                            else {
-                         //       Toast.makeText(getApplicationContext(),obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
-//                                Toast.makeText(getApplicationContext(),"The phone has already been taken", Toast.LENGTH_LONG).show();
-                            }
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            intent.putExtra("email", register.getEmail());
+                            intent.putExtra("password", register.getPassword());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -206,84 +197,63 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
 
-                        String message = "";
-                        if (volleyError instanceof NetworkError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (volleyError instanceof ServerError) {
-                            message = "The server could not be found. Please try again after some time!!";
-                        } else if (volleyError instanceof AuthFailureError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (volleyError instanceof ParseError) {
-                            message = "Parsing error! Please try again after some time!!";
-                        } else if (volleyError instanceof NoConnectionError) {
-                            message = "Cannot connect to Internet...Please check your connection!";
-                        } else if (volleyError instanceof TimeoutError) {
-                            message = "Connection TimeOut! Please check your internet connection.";
+                        progressDialog.dismiss();
+
+                        switch (volleyError.networkResponse.statusCode) {
+
+                            case 400:
+                                Toast.makeText(getApplicationContext(),
+                                        "This email is already exists",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+
+                            case 401:
+                                Toast.makeText(getApplicationContext(),
+                                        "This email is already exists",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+
+                            case 402:
+                                Toast.makeText(getApplicationContext(),
+                                        "There is validation errors",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+
+                            case 404:
+                                Toast.makeText(getApplicationContext(),
+                                        "Couldn't reach the server",
+                                        Toast.LENGTH_LONG).show();
+                                break;
+
                         }
 
-//                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-//                    JSONObject jsonObject = new JSONObject(responseBody);
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
                     }
                 }) {
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/x-www-form-urlencoded; charset=UTF-8";
-//            }
 
-//            @Override
-//            protected String getParamsEncoding() {
-//                return "utf-8";
-//            }
 
-            //            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> header = new HashMap<String, String>();
-//                header.put("Content-Type", "application/json; charset=utf-8");
-//                return header;
-//            }
-            /*
-             * If you want to add more parameters with the image
-             * you can do it here
-             * here we have only one parameter with the image
-             * which is tags
-             * */
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
 
-                    params.put("Content-Type", "application/json; charset=utf-8");
-                    params.put(TAG_NAME, register.getName());
-                    params.put(TAG_EMAIL, register.getEmail());
-                    params.put(TAG_PHONE, register.getPhone());
-                    params.put(TAG_COUNTRY, register.getCountry());
-                    params.put(TAG_PASSWORD, register.getPassword());
-                    params.put(TAG_IP_ADDRESS, register.getIp());
-                    params.put(TAG_PHOTO_URL, "");
-                    params.put(TAG_API_TOKEN, token);
-
+                params.put("Content-Type", "application/json; charset=utf-8");
+                params.put(TAG_NAME, register.getName());
+                params.put(TAG_EMAIL, register.getEmail());
+                params.put(TAG_PHONE, register.getPhone());
+                params.put(TAG_COUNTRY, register.getCountry());
+                params.put(TAG_PASSWORD, register.getPassword());
+                params.put(TAG_IP_ADDRESS, register.getIp());
+                params.put(TAG_PHOTO_URL, "");
+                params.put(TAG_API_TOKEN, token);
 
                 return params;
 
             }
 
-            /*
-             * Here we are passing image by renaming it with a unique name
-             * */
-//            @Override
-//            protected Map<String, DataPart> getByteData() {
-//                Map<String, DataPart> params = new HashMap<>();
-//                long imagename = System.currentTimeMillis();
-//                params.put(TAG_PIC, new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
-//                return params;
-//            }
+
         };
 
-        //adding the request to volley
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-//        requestQueue.getCache().clear();
         request.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

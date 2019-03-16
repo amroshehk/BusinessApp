@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -94,11 +93,11 @@ public class MainActivity extends AppCompatActivity
     private TextView no_business;
     private ProgressDialog progressDialog;
     private Context context;
-    private String name,email;
+    private String email;
     private CircleImageView photo_nav_header;
-    private TextView name_tv,email_tv;
 
     private static final String TAG = "MainActivity";
+
     //keys
     private static final String SETTING_KEY_PUSH = "com.digits.business.SETTING_KEY_PUSH";
     private static final String SETTING_KEY_SOUND = "com.digits.business.SETTING_KEY_SOUND";
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity
 
         PreferenceHelper helper = new PreferenceHelper(context);
         email= helper.getSettingValueEmail();
-        name= helper.getSettingValueName();
+        String name = helper.getSettingValueName();
 
         Long validdate=Long.parseLong(helper.getSettingValueLoginDataExpired());
         if( validdate>tsLong) {
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         else
         {
             LogoutServer(email);
-            Toast.makeText(getApplicationContext(), "You must login again to renew the validity", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "You must login again to renew the validity", Toast.LENGTH_LONG).show();
         }
 
 
@@ -216,8 +215,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View hView =  navigationView.getHeaderView(0);
         photo_nav_header= hView.findViewById(R.id.photo);
-        name_tv=hView.findViewById(R.id.name_tv);
-        email_tv=hView.findViewById(R.id.email_tv);
+        TextView name_tv = hView.findViewById(R.id.name_tv);
+        TextView email_tv = hView.findViewById(R.id.email_tv);
 
         name_tv.setText(name);
         email_tv.setText(email);
@@ -385,7 +384,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_mp3) {
 
-            Intent intent = new Intent(MainActivity.this, VoiceEmailActivity.class);
+            Intent intent = new Intent(MainActivity.this, VoiceMailActivity.class);
             startActivity(intent);
 
         }
@@ -421,7 +420,7 @@ public class MainActivity extends AppCompatActivity
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
             shareIntent.setType("text/plain");
             startActivity(shareIntent);
-        } else if (id == R.id.nav_send) {
+        } /*else if (id == R.id.nav_send) {
             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -429,7 +428,7 @@ public class MainActivity extends AppCompatActivity
             catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
             }
-        }
+        }*/
         else if (id == R.id.nav_logout) {
             LogoutServer(email);
         }
@@ -475,13 +474,13 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
 
                     } else  {
-                        Toast.makeText(getApplicationContext(), "User logged out Not successfully", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "User logged out Not successfully", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -497,8 +496,6 @@ public class MainActivity extends AppCompatActivity
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ParseError) {
                     message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof TimeoutError) {
                     message = "Connection TimeOut! Please check your internet connection.";
                 }
@@ -506,7 +503,7 @@ public class MainActivity extends AppCompatActivity
 //                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
 //                    JSONObject jsonObject = new JSONObject(responseBody);
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
             }
         }
         ) {
@@ -576,12 +573,12 @@ public class MainActivity extends AppCompatActivity
                             businessRecyclerView.setLayoutManager(layoutManager);
                             adapter = new BusinessAdapter(context, businesses);
                             businessRecyclerView.setAdapter(adapter);
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             no_business.setVisibility(View.VISIBLE);
                             CircularProgress.setVisibility(View.GONE);
                         }
@@ -589,7 +586,7 @@ public class MainActivity extends AppCompatActivity
                     } catch (JSONException e) {
                         e.printStackTrace();
                         CircularProgress.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "error JSONException", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -607,8 +604,6 @@ public class MainActivity extends AppCompatActivity
                         message = "Cannot connect to Internet...Please check your connection!";
                     } else if (volleyError instanceof ParseError) {
                         message = "Parsing error! Please try again after some time!!";
-                    } else if (volleyError instanceof NoConnectionError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
                     } else if (volleyError instanceof TimeoutError) {
                         message = "Connection TimeOut! Please check your internet connection.";
                     }
