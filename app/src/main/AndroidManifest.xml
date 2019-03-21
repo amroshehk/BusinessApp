@@ -97,9 +97,11 @@
         <activity android:name="com.digits.business.activities.UploadeMp3FileActivity" />
         <activity
             android:name="com.digits.business.activities.VoiceMailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_mp3_files" />
         <activity
             android:name="com.digits.business.activities.UploadGreetingActivity2"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_mp3_files2" />
         <activity
             android:name="com.digits.business.activities.ImagesViewerActivity"

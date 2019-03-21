@@ -26,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digits.business.R;
@@ -41,22 +42,25 @@ import static com.digits.business.classes.JsonTAG.TAG_ID;
 import static com.digits.business.classes.JsonTAG.TAG_TTS_TEXT;
 import static com.digits.business.classes.URLTAG.SAVE_TTS_URL;
 
-public class SaveTTSActivity extends AppCompatActivity {
+public class SaveTTSActivity extends BaseActivity {
     Context context;
     private ProgressDialog progressDialog;
     TextInputEditText mess_text;
     Button add;
-
+    TextView tiltle_base;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_tts);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_base);
 
         context = this;
         mess_text = findViewById(R.id.mess_text);
         add = findViewById(R.id.add);
+        tiltle_base = findViewById(R.id.tiltle_base);
+        tiltle_base.setText(getResources().getString(R.string.title_activity_save_tts));
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

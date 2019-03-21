@@ -26,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digits.business.R;
@@ -41,22 +42,24 @@ import static com.digits.business.classes.JsonTAG.TAG_MP3_TTS;
 import static com.digits.business.classes.JsonTAG.TAG_VM_CALL;
 import static com.digits.business.classes.URLTAG.SET_PREFERENC_URL;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends BaseActivity {
 
     Button saveSetting_btn;
     RadioButton call_rb, vm_rb, tts_rb, mp3_rb;
     String mp3_tts, vm_call;
     Context context;
     private ProgressDialog progressDialog;
+    TextView tiltle_base;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         context=this;
-
+        tiltle_base = findViewById(R.id.tiltle_base);
+        tiltle_base.setText(getResources().getString(R.string.title_activity_setting));
         saveSetting_btn = findViewById(R.id.saveSetting_btn);
         call_rb = findViewById(R.id.call_rb);
         vm_rb = findViewById(R.id.vm_rb);

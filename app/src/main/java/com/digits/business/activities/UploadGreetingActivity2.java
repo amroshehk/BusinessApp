@@ -51,7 +51,7 @@ import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
 import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
-public class UploadGreetingActivity2 extends AppCompatActivity {
+public class UploadGreetingActivity2 extends BaseActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
@@ -67,13 +67,15 @@ public class UploadGreetingActivity2 extends AppCompatActivity {
     private FloatingActionMenu menuRed;
     private com.github.clans.fab.FloatingActionButton search_item;
     private com.github.clans.fab.FloatingActionButton add_item;
-
+    TextView tiltle_base;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_greeting);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //         setSupportActionBar(toolbar);
+        tiltle_base = findViewById(R.id.tiltle_base);
+        tiltle_base.setText(getResources().getString(R.string.title_activity_mp3_files2));
         CircularProgress = findViewById(R.id.progressbar_mp3file);
         context = this;
         recyclerView = findViewById(R.id.recyclerview);

@@ -50,7 +50,7 @@ import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
 import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
-public class VoiceMailActivity extends AppCompatActivity {
+public class VoiceMailActivity extends BaseActivity {
 
     private ProgressBar CircularProgress;
     private Context context;
@@ -64,13 +64,14 @@ public class VoiceMailActivity extends AppCompatActivity {
     private static JSONArray mp3fileArray = null;
     ArrayList<Mp3File> mp3Files;
     private FloatingActionMenu menuRed;
-
+    TextView tiltle_base;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_mail);
 
-        
+        tiltle_base = findViewById(R.id.tiltle_base);
+        tiltle_base.setText(getResources().getString(R.string.title_activity_mp3_files));
         CircularProgress = findViewById(R.id.progressbar_mp3file);
         context = this;
         recyclerView = findViewById(R.id.recyclerview);
