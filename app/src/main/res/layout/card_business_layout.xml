@@ -6,12 +6,12 @@
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:selectableItemBackground"
-    card_view:cardBackgroundColor="#FCFCFB"
-    card_view:cardCornerRadius="5dp"
+    card_view:cardBackgroundColor="@color/bg_slider_screen4"
+    card_view:cardCornerRadius="25dp"
     card_view:cardElevation="3dp"
-    card_view:contentPadding="5dp"
-    android:focusable="true">
+    card_view:contentPadding="5dp">
 
 
     <LinearLayout
@@ -20,46 +20,51 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:gravity="center">
 
-       <!-- <ImageView
-            android:id="@+id/image"
+
+        <!--  <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photo_view"
             android:layout_width="105dp"
             android:layout_height="105dp"
-            android:padding="5dp" />-->
+            android:padding="5dp"
+            android:src="@drawable/user512"
+            android:background="@color/colorGray2" />-->
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photo"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:padding="5dp"
+            android:src="@drawable/user512" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="105dp"
             android:layout_weight="0.5"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
                 android:text="Business name"
-                android:textColor="@color/colortab"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="19sp"
-                android:textAlignment="center"
-
-                />
+                android:textStyle="bold" />
 
 
             <TextView
                 android:id="@+id/businessType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
                 android:layout_marginStart="16dp"
                 android:text="Business Type"
-                android:textColor="@color/colorGray4"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -75,42 +80,34 @@
             <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="2dp"
-                android:layout_weight="0.30"
+                android:layout_height="wrap_content"
                 android:text="Turkey"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.30"
-                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="wrap_content"
                 android:text="Sanliurfa"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="0.30"
-                android:gravity="center_vertical|center_horizontal"
+                android:layout_height="wrap_content"
                 android:text="2007"
-                android:textColor="@color/color1_card_pro"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-   <!-- <ImageView
+    <!-- <ImageView
         android:id="@+id/newtext"
         android:layout_width="50dp"
         android:layout_height="50dp"

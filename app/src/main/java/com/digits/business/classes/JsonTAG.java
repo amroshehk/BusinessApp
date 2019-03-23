@@ -59,6 +59,7 @@ public class JsonTAG {
     public static final String BUSINESS_KEYWORDS = "keywords";
 
     public static final String TAG_API_TOKEN = "api_token";
+    public static final String TAG_SECONDS = "seconds";
 
 
 }

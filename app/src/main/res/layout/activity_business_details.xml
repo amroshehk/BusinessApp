@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".activities.BusinessDetailsActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -30,23 +30,37 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:padding="5dp"
+            android:src="@drawable/user512"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
             android:text="Business Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/photo" />
 
         <TextView
             android:id="@+id/businessName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:hint="Firatnet"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -67,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="BusinessType"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/businessName"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -74,9 +89,9 @@
             android:id="@+id/businessType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:hint="Business Type"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/businessName"
             app:layout_constraintStart_toStartOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -97,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Partnership Type"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider2"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
@@ -104,9 +120,9 @@
             android:id="@+id/partnershipType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:hint="Partnership Type"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider2"
             app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -127,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Year Established"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider3"
             app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
@@ -134,8 +151,9 @@
             android:id="@+id/yearEstablished"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="2007"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider3"
             app:layout_constraintStart_toStartOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -156,6 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Employees Number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider4"
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
@@ -163,9 +182,9 @@
             android:id="@+id/employeesNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:hint="25"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider4"
             app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -186,6 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Turnover"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider5"
             app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
@@ -193,8 +213,9 @@
             android:id="@+id/turnover"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="750000"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider5"
             app:layout_constraintStart_toStartOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -215,6 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Address"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider6"
             app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
@@ -222,9 +244,10 @@
             android:id="@+id/address"
             android:layout_width="0dp"
             android:layout_height="96dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="TextView"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/divider8"
             app:layout_constraintEnd_toEndOf="@+id/divider6"
             app:layout_constraintStart_toStartOf="@+id/textView16"
@@ -246,6 +269,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Country"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider8"
             app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
@@ -253,8 +277,9 @@
             android:id="@+id/country"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="Country"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider8"
             app:layout_constraintStart_toStartOf="@+id/textView18"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -275,6 +300,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="City"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider9"
             app:layout_constraintTop_toBottomOf="@+id/divider9" />
 
@@ -282,8 +308,9 @@
             android:id="@+id/city"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="Istanbul"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider9"
             app:layout_constraintStart_toStartOf="@+id/textView20"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -304,6 +331,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="PIN Code"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider11"
             app:layout_constraintTop_toBottomOf="@+id/divider11" />
 
@@ -311,9 +339,10 @@
             android:id="@+id/pinCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:hint="PIN CODE"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider11"
             app:layout_constraintStart_toStartOf="@+id/textView22"
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
@@ -334,6 +363,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Products and Services"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider12"
             app:layout_constraintTop_toBottomOf="@+id/divider12" />
 
@@ -341,8 +371,9 @@
             android:id="@+id/products"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:hint="Products and Services"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/divider12"
             app:layout_constraintStart_toStartOf="@+id/textView24"
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
@@ -363,6 +394,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Keywords"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
             app:layout_constraintStart_toStartOf="@+id/divider13"
             app:layout_constraintTop_toBottomOf="@+id/divider13" />
 
@@ -370,9 +402,10 @@
             android:id="@+id/keywords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             android:hint="Keywords"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/divider13"
             app:layout_constraintStart_toStartOf="@+id/textView26"

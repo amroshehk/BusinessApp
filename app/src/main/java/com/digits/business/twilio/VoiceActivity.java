@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -38,7 +39,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,11 +52,11 @@ import com.digits.business.R;
 import com.digits.business.activities.AboutUsActivity;
 import com.digits.business.activities.LoginActivity;
 import com.digits.business.activities.MainActivity;
-import com.digits.business.activities.VoiceMailActivity;
-import com.digits.business.activities.UploadGreetingActivity2;
 import com.digits.business.activities.ProfileActivity;
 import com.digits.business.activities.SaveTTSActivity;
 import com.digits.business.activities.SettingActivity;
+import com.digits.business.activities.UploadGreetingActivity2;
+import com.digits.business.activities.VoiceMailActivity;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.dialpad.view.DialPadKey;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -97,7 +97,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
+import static com.digits.business.classes.JsonTAG.TAG_ID;
+import static com.digits.business.classes.JsonTAG.TAG_SECONDS;
 import static com.digits.business.classes.URLTAG.LOGOUT_URL;
+import static com.digits.business.classes.URLTAG.URL_DEDUCT_SECONDS;
+import static com.digits.business.classes.URLTAG.URL_GET_SECONDS;
 
 public class VoiceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
@@ -191,6 +195,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     ImageLoaderConfiguration config;
     CircleImageView photo_nav_header;
     Toolbar toolbar;
+
+
+    PreferenceHelper helper;
+
+
+    private static  int seconds = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -199,13 +210,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        context=this;
+        context = this;
 
-        session = new SessionHandler(getApplicationContext());
+        helper = new PreferenceHelper(context);
+
+        session = new SessionHandler(context);
 
         User user = session.getUserDetails();
-
-        PreferenceHelper helper = new PreferenceHelper(context);
 
         identity = helper.getSettingValueGeneratedId();
         email= helper.getSettingValueEmail();
@@ -454,10 +465,15 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
         setupDrawer();
 
+        checkSecond();
+
     }
 
-    void setupDrawer()
-    {
+
+
+
+
+    void setupDrawer() {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -488,6 +504,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
+
+
+
     void getUserPhoto() {
         ImageLoader imageLoader = ImageLoader.getInstance();
         config = new ImageLoaderConfiguration.Builder(context)
@@ -497,7 +516,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
-        PreferenceHelper helper = new PreferenceHelper(context);
+
         if (!helper.getSettingValuePhotoUrl().isEmpty())
             imageLoader.displayImage(helper.getSettingValuePhotoUrl(), photo_nav_header, options);
         else
@@ -505,19 +524,17 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
+
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIncomingCallIntent(intent);
     }
-//    @Override
-//    public void onBackPressed() {
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_fragment);
-//        if (!(fragment instanceof IOnBackPressed) ||
-//                !((IOnBackPressed) fragment).onBackPressed()) {
-//            super.onBackPressed();
-//        }
-//    }
+
+
+
 
     private RegistrationListener registrationListener() {
         return new RegistrationListener() {
@@ -536,8 +553,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         };
     }
 
+
+
+
     private Call.Listener callListener() {
+
         return new Call.Listener() {
+
             @SuppressLint("WrongConstant")
             @Override
             public void onConnectFailure(Call call, CallException error) {
@@ -556,11 +578,16 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 activeCall = call;
             }
 
+
             @SuppressLint("WrongConstant")
             @Override
             public void onDisconnected(Call call, CallException error) {
                 setAudioFocus(false);
                 Log.d(TAG, "Disconnected");
+
+                int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
+                deductSecond(elapsedSeconds);
+
                 if (error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                     Log.e(TAG, message);
@@ -570,6 +597,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             }
         };
     }
+
+
 
     /*
      * The UI state when there is an active call
@@ -588,6 +617,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         chronometer.start();
         imageBackground.setVisibility(View.VISIBLE);
     }
+
+
 
     /*
      * Reset UI elements
@@ -614,11 +645,15 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         imageBackground.setVisibility(View.INVISIBLE);
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver();
     }
+
+
 
     @Override
     protected void onPause() {
@@ -626,11 +661,16 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         unregisterReceiver();
     }
 
+
+
     @Override
     public void onDestroy() {
         soundPoolManager.release();
         super.onDestroy();
     }
+
+
+
 
     private void handleIncomingCallIntent(Intent intent) {
         if (intent != null && intent.getAction() != null) {
@@ -664,6 +704,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
+
+
+
     private void registerReceiver() {
         if (!isReceiverRegistered) {
             IntentFilter intentFilter = new IntentFilter();
@@ -675,12 +718,16 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
+
+
     private void unregisterReceiver() {
         if (isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(voiceBroadcastReceiver);
             isReceiverRegistered = false;
         }
     }
+
+
 
     private class VoiceBroadcastReceiver extends BroadcastReceiver {
 
@@ -696,6 +743,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
+
+
     private DialogInterface.OnClickListener answerCallClickListener() {
         return new DialogInterface.OnClickListener() {
 
@@ -708,6 +757,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             }
         };
     }
+
+
 
     private View.OnClickListener answerCallClickListenernew() {
         return new View.OnClickListener() {
@@ -722,35 +773,83 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         };
     }
 
-    private DialogInterface.OnClickListener callClickListener() {
-        return new DialogInterface.OnClickListener() {
+
+
+    private View.OnClickListener callActionFabClickListener() {
+        return new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Place a call
-                EditText contact = (EditText) ((AlertDialog) dialog).findViewById(R.id.contact);
-                twiMLParams.put("to", contact.getText().toString());
-                activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
-                setCallUI();
-                alertDialog.dismiss();
+            public void onClick(View v) {
+                alertDialog = createCallDialog(callClickListener(), cancelCallClickListener(), VoiceActivity.this);
+                alertDialog.show();
             }
         };
     }
+
+
     private View.OnClickListener callClickListenerNew() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(accessToken!=null)
-                {// Place a call
-                twiMLParams.put("to", number.getText().toString());
+                if(accessToken != null) {
 
-                activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
-                setCallUI();}
-                else
-                {
+                    checkSecond();
+
+                    if (seconds > 0) {
+                    // Place a call
+                    twiMLParams.put("to", number.getText().toString());
+
+                    activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
+                    setCallUI();
+                    } else {
+                        Snackbar.make(v,"Your balance is 0 seconds",Snackbar.LENGTH_SHORT).show();
+                    }
+
+                } else {
                     Snackbar.make(v,"Wait",Snackbar.LENGTH_SHORT).show();
                 }
             }
         };
+    }
+
+
+    private DialogInterface.OnClickListener callClickListener() {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                    // Place a call
+                    EditText contact = ((AlertDialog) dialog).findViewById(R.id.contact);
+                    twiMLParams.put("to", contact.getText().toString());
+                    activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
+                    setCallUI();
+                    alertDialog.dismiss();
+                }
+        };
+    }
+
+
+
+
+
+    public static AlertDialog createCallDialog(final DialogInterface.OnClickListener callClickListener,
+                                               final DialogInterface.OnClickListener cancelClickListener,
+                                               final Context context) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+        alertDialogBuilder.setIcon(R.drawable.ic_call_black_24dp);
+        alertDialogBuilder.setTitle("Call");
+        alertDialogBuilder.setPositiveButton("Call", callClickListener);
+        alertDialogBuilder.setNegativeButton("Cancel", cancelClickListener);
+        alertDialogBuilder.setCancelable(false);
+
+        LayoutInflater li = LayoutInflater.from(context);
+        View dialogView = li.inflate(R.layout.dialog_call, null);
+        final EditText contact = (EditText) dialogView.findViewById(R.id.contact);
+        contact.setHint(R.string.callee);
+        alertDialogBuilder.setView(dialogView);
+
+        return alertDialogBuilder.create();
+
     }
 
 
@@ -848,15 +947,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    private View.OnClickListener callActionFabClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog = createCallDialog(callClickListener(), cancelCallClickListener(), VoiceActivity.this);
-                alertDialog.show();
-            }
-        };
-    }
+
 
     private View.OnClickListener hangupActionFabClickListener() {
         return new View.OnClickListener() {
@@ -891,7 +982,10 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
      */
     private void disconnect() {
         if (activeCall != null) {
-            activeCall.disconnect();
+
+            /*int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
+            deductSecond(elapsedSeconds);*/
+           activeCall.disconnect();
             activeCall = null;
         }
     }
@@ -1048,26 +1142,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 //        return true;
 //    }
 
-    public static AlertDialog createCallDialog(final DialogInterface.OnClickListener callClickListener,
-                                               final DialogInterface.OnClickListener cancelClickListener,
-                                               final Context context) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-        alertDialogBuilder.setIcon(R.drawable.ic_call_black_24dp);
-        alertDialogBuilder.setTitle("Call");
-        alertDialogBuilder.setPositiveButton("Call", callClickListener);
-        alertDialogBuilder.setNegativeButton("Cancel", cancelClickListener);
-        alertDialogBuilder.setCancelable(false);
-
-        LayoutInflater li = LayoutInflater.from(context);
-        View dialogView = li.inflate(R.layout.dialog_call, null);
-        final EditText contact = (EditText) dialogView.findViewById(R.id.contact);
-        contact.setHint(R.string.callee);
-        alertDialogBuilder.setView(dialogView);
-
-        return alertDialogBuilder.create();
-
-    }
 
     /*
      * Get an access token from your Twilio access token server
@@ -1179,7 +1254,6 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
                         FirebaseAuth.getInstance().signOut();//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-                        PreferenceHelper helper=new PreferenceHelper(context);
                         helper.setLoginState(false);
                         helper.deleteUser();
 
@@ -1213,8 +1287,6 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ParseError) {
                     message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof TimeoutError) {
                     message = "Connection TimeOut! Please check your internet connection.";
                 }
@@ -1233,6 +1305,128 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 params.put(TAG_EMAIL, email);
                 return params;
             }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
+
+    }
+
+
+
+
+    private void checkSecond() {
+
+        Uri baseUri = Uri.parse( URL_GET_SECONDS );
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("id", helper.getSettingValueId());
+
+        StringRequest request = new StringRequest(
+                Request.Method.GET, uriBuilder.toString(),
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                                JSONObject obj = new JSONObject(response);
+                                seconds = obj.getInt("data");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    String message = "";
+                    if (volleyError instanceof NetworkError) {
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (volleyError instanceof ServerError) {
+                        message = "The server could not be found. Please try again after some time!!";
+                    } else if (volleyError instanceof AuthFailureError) {
+                        message = "Cannot connect to Internet...Please check your connection!";
+                    } else if (volleyError instanceof ParseError) {
+                        message = "Parsing error! Please try again after some time!!";
+                    }  else if (volleyError instanceof TimeoutError) {
+                        message = "Connection TimeOut! Please check your internet connection.";
+                    }
+
+                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
+
+    }
+
+
+
+    private void deductSecond(final int callSeconds) {
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, URL_DEDUCT_SECONDS,
+
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONObject obj = new JSONObject(response);
+                            seconds = obj.getInt("data");
+
+                            Toast.makeText(context, "Your remaining balance is "+ seconds + " seconds",
+                                            Toast.LENGTH_LONG).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        String message = "";
+                        if (volleyError instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (volleyError instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (volleyError instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+
+                        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                ) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("Content-Type", "application/json; charset=utf-8");
+                        params.put(TAG_ID, helper.getSettingValueId());
+                        params.put(TAG_SECONDS, String.valueOf(callSeconds));
+                        return params;
+                    }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 //        requestQueue.getCache().clear();
