@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "690902548946-j0umk18r7k0ffjetp5j59q3ivqvcg3l4.apps.googleusercontent.com",
+          "client_id": "690902548946-amnoqidokc9d9b41r2ubjnhg58sf959b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.digits.business",
-            "certificate_hash": "bb413efa6eefea980923d82a2a975c953e73a7ad"
+            "certificate_hash": "d72127635019e4333c962c542d15226232c91c83"
           }
         },
         {

@@ -20,5 +20,7 @@ public class URLTAG {
     public static final String URL_RECENT_BUSINESS ="http://45.63.23.112/api/recent_business";
     public static final String URL_SEARCH_BUSINESS ="http://45.63.23.112/api/search_business";
 
+    public static final String URL_GET_SECONDS ="http://45.63.23.112/api/get_seconds";
+    public static final String URL_DEDUCT_SECONDS ="http://45.63.23.112/api/deduct_seconds";
 
 }
