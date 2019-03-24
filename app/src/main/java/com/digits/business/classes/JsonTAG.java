@@ -57,6 +57,7 @@ public class JsonTAG {
     public static final String BUSINESS_PIN_CODE = "pin_code";
     public static final String BUSINESS_PRODUCTS = "products_services";
     public static final String BUSINESS_KEYWORDS = "keywords";
+    public static final String BUSINESS_IMAGE_URL = "image_url";
 
     public static final String TAG_API_TOKEN = "api_token";
     public static final String TAG_SECONDS = "seconds";

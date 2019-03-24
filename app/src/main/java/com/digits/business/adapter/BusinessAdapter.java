@@ -11,12 +11,17 @@ import android.widget.TextView;
 
 import com.digits.business.R;
 import com.digits.business.activities.BusinessDetailsActivity;
+import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.entities.Business;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHolder>{
@@ -26,7 +31,6 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
     private ArrayList<Business> businesses;
 
     private static int lastPosition = -1;
-
 
     public BusinessAdapter(Context context, ArrayList<Business> businesses) {
         this.businesses = businesses;
@@ -56,6 +60,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
         holder.country.setText(businesses.get(position).getCountry());
         holder.city.setText(businesses.get(position).getCity());
 
+        getBusinessPhoto(holder.image, businesses.get(position).getImageURL());
 
         // Here you apply the animation when the view is bound
         setAnimation(holder.itemView, position);
@@ -106,6 +111,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
         private TextView year;
         private TextView country;
         private TextView city;
+        private CircleImageView image;
 
          ViewHolder(final View itemView)  {
 
@@ -116,6 +122,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
             year = itemView.findViewById(R.id.year);
             country = itemView.findViewById(R.id.country);
             city = itemView.findViewById(R.id.city);
+            image = itemView.findViewById(R.id.photo);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +143,29 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
 
         }
 
+
+    }
+
+
+
+    private void getBusinessPhoto(CircleImageView image, String url) {
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .build();
+
+        ImageLoader.getInstance().init(config);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+
+        imageLoader.displayImage(url, image, options);
+
+        //image.setBackgroundResource(R.drawable.user512);
 
     }
 

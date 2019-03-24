@@ -71,6 +71,7 @@ import static com.digits.business.classes.JsonTAG.BUSINESS_ADDRESS;
 import static com.digits.business.classes.JsonTAG.BUSINESS_CITY;
 import static com.digits.business.classes.JsonTAG.BUSINESS_COUNTRY;
 import static com.digits.business.classes.JsonTAG.BUSINESS_EMPLOYESS_NUMBER;
+import static com.digits.business.classes.JsonTAG.BUSINESS_IMAGE_URL;
 import static com.digits.business.classes.JsonTAG.BUSINESS_KEYWORDS;
 import static com.digits.business.classes.JsonTAG.BUSINESS_NAME;
 import static com.digits.business.classes.JsonTAG.BUSINESS_PARTNERSHIP_TYPE;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
 
-    //keys
+   /* //keys
     private static final String SETTING_KEY_PUSH = "com.digits.business.SETTING_KEY_PUSH";
     private static final String SETTING_KEY_SOUND = "com.digits.business.SETTING_KEY_SOUND";
     private static final String SETTING_KEY_VIBRATE = "com.digits.business.SETTING_KEY_VIBRATE";
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     private   String SETTING_PUSH;
     private   String SETTING_SOUND;
     private   String SETTING_VIBRATE;
-    private ProgressDialog progressDialog2;
+    private ProgressDialog progressDialog2;*/
 
 
     ImageLoaderConfiguration config;
@@ -561,6 +562,7 @@ public class MainActivity extends AppCompatActivity
                                 business.setPinCode(jsonObject.getString(BUSINESS_PIN_CODE));
                                 business.setProducts(jsonObject.getString(BUSINESS_PRODUCTS));
                                 business.setKeywords(jsonObject.getString(BUSINESS_KEYWORDS));
+                                business.setImageURL(jsonObject.getString(BUSINESS_IMAGE_URL));
 
                                 businesses.add(business);
 

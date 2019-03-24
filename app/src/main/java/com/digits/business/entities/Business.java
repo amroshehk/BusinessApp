@@ -16,14 +16,23 @@ public class Business implements Serializable {
     private String pinCode;
     private String products;
     private String keywords;
+    private String imageURL;
 
     public Business() {
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Business(String businessName, String businessType, String partnershipType,
                     String yearEstablished, String employeesNumber, String turnover,
                     String address, String country, String city, String pinCode,
-                    String products, String keywords) {
+                    String products, String keywords, String imageURL) {
 
         this.businessName = businessName;
         this.businessType = businessType;
@@ -38,6 +47,7 @@ public class Business implements Serializable {
         this.products = products;
         this.keywords = keywords;
 
+        this.imageURL = imageURL;
     }
 
     public String getBusinessName() {

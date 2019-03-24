@@ -14,7 +14,7 @@
             android:title="@string/make_call" />
         <item
             android:id="@+id/nav_mp3"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_play_black"
             android:title="@string/check_voicemail" />
         <item
             android:id="@+id/nav_mp3_2"
@@ -25,10 +25,12 @@
             android:id="@+id/nav_TTS"
             android:icon="@drawable/ic_edit"
             android:title="@string/text_to_speech" />
+
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/call_routing" />
+
         <item
             android:id="@+id/nav_aboutus"
             android:icon="@drawable/ic_aboutus"

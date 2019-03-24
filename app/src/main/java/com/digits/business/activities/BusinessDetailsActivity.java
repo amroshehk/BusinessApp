@@ -2,12 +2,16 @@ package com.digits.business.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.digits.business.R;
 import com.digits.business.entities.Business;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class BusinessDetailsActivity extends AppCompatActivity {
 
@@ -25,6 +29,8 @@ public class BusinessDetailsActivity extends AppCompatActivity {
     private TextView products;
     private TextView keywords;
 
+
+    private CircleImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         pinCode = findViewById(R.id.pinCode);
         products = findViewById(R.id.products);
         keywords = findViewById(R.id.keywords);
+        image = findViewById(R.id.photo);
 
         Business business = (Business) getIntent().getSerializableExtra("BUSINESS");
 
@@ -63,7 +70,31 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         products.setText(business.getProducts());
         keywords.setText(business.getKeywords());
 
+        getBusinessPhoto(image, business.getImageURL());
+
 //        Toast.makeText( getBaseContext(), business.getBusinessName(), Toast.LENGTH_LONG ).show();
+    }
+
+
+    private void getBusinessPhoto(CircleImageView image, String url) {
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .build();
+
+        ImageLoader.getInstance().init(config);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+
+        imageLoader.displayImage(url, image, options);
+
+        //image.setBackgroundResource(R.drawable.user512);
+
     }
 
 
