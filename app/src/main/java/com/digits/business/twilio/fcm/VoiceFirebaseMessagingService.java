@@ -15,6 +15,10 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 import com.digits.business.R;
+import com.digits.business.activities.VoiceMailActivity;
+import com.digits.business.fcm.MyNotificationManager;
+import com.digits.business.fcm.SharedPrefManager;
+import com.digits.business.phoneauth.PhoneNumberAuthActivity;
 import com.digits.business.twilio.SoundPoolManager;
 import com.digits.business.twilio.VoiceActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -27,9 +31,16 @@ import com.twilio.voice.Voice;
 //import com.twilio.voice.quickstart.SoundPoolManager;
 //import com.twilio.voice.quickstart.VoiceActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import static com.digits.business.classes.JsonTAG.TAG_DATA;
 
 public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -59,7 +70,23 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
+            try {
+
             Map<String, String> data = remoteMessage.getData();
+
+
+            JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                JSONObject data_obj = json.getJSONObject(TAG_DATA);
+
+            if(data_obj.getString("title").equals("New voice mail"))
+            {
+
+
+                    sendPushNotification(json);
+
+            }
+            else
+            {
             final int notificationId = (int) System.currentTimeMillis();
             Voice.handleMessage(this, data, new MessageListener() {
                 @Override
@@ -73,6 +100,10 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                     Log.e(TAG, messageException.getLocalizedMessage());
                 }
             });
+            }
+            } catch (Exception e) {
+                // Log.e(TAG, "Exception: " + e.getMessage());
+            }
         }
     }
 
@@ -185,5 +216,70 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                 .setExtras(extras)
                 .setAutoCancel(true)
                 .build();
+    }
+
+
+    @Override
+    public void onNewToken(String token) {
+        Log.d(TAG, "Refreshed token: " + token);
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+//        sendRegistrationToServer(token);
+
+        //Displaying token on logcat
+        //   Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+        //calling the method store token and passing token
+
+        // Notify Activity of FCM token
+        storeToken(token);
+
+        Intent intent = new Intent(VoiceActivity.ACTION_FCM_TOKEN);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+
+    }
+
+    private void storeToken(String token) {
+        //saving the token on shared preferences
+        SharedPrefManager.getInstance(getApplicationContext()).saveDeviceToken(token);
+
+    }
+
+
+    private void sendPushNotification(JSONObject json) {
+        //optionally we can display the json into log
+        //   Log.e(TAG, "Notification JSON " + json.toString());
+        try {
+            //getting the json data
+            JSONObject data = json.getJSONObject("data");
+
+            //parsing json data
+            String title = data.getString("title");
+            String message = data.getString("message");
+       //     String imageUrl = data.getString("image");
+
+            //creating MyNotificationManager object
+            MyNotificationManager mNotificationManager = new MyNotificationManager(getApplicationContext());
+
+            //creating an intent for the notification
+            Intent intent = new Intent(getApplicationContext(), VoiceMailActivity.class);
+
+            //if there is no image
+//            if(imageUrl.equals("null")){
+                //displaying small notification
+                mNotificationManager.showSmallNotification(title, message, intent);
+//            }else{
+//                //if there is an image
+//                //displaying a big notification
+//                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
+//            }
+        } catch (JSONException e) {
+            //  Log.e(TAG, "Json Exception: " + e.getMessage());
+        } catch (Exception e) {
+            // Log.e(TAG, "Exception: " + e.getMessage());
+        }
     }
 }

@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //     */
     @Override
     public void onNewToken(String token) {
-        Log.d(TAG, "Refreshed token: " + token);
+        Log.d(TAG, "Refreshed token service: " + token);
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
@@ -90,6 +90,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void storeToken(String token) {
         //saving the token on shared preferences
         SharedPrefManager.getInstance(getApplicationContext()).saveDeviceToken(token);
+
+    }
+    private String getToken()
+    {
+       return SharedPrefManager.getInstance(getApplicationContext()).getDeviceToken();
 
     }
 

@@ -1,11 +1,5 @@
 package com.digits.business.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.loader.content.CursorLoader;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -57,11 +51,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.loader.content.CursorLoader;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.digits.business.classes.JsonTAG.TAG_ID;
 import static com.digits.business.classes.JsonTAG.TAG_PHOTO;
 import static com.digits.business.classes.URLTAG.SAVE_PHOTO_URL;
 
-public class ImagesViewerActivity extends AppCompatActivity {
+public class ImagesViewerBusinessActivity extends AppCompatActivity {
     Context context;
 
     //sign up
@@ -77,7 +77,7 @@ public class ImagesViewerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_images_viewer);
+        setContentView(R.layout.activity_images_business_viewer);
         photoView =  findViewById(R.id.photo_view);
         pic =  findViewById(R.id.pic);
         ImageView close = findViewById(R.id.close);
@@ -85,10 +85,10 @@ public class ImagesViewerActivity extends AppCompatActivity {
 
 
 
-        PreferenceHelper helper=new PreferenceHelper(context);
+     Intent intent=getIntent();
 
 
-        String image_url=helper.getSettingValuePhotoUrl() ;
+        String image_url=intent.getStringExtra("IMAGE_URL") ;
         ImageLoaderConfiguration config;
         ImageLoader imageLoader = ImageLoader.getInstance();
         config= new ImageLoaderConfiguration.Builder(context)
@@ -99,10 +99,10 @@ public class ImagesViewerActivity extends AppCompatActivity {
                 .cacheOnDisk(true)
                 .build();
 
-        if (!helper.getSettingValuePhotoUrl().isEmpty())
+        if (!image_url.isEmpty())
             imageLoader.displayImage(image_url, photoView, options);
         else
-            photoView.setBackgroundResource(R.drawable.user_default);
+            photoView.setBackgroundResource(R.drawable.user_business);
 
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class ImagesViewerActivity extends AppCompatActivity {
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(ImagesViewerActivity.this,
+                ActivityCompat.requestPermissions(ImagesViewerBusinessActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
             }
@@ -143,7 +143,7 @@ public class ImagesViewerActivity extends AppCompatActivity {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(ImagesViewerActivity.this, "Permission denied to Write on your External storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImagesViewerBusinessActivity.this, "Permission denied to Write on your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -205,7 +205,7 @@ public class ImagesViewerActivity extends AppCompatActivity {
             File f = new File(picUri);
             Uri contentUri;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                contentUri = FileProvider.getUriForFile(ImagesViewerActivity.this,
+                contentUri = FileProvider.getUriForFile(ImagesViewerBusinessActivity.this,
                         BuildConfig.APPLICATION_ID + ".provider",
                         f);
 

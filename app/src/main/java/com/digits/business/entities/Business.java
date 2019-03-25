@@ -17,6 +17,7 @@ public class Business implements Serializable {
     private String products;
     private String keywords;
     private String imageURL;
+    private String generatedId;
 
     public Business() {
     }
@@ -48,6 +49,34 @@ public class Business implements Serializable {
         this.keywords = keywords;
 
         this.imageURL = imageURL;
+    }
+
+
+    public Business(String businessName, String businessType, String partnershipType,
+                    String yearEstablished, String employeesNumber, String turnover,
+                    String address, String country, String city, String pinCode,
+                    String products, String keywords, String imageURL, String generatedId) {
+        this.businessName = businessName;
+        this.businessType = businessType;
+        this.partnershipType = partnershipType;
+        this.yearEstablished = yearEstablished;
+        this.employeesNumber = employeesNumber;
+        this.turnover = turnover;
+        this.address = address;
+        this.country = country;
+        this.city = city;
+        this.pinCode = pinCode;
+        this.products = products;
+        this.keywords = keywords;
+        this.imageURL = imageURL;
+        this.generatedId = generatedId;
+    }
+    public String getGeneratedId() {
+        return generatedId;
+    }
+
+    public void setGeneratedId(String generatedId) {
+        this.generatedId = generatedId;
     }
 
     public String getBusinessName() {

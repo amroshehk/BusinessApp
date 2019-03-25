@@ -1,4 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.AppBarOverlay">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_base"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" >
+        <TextView
+            android:id="@+id/tiltle_base"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Profile"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="23sp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+</com.google.android.material.appbar.AppBarLayout>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -17,7 +48,7 @@
             android:id="@+id/lin1"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
-            android:background="@drawable/waves"
+            android:background="@drawable/nav_head"
             android:orientation="vertical" />
 
         <View
@@ -63,7 +94,7 @@
                 android:layout_height="130sp"
                 android:layout_below="@+id/textView"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/user512"
+                android:src="@drawable/user_default"
                 android:contentDescription="@string/nav_header_desc"
                 />
 
@@ -241,3 +272,4 @@
 
 
 </ScrollView>
+</LinearLayout>

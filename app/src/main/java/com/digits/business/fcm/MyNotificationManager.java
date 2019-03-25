@@ -66,17 +66,23 @@ public class MyNotificationManager {
 
             mChannel.enableLights(true);
             mChannel.setLightColor(Color.GREEN);
-            String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
-            String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
-
-            if(sp_value_vibrate.equals("on"))
-            {  mChannel.enableVibration(true);
-                mChannel.setVibrationPattern(new long[] { 1000, 1000, 1000, 1000, 1000 });}
-            if(sp_value_sound.equals("on"))
-            { AudioAttributes audioAttributes=new AudioAttributes.Builder()
+            mChannel.setVibrationPattern(new long[] { 1000, 1000, 1000, 1000, 1000 });
+            AudioAttributes audioAttributes=new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build();
-                mChannel.setSound(alarmSound,audioAttributes);}
+                mChannel.setSound(alarmSound,audioAttributes);
+
+//            String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
+//            String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
+//
+//            if(sp_value_vibrate.equals("on"))
+//            {  mChannel.enableVibration(true);
+//                mChannel.setVibrationPattern(new long[] { 1000, 1000, 1000, 1000, 1000 });}
+//            if(sp_value_sound.equals("on"))
+//            { AudioAttributes audioAttributes=new AudioAttributes.Builder()
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build();
+//                mChannel.setSound(alarmSound,audioAttributes);}
             if(mNotificationManager !=null)
                 mNotificationManager.createNotificationChannel(mChannel);
 
@@ -124,13 +130,13 @@ public class MyNotificationManager {
                 .setShowWhen(true)
                 .build();
 
-        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
-        String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
-
-        if(sp_value_vibrate.equals("on"))
-        { notification =mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }).build();}
-        if(sp_value_sound.equals("on"))
-        { notification =mBuilder.setSound(alarmSound).build();}
+//        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
+//        String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
+//
+//        if(sp_value_vibrate.equals("on"))
+//        { notification =mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }).build();}
+//        if(sp_value_sound.equals("on"))
+//        { notification =mBuilder.setSound(alarmSound).build();}
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
@@ -171,15 +177,17 @@ public class MyNotificationManager {
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                 .setLights(Color.GREEN, 3000, 3000)
                 .setShowWhen(true)
+                .setSound(alarmSound)
+                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .build();
 
-        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
-        String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
-
-        if(sp_value_vibrate.equals("on"))
-        { notification =mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }).build();}
-        if(sp_value_sound.equals("on"))
-        { notification =mBuilder.setSound(alarmSound).build();}
+//        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
+//        String sp_value_vibrate=readSharedPreference("com.digits.business.SETTING_KEY_VIBRATE","saved setting vibrate");
+//
+//        if(sp_value_vibrate.equals("on"))
+//        { notification =mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 }).build();}
+//        if(sp_value_sound.equals("on"))
+//        { notification =mBuilder.setSound(alarmSound).build();}
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 

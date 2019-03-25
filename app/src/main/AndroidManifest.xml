@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:name="com.digits.business.app.MyApplication"
@@ -27,11 +29,11 @@
         </service>
         <!-- [END fcm_listener] -->
         <!-- [START instanceId_listener] -->
-        <service android:name=".twilio.fcm.VoiceFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+        <!--<service android:name=".twilio.fcm.VoiceFirebaseInstanceIDService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <service
             android:name=".twilio.Voice"
@@ -73,7 +75,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
-
+        <activity
+            android:name="com.digits.business.activities.ImagesViewerBusinessActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.digits.business.activities.SaveTTSActivity"
             android:label="@string/title_activity_save_tts"
@@ -92,9 +96,12 @@
             android:name="com.digits.business.activities.SettingActivity"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.digits.business.activities.PlayMp3FilesActivity" />
-        <activity android:name="com.digits.business.activities.SaveBusinessActivity" />
-        <activity android:name="com.digits.business.activities.UploadeMp3FileActivity" />
+        <activity android:name="com.digits.business.activities.PlayMp3FilesActivity"
+            android:label="@string/play_voice"/>
+        <activity android:name="com.digits.business.activities.SaveBusinessActivity"
+            android:label="@string/add_new_business"/>
+        <activity android:name="com.digits.business.activities.UploadeMp3FileActivity"
+            android:label="@string/title_activity_mp3_files2"/>
         <activity
             android:name="com.digits.business.activities.VoiceMailActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -133,7 +140,8 @@
         <activity
             android:name="com.digits.business.phoneauth.VerifyPhoneActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.digits.business.activities.ProfileActivity" />
+        <activity android:name="com.digits.business.activities.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.digits.business.classes.GalleryUtil"
             android:theme="@style/AppTheme.NoActionBar" />

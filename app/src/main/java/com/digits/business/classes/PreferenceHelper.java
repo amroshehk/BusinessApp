@@ -35,6 +35,7 @@ public class PreferenceHelper {
     public static String SETTING_KEY_MA3_TTS= "com.digits.business.SETTING_KEY_MA3_TTS=";
     public static String SETTING_KEY_CALL_VM= "com.digits.business.SETTING_KEY_CALL_VM";
 
+    public static String SETTING_KEY_TTS_MESSAGE= "com.digits.business.SETTING_KEY_TTS_MESSAGE=";
 
     public static String SETTING_KEY_LOGIN_DATA_EXPIRED= "com.digits.business.SETTING_KEY_LOGIN_DATA_EXPIRED";
 
@@ -60,6 +61,7 @@ public class PreferenceHelper {
 
     public static String SETTING_VALUE_MA3_TTS = "";
     public static String SETTING_VALUE_CALL_VM= "";
+    public static String SETTING_VALUE_TTS_MESSAGE= "";
 
 
     public  String getSettingValueDefaultFile() {
@@ -169,6 +171,15 @@ public class PreferenceHelper {
         SETTING_VALUE_CALL_VM = settingValueCallVm;
         writeSharedPreference(SETTING_VALUE_CALL_VM, KEY, SETTING_KEY_CALL_VM);
 
+    }
+
+    public  String getSettingValueTtsMessage() {
+        return readSharedPreference(KEY,SETTING_KEY_TTS_MESSAGE);
+    }
+
+    public  void setSettingValueTtsMessage(String settingValueTtsMessage) {
+        SETTING_VALUE_TTS_MESSAGE = settingValueTtsMessage;
+        writeSharedPreference(SETTING_VALUE_TTS_MESSAGE, KEY, SETTING_KEY_TTS_MESSAGE);
     }
 
     /**

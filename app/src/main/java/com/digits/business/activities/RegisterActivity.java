@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Register;
+import com.digits.business.fcm.SharedPrefManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -115,25 +116,28 @@ public class RegisterActivity extends AppCompatActivity {
                     {
                         final Register register=new Register(name,email,phonenumber,counterName,ip,pw);
 
-                        FirebaseInstanceId.getInstance().getInstanceId()
-                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                        if (!task.isSuccessful()) {
-                                            Log.w( "RegisterActivity", "getInstanceId failed", task.getException());
-                                            return;
-                                        }
-
-                                        // Get new Instance ID token
-                                        token = task.getResult().getToken();
-
-                                        // Log and toast
-                                        String msg = getString(R.string.msg_token_fmt, token);
-                                        Log.d("RegisterActivity", msg);
+//                        FirebaseInstanceId.getInstance().getInstanceId()
+//                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                                        if (!task.isSuccessful()) {
+//                                            Log.w( "RegisterActivity", "getInstanceId failed", task.getException());
+//                                            return;
+//                                        }
+//
+//                                        // Get new Instance ID token
+//                                        token = task.getResult().getToken();
+//
+//                                        // Log and toast
+//                                        String msg = getString(R.string.msg_token_fmt, token);
+//                                        Log.d("RegisterActivity", msg);
+                        token = SharedPrefManager.getInstance(context).getDeviceToken();
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("RegisterActivity Tokrn", msg);
                                        // Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
                                         RegisterNewUserServer(register,token);
-                                    }
-                                });
+//                                    }
+//                                });
 
                     } else {
 

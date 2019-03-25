@@ -375,7 +375,10 @@ public class SaveBusinessActivity extends AppCompatActivity {
                     business.setProducts(products);
                     business.setKeywords(keywords);
 
+                    if (bitmap!=null)
                     postBusinessDetails(business);
+                    else
+                    postBusinessDetailsWithoutImage(business);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -501,6 +504,122 @@ public class SaveBusinessActivity extends AppCompatActivity {
                                 imagename + ".jpeg", convertBitmapToByteArray(bitmap)) );
                 return params;
             }
+
+
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+//        requestQueue.getCache().clear();
+        volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(volleyMultipartRequest);
+    }
+
+
+    /**
+     * Upload Business details to the server
+     *
+     * @param business
+     */
+    private void postBusinessDetailsWithoutImage(final Business business) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Posting ....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        final long imagename = System.currentTimeMillis();
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest( Request.Method.POST, URL_SAVE_BUSINESS,
+                new Response.Listener<NetworkResponse>() {
+
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        try {
+                            JSONObject obj = new JSONObject(new String(response.data));
+                            progressDialog.dismiss();
+
+                            if(obj.getBoolean("success")) {
+
+                                Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(SaveBusinessActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            }
+                            else {
+
+                                JSONArray message = obj.getJSONArray("message");
+                                JSONObject error = message.getJSONObject(0);
+                                Toast.makeText(getApplicationContext(), error.getString("year_established"), Toast.LENGTH_LONG).show();
+                                errors.setText(error.getString("year_established"));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        String message = "";
+                        if (volleyError instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (volleyError instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (volleyError instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+                        //                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+//                    JSONObject jsonObject = new JSONObject(responseBody);
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("Content-Type", "application/json; charset=utf-8");
+
+                params.put(BUSINESS_ID, userId);
+                params.put(BUSINESS_NAME, business.getBusinessName());
+                params.put(BUSINESS_TYPE, business.getBusinessType());
+                params.put(BUSINESS_PARTNERSHIP_TYPE, business.getPartnershipType());
+                params.put(BUSINESS_YEAR_ESTABLISHED, business.getYearEstablished());
+                params.put(BUSINESS_EMPLOYESS_NUMBER, business.getEmployeesNumber());
+                params.put(BUSINESS_TURNOVER, business.getTurnover());
+                params.put(BUSINESS_ADDRESS, business.getAddress());
+                params.put(BUSINESS_COUNTRY, business.getCountry());
+                params.put(BUSINESS_CITY, business.getCity());
+                params.put(BUSINESS_PIN_CODE, business.getPinCode());
+                params.put(BUSINESS_PRODUCTS, business.getProducts());
+                params.put(BUSINESS_KEYWORDS, business.getKeywords());
+
+                return params;
+
+            }
+
+
 
 
 

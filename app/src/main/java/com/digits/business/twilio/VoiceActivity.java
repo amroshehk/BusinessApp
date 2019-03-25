@@ -467,6 +467,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
         checkSecond();
 
+        Intent intent=getIntent();
+        String generatedid=intent.getStringExtra("GeneratedID");
+        if( generatedid!=null && !generatedid.equals("null"))
+        {
+            number.setText(generatedid);
+        }
+
     }
 
 

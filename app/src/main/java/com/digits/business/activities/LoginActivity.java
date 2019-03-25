@@ -29,6 +29,8 @@ import com.digits.business.R;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.classes.StaticMethod;
 import com.digits.business.entities.Register;
+import com.digits.business.fcm.MyFirebaseMessagingService;
+import com.digits.business.fcm.SharedPrefManager;
 import com.digits.business.phoneauth.PhoneNumberAuthActivity;
 import com.digits.business.twilio.VoiceActivity;
 import com.google.android.gms.ads.AdView;
@@ -160,25 +162,28 @@ public class LoginActivity extends AppCompatActivity {
                 if (isInputsValid()) {
                     if (StaticMethod.ConnectChecked(context)) {
 
-                        FirebaseInstanceId.getInstance().getInstanceId()
-                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                        if (!task.isSuccessful()) {
-                                            Log.w( "LoginActivity", "getInstanceId failed", task.getException());
-                                            return;
-                                        }
-
-                                        // Get new Instance ID token
-                                        token = task.getResult().getToken();
-
-                                        // Log and toast
-                                        String msg = getString(R.string.msg_token_fmt, token);
-                                        Log.d("RegisterActivity", msg);
+//                        FirebaseInstanceId.getInstance().getInstanceId()
+//                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                                        if (!task.isSuccessful()) {
+//                                            Log.w( "LoginActivity", "getInstanceId failed", task.getException());
+//                                            return;
+//                                        }
+//
+//                                        // Get new Instance ID token
+//                                        token = task.getResult().getToken();
+//
+//                                        // Log and toast
+//
+                        token = SharedPrefManager.getInstance(context).getDeviceToken();
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d("Login Tokrn", msg);
+//                                        Log.d("RegisterActivity", msg);
                                         // Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_LONG).show();
                                         LoginServer(email, pw, token);
-                                    }
-                                });
+//                                    }
+//                                });
 
                     } else {
                         Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -324,7 +329,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    String responseBody = new String(volleyError.networkResponse.data, "utf-8");
 //                    JSONObject jsonObject = new JSONObject(responseBody);
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Incorrect email or password", Toast.LENGTH_SHORT).show();
 
             }
         }

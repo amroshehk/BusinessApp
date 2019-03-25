@@ -51,7 +51,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 android:padding="5dp"
-                android:src="@drawable/user512"
+                android:src="@drawable/user_business"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -420,10 +420,26 @@
                 android:hint="Keywords"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/divider13"
                 app:layout_constraintStart_toStartOf="@+id/textView26"
                 app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <ImageView
+                android:id="@+id/call"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="68dp"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_call_white_24dp"
+                android:contentDescription=""
+                android:elevation="3dp"
+                android:background="@drawable/circle_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/keywords"
+                app:layout_constraintStart_toStartOf="@+id/keywords"
+                app:layout_constraintTop_toBottomOf="@+id/keywords" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,6 +15,7 @@ public class URLTAG {
     public static final String SEARCH_MP3 ="http://45.63.23.112/api/search_mp3";
     public static final String SET_PREFERENC_URL ="http://45.63.23.112/api/set_preference";
     public static final String SAVE_TTS_URL ="http://45.63.23.112/api/set_tts";
+    public static final String GET_TTS_URL ="http://45.63.23.112/api/get_tts";
 
     public static final String URL_SAVE_BUSINESS ="http://45.63.23.112/api/set_business";
     public static final String URL_RECENT_BUSINESS ="http://45.63.23.112/api/recent_business";
@@ -22,5 +23,8 @@ public class URLTAG {
 
     public static final String URL_GET_SECONDS ="http://45.63.23.112/api/get_seconds";
     public static final String URL_DEDUCT_SECONDS ="http://45.63.23.112/api/deduct_seconds";
+
+    public static final String URL_ٍSET_VOICE_MAIL ="http://45.63.23.112/api/set_voice_mail";
+    public static final String URL_ٍGETVOICE_MAIL ="http://45.63.23.112/api/get_voice_mail";
 
 }

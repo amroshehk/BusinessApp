@@ -65,6 +65,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.digits.business.classes.JsonTAG.BUSINESS_ADDRESS;
@@ -82,6 +83,7 @@ import static com.digits.business.classes.JsonTAG.BUSINESS_TYPE;
 import static com.digits.business.classes.JsonTAG.BUSINESS_YEAR_ESTABLISHED;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_EMAIL;
+import static com.digits.business.classes.JsonTAG.TAG_GENERATED_ID;
 import static com.digits.business.classes.URLTAG.LOGOUT_URL;
 import static com.digits.business.classes.URLTAG.URL_RECENT_BUSINESS;
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
     private com.github.clans.fab.FloatingActionButton searchItem;
     private com.github.clans.fab.FloatingActionButton addItem;
 
-
+    SwipeRefreshLayout pullToRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         searchMenu = findViewById(R.id.menu);
         searchItem = findViewById(R.id.searchItem);
         addItem = findViewById(R.id.addItem);
-
+        pullToRefresh =findViewById(R.id.pullToRefresh);
         context = this;
         no_business.setVisibility(View.GONE);
 
@@ -243,6 +245,48 @@ public class MainActivity extends AppCompatActivity
         } else {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+        //setting an setOnRefreshListener on the SwipeDownLayout
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            int Refreshcounter = 1; //Counting how many times user have refreshed the layout
+
+            @Override
+            public void onRefresh() {
+
+                     businesses.clear();
+                     if (adapter!=null)
+                     adapter.notifyDataSetChanged();
+                if (StaticMethod.ConnectChecked(context)) {
+                    getRecentBusiness();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                //Here you can update your data from internet or from local SQLite data
+
+//                if (Refreshcounter == 1) {
+//                    menu.add("Blackberry");
+//                }
+//                if (Refreshcounter == 2) {
+//                    menu.add("WebOS");
+//                }
+//                if (Refreshcounter == 3) {
+//                    menu.add("Ubuntu");
+//                }
+//                if (Refreshcounter == 4) {
+//                    menu.add("Windows7");
+//                }
+//                if (Refreshcounter == 5) {
+//                    menu.add("Max OS X");
+//                }
+//                if (Refreshcounter > 5) {
+//                    Toast.makeText(MainActivity.this, "No more data to load!!",
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//                Refreshcounter = Refreshcounter + 1;
+//                adapter.notifyDataSetChanged();
+
+            }
+        });
 
     }
 
@@ -563,6 +607,7 @@ public class MainActivity extends AppCompatActivity
                                 business.setProducts(jsonObject.getString(BUSINESS_PRODUCTS));
                                 business.setKeywords(jsonObject.getString(BUSINESS_KEYWORDS));
                                 business.setImageURL(jsonObject.getString(BUSINESS_IMAGE_URL));
+                                business.setGeneratedId(jsonObject.getString(TAG_GENERATED_ID));
 
                                 businesses.add(business);
 
@@ -575,6 +620,7 @@ public class MainActivity extends AppCompatActivity
                             businessRecyclerView.setLayoutManager(layoutManager);
                             adapter = new BusinessAdapter(context, businesses);
                             businessRecyclerView.setAdapter(adapter);
+                            pullToRefresh.setRefreshing(false);
                             //Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
                         }

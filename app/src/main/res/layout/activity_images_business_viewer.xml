@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/user_default"
+            android:src="@drawable/user_business"
             android:background="@color/colorGray2"
            />
 
@@ -42,6 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
-            android:background="@drawable/ic_edit" />
+            android:background="@drawable/ic_edit"
+            android:visibility="gone"/>
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

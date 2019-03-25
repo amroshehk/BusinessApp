@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.digits.business.R;
 import com.digits.business.entities.Business;
+import com.digits.business.twilio.VoiceActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -31,6 +35,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
 
 
     private CircleImageView image;
+    private ImageView call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,9 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         products = findViewById(R.id.products);
         keywords = findViewById(R.id.keywords);
         image = findViewById(R.id.photo);
+        call = findViewById(R.id.call);
 
-        Business business = (Business) getIntent().getSerializableExtra("BUSINESS");
+        final Business business = (Business) getIntent().getSerializableExtra("BUSINESS");
 
         businessName.setText(business.getBusinessName());
         businessType.setText(business.getBusinessType());
@@ -72,6 +78,25 @@ public class BusinessDetailsActivity extends AppCompatActivity {
 
         getBusinessPhoto(image, business.getImageURL());
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BusinessDetailsActivity.this, ImagesViewerBusinessActivity.class);
+                intent.putExtra("IMAGE_URL", business.getImageURL());
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BusinessDetailsActivity.this, VoiceActivity.class);
+                intent.putExtra("GeneratedID", business.getGeneratedId());
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
 //        Toast.makeText( getBaseContext(), business.getBusinessName(), Toast.LENGTH_LONG ).show();
     }
 
