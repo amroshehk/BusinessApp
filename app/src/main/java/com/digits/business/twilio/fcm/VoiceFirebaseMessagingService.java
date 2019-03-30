@@ -69,42 +69,46 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
+
         if (remoteMessage.getData().size() > 0) {
             try {
+                Map<String, String> data = remoteMessage.getData();
+//            JSONObject json = new JSONObject(remoteMessage.getData().toString());
+//                JSONObject data_obj = json.getJSONObject(TAG_DATA);
 
-            Map<String, String> data = remoteMessage.getData();
-
-
-            JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                JSONObject data_obj = json.getJSONObject(TAG_DATA);
-
-            if(data_obj.getString("title").equals("New voice mail"))
-            {
-
-
-                    sendPushNotification(json);
-
-            }
-            else
-            {
-            final int notificationId = (int) System.currentTimeMillis();
-            Voice.handleMessage(this, data, new MessageListener() {
-                @Override
-                public void onCallInvite(CallInvite callInvite) {
-                    VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
-                    VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
-                }
-
-                @Override
-                public void onError(MessageException messageException) {
-                    Log.e(TAG, messageException.getLocalizedMessage());
-                }
-            });
-            }
+//            if(data_obj.getString("title").equals("New voice mail"))
+//            {
+//
+//
+//                    sendPushNotification(json);
+//
+//            }
+//            else
+//            {
+                checkcall(data);
+//            }
             } catch (Exception e) {
                 // Log.e(TAG, "Exception: " + e.getMessage());
+//                checkcall(data);
             }
         }
+    }
+
+    private void checkcall(Map<String, String> data)
+    {
+        final int notificationId = (int) System.currentTimeMillis();
+        Voice.handleMessage(this, data, new MessageListener() {
+            @Override
+            public void onCallInvite(CallInvite callInvite) {
+                VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
+                VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
+            }
+
+            @Override
+            public void onError(MessageException messageException) {
+                Log.e(TAG, messageException.getLocalizedMessage());
+            }
+        });
     }
 
     private void notify(CallInvite callInvite, int notificationId) {
