@@ -85,7 +85,9 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
 //            }
 //            else
 //            {
+
                 checkcall(data);
+                sendPushNotification(data);
 //            }
             } catch (Exception e) {
                 // Log.e(TAG, "Exception: " + e.getMessage());
@@ -253,16 +255,18 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void sendPushNotification(JSONObject json) {
+    private void sendPushNotification( Map<String, String> data) {
         //optionally we can display the json into log
         //   Log.e(TAG, "Notification JSON " + json.toString());
         try {
             //getting the json data
-            JSONObject data = json.getJSONObject("data");
+
+            JSONObject json = new JSONObject(data.toString());
+            JSONObject data_obj = json.getJSONObject(TAG_DATA);
 
             //parsing json data
-            String title = data.getString("title");
-            String message = data.getString("message");
+            String title = data_obj.getString("title");
+            String message = data_obj.getString("message");
        //     String imageUrl = data.getString("image");
 
             //creating MyNotificationManager object
@@ -281,9 +285,9 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
 //                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
 //            }
         } catch (JSONException e) {
-            //  Log.e(TAG, "Json Exception: " + e.getMessage());
+              Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
-            // Log.e(TAG, "Exception: " + e.getMessage());
+            Log.e(TAG, "Exception: " + e.getMessage());
         }
     }
 }
