@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,18 +35,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.digits.business.classes.JsonTAG.TAG_CREATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_ID;
-import static com.digits.business.classes.JsonTAG.TAG_NAME;
+import static com.digits.business.classes.JsonTAG.TAG_SENDER_ID;
 import static com.digits.business.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_URL;
 import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
-import static com.digits.business.classes.URLTAG.GET_MP3;
+import static com.digits.business.classes.URLTAG.URL_GET_VOICE_MAIL;
 
 
 public class VoiceMailActivity extends BaseActivity {
@@ -65,8 +63,12 @@ public class VoiceMailActivity extends BaseActivity {
     ArrayList<Mp3File> mp3Files;
     private FloatingActionMenu menuRed;
     TextView tiltle_base;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_mail);
 
@@ -87,7 +89,7 @@ public class VoiceMailActivity extends BaseActivity {
         if (StaticMethod.ConnectChecked(context)) {
             PreferenceHelper helper = new PreferenceHelper(context);
 
-            GetMp3FileServer(helper.getSettingValueId());
+            getVoiceMail(helper.getSettingValueId());
         } else {
 
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -95,12 +97,12 @@ public class VoiceMailActivity extends BaseActivity {
     }
 
 
-    private void GetMp3FileServer(final String id) {
+    private void getVoiceMail(final String id) {
 
         CircularProgress.setVisibility(View.VISIBLE);
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, GET_MP3, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, URL_GET_VOICE_MAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -116,14 +118,15 @@ public class VoiceMailActivity extends BaseActivity {
 
                             JSONObject objc = mp3fileArray.getJSONObject(i);
                             String id = objc.getString(TAG_ID);
-                            String name = objc.getString(TAG_NAME);
+
                             String url = objc.getString(TAG_URL);
                             String user_id = objc.getString(TAG_USER_ID);
+                            String sender_id = objc.getString(TAG_SENDER_ID);
                             String created_at = objc.getString(TAG_CREATED_AT);
                             String updated_at = objc.getString(TAG_UPDATED_AT);
 
 
-                            Mp3File mp3File = new Mp3File(id, name, url, user_id, created_at, updated_at);
+                            Mp3File mp3File = new Mp3File(id, sender_id, url, user_id, created_at, updated_at);
                             mp3Files.add(mp3File);
                         }
 
@@ -133,6 +136,7 @@ public class VoiceMailActivity extends BaseActivity {
                         nofiles.setVisibility(View.GONE);
                         else
                          nofiles.setVisibility(View.VISIBLE);
+
                         CircularProgress.setVisibility(View.GONE);
                         recyclerView.setLayoutManager(layoutManager);
                         adapter = new RecyclerVoiceEmailCardAdapter(mp3Files, context);
@@ -163,8 +167,6 @@ public class VoiceMailActivity extends BaseActivity {
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ParseError) {
                     message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof TimeoutError) {
                     message = "Connection TimeOut! Please check your internet connection.";
                 }
@@ -205,7 +207,7 @@ public class VoiceMailActivity extends BaseActivity {
             mp3Files.clear();
         if (StaticMethod.ConnectChecked(context)) {
             PreferenceHelper helper = new PreferenceHelper(context);
-            GetMp3FileServer(helper.getSettingValueId());
+            getVoiceMail(helper.getSettingValueId());
         } else {
 
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();

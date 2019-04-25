@@ -50,14 +50,18 @@ public class SettingActivity extends BaseActivity {
     Context context;
     private ProgressDialog progressDialog;
     TextView tiltle_base;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        context=this;
+        context = this;
         tiltle_base = findViewById(R.id.tiltle_base);
         tiltle_base.setText(getResources().getString(R.string.title_activity_setting));
         saveSetting_btn = findViewById(R.id.saveSetting_btn);
@@ -102,8 +106,8 @@ public class SettingActivity extends BaseActivity {
                 }
 
                 if (StaticMethod.ConnectChecked(context)) {
-                    PreferenceHelper helper=new PreferenceHelper(context);
-                    SaveSettingServer(helper.getSettingValueId(),mp3_tts,vm_call);
+                    PreferenceHelper helper = new PreferenceHelper(context);
+                    SaveSettingServer(helper.getSettingValueId(), mp3_tts, vm_call);
                 } else {
 
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -111,6 +115,7 @@ public class SettingActivity extends BaseActivity {
             }
         });
     }
+
 
 
     private void SaveSettingServer(final String id,final String mp3_tts,final String vm_call ) {
@@ -127,9 +132,12 @@ public class SettingActivity extends BaseActivity {
             public void onResponse(String response) {
 
                 try {
+
                     JSONObject obj = new JSONObject(response);
                     progressDialog.dismiss();
+
                     if (obj.getBoolean("success")) {
+
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                         PreferenceHelper helper=new PreferenceHelper(context);
                         helper.setSettingValueMa3Tts(mp3_tts);
@@ -160,8 +168,6 @@ public class SettingActivity extends BaseActivity {
                     message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof ParseError) {
                     message = "Parsing error! Please try again after some time!!";
-                } else if (volleyError instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
                 } else if (volleyError instanceof TimeoutError) {
                     message = "Connection TimeOut! Please check your internet connection.";
                 }

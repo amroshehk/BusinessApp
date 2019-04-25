@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -114,6 +115,9 @@ public class SaveBusinessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_save_business);
 
         context = this;
+
+        bitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.user512);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -420,7 +424,7 @@ public class SaveBusinessActivity extends AppCompatActivity {
 
                     if(obj.getBoolean("success")) {
 
-                        Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), obj.getString("message").toUpperCase(), Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(SaveBusinessActivity.this, MainActivity.class);
                         startActivity(intent);

@@ -24,7 +24,7 @@ public class URLTAG {
     public static final String URL_GET_SECONDS ="http://45.63.23.112/api/get_seconds";
     public static final String URL_DEDUCT_SECONDS ="http://45.63.23.112/api/deduct_seconds";
 
-    public static final String URL_ٍSET_VOICE_MAIL ="http://45.63.23.112/api/set_voice_mail";
-    public static final String URL_ٍGETVOICE_MAIL ="http://45.63.23.112/api/get_voice_mail";
+    public static final String URL_GET_VOICE_MAIL ="http://45.63.23.112/api/get_voice_mail";
+    public static final String URL_SET_VOICE_MAIL ="http://45.63.23.112/api/set_voice_mail";
 
 }

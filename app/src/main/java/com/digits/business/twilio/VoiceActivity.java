@@ -938,7 +938,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     /*
      * Register your FCM token with Twilio to receive incoming call invites
      *
-     * If a valid google-services.json has not been provided or the FirebaseInstanceId has not been
+     * If a valid google-services-old.json has not been provided or the FirebaseInstanceId has not been
      * initialized the fcmToken will be null.
      *
      * In the case where the FirebaseInstanceId has not yet been initialized the
