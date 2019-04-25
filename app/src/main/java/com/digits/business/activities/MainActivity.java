@@ -63,6 +63,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -617,6 +618,7 @@ public class MainActivity extends AppCompatActivity
 
                             no_business.setVisibility(View.GONE);
                             CircularProgress.setVisibility(View.GONE);
+                            layoutManager=new GridLayoutManager(context,2);
                             businessRecyclerView.setLayoutManager(layoutManager);
                             adapter = new BusinessAdapter(context, businesses);
                             businessRecyclerView.setAdapter(adapter);

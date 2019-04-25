@@ -20,6 +20,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="2dp"
         android:src="@drawable/user_default"
         />
 

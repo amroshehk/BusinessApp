@@ -8,6 +8,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
@@ -138,18 +141,26 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                         "Primary Voice Channel", NotificationManager.IMPORTANCE_DEFAULT);
                 callInviteChannel.setLightColor(Color.GREEN);
                 callInviteChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+                Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                AudioAttributes audioAttributes=new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE).build();
+                callInviteChannel.setSound(alarmSound,audioAttributes);
+
                 notificationManager.createNotificationChannel(callInviteChannel);
 
                 notification = buildNotification(callInvite.getFrom() + " is calling.", pendingIntent, extras);
                 notificationManager.notify(notificationId, notification);
             } else {
+                Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(this)
+                        new NotificationCompat.Builder(this,"")
                                 .setSmallIcon(R.drawable.ic_call_end_white_24dp)
                                 .setContentTitle(getString(R.string.app_name))
                                 .setContentText(callInvite.getFrom() + " is calling.")
                                 .setAutoCancel(true)
                                 .setExtras(extras)
+                                .setSound(alarmSound)
                                 .setContentIntent(pendingIntent)
                                 .setGroup("test_app_notification")
                                 .setColor(Color.rgb(214, 10, 37));
@@ -214,6 +225,7 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
      */
     @TargetApi(Build.VERSION_CODES.O)
     public Notification buildNotification(String text, PendingIntent pendingIntent, Bundle extras) {
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         return new Notification.Builder(getApplicationContext(), VOICE_CHANNEL)
                 .setSmallIcon(R.drawable.ic_call_end_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -221,6 +233,7 @@ public class VoiceFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setExtras(extras)
                 .setAutoCancel(true)
+                .setSound(alarmSound)
                 .build();
     }
 
