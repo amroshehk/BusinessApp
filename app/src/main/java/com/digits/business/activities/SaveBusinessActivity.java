@@ -117,7 +117,7 @@ public class SaveBusinessActivity extends AppCompatActivity {
         context = this;
 
         bitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.user512);
+                R.drawable.small_business);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -379,10 +379,10 @@ public class SaveBusinessActivity extends AppCompatActivity {
                     business.setProducts(products);
                     business.setKeywords(keywords);
 
-                    if (bitmap!=null)
+                    //if (bitmap!=null)
                     postBusinessDetails(business);
-                    else
-                    postBusinessDetailsWithoutImage(business);
+                    //else
+                    //postBusinessDetailsWithoutImage(business);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();

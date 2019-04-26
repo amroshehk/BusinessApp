@@ -44,22 +44,26 @@
         <activity
             android:name=".twilio.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".twilio.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".twilio.DashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".twilio.VoiceActivity"
             android:label="@string/make_call"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:parentActivityName="com.digits.business.activities.MainActivity"/>
+            android:parentActivityName="com.digits.business.activities.MainActivity"
+            android:screenOrientation="portrait"/>
 
 
         <service android:name="com.digits.business.fcm.MyFirebaseMessagingService">
@@ -68,64 +72,82 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.digits.business.activities.AboutUsActivity" />
+        <activity android:name="com.digits.business.activities.AboutUsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.twilio_old.VoiceActivityOld"
-            android:parentActivityName="com.digits.business.activities.MainActivity" />
+            android:parentActivityName="com.digits.business.activities.MainActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
         <activity
             android:name="com.digits.business.activities.ImagesViewerBusinessActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.SaveTTSActivity"
             android:label="@string/title_activity_save_tts"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.SearchForBusinessActivity"
-            android:label="@string/title_activity_search_business" />
+            android:label="@string/title_activity_search_business"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.BusinessDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_business_details" />
+            android:label="@string/title_activity_business_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.SearchMp3FilesActivity"
-            android:label="@string/title_activity_search_Mp3_files" />
+            android:label="@string/title_activity_search_Mp3_files"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.SettingActivity"
             android:label="@string/title_activity_setting"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.digits.business.activities.PlayMp3FilesActivity"
-            android:label="@string/play_voice"/>
+            android:label="@string/play_voice"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.digits.business.activities.SaveBusinessActivity"
-            android:label="@string/add_new_business"/>
+            android:label="@string/add_new_business"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.digits.business.activities.UploadeMp3FileActivity"
-            android:label="@string/title_activity_mp3_files2"/>
+            android:label="@string/title_activity_mp3_files2"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.VoiceMailActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_mp3_files" />
+            android:label="@string/title_activity_mp3_files"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.UploadGreetingActivity2"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_mp3_files2" />
+            android:label="@string/title_activity_mp3_files2"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.ImagesViewerActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.digits.business.activities.EditMyProfileActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.digits.business.activities.EditMyProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.MainActivity"
             android:label="@string/headline_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.activities.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name="com.digits.business.activities.LoginActivity" >
+            android:name="com.digits.business.activities.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -135,17 +157,21 @@
         </activity>
         <activity
             android:name="com.digits.business.phoneauth.PhoneNumberAuthActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name="com.digits.business.phoneauth.VerifyPhoneActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.digits.business.activities.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.digits.business.classes.GalleryUtil"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

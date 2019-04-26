@@ -71,7 +71,6 @@ public class SettingActivity extends BaseActivity {
         tts_rb = findViewById(R.id.tts_rb);
         mp3_rb = findViewById(R.id.mp3_rb);
 
-
         PreferenceHelper helper=new PreferenceHelper(context);
         mp3_tts=helper.getSettingValueMa3Tts();
         vm_call=helper.getSettingValueCallVm();

@@ -19,7 +19,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="48dp"
             android:padding="5dp"
-            android:src="@drawable/user_business"
+            android:src="@drawable/small_business"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
