@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,21 +32,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.digits.business.classes.JsonTAG.TAG_CREATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_ID;
-import static com.digits.business.classes.JsonTAG.TAG_SENDER_ID;
+import static com.digits.business.classes.JsonTAG.TAG_NAME;
 import static com.digits.business.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_URL;
 import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
-import static com.digits.business.classes.URLTAG.URL_GET_VOICE_MAIL;
+import static com.digits.business.classes.URLTAG.GET_MP3;
 
 
 public class VoiceMailActivity extends BaseActivity {
@@ -126,6 +135,32 @@ public class VoiceMailActivity extends BaseActivity {
                             String updated_at = objc.getString(TAG_UPDATED_AT);
 
 
+
+                            Calendar cal = Calendar.getInstance();
+                            TimeZone tz = cal.getTimeZone();
+                            final String format = "yyyy-MM-dd HH:mm:ss";
+                            final String format2 = "yyyy-MM-dd HH:mm";
+                            SimpleDateFormat sdf = new SimpleDateFormat(format);
+                            SimpleDateFormat sdf2 = new SimpleDateFormat(format2);
+
+                            Date c_date=null;
+                            try {
+                                c_date = sdf.parse(created_at);//covert string date to date object
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Date offsetTime = new Date(c_date.getTime() + tz.getRawOffset());
+
+
+                            Date u_date=null;
+                            try {
+                                u_date = sdf.parse(updated_at);//covert string date to date object
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Date offsetTime2 = new Date(u_date.getTime() + tz.getRawOffset());
+
+                            Mp3File mp3File = new Mp3File(id, name, url, user_id, sdf2.format(offsetTime), sdf2.format(offsetTime2));
                             Mp3File mp3File = new Mp3File(id, sender_id, url, user_id, created_at, updated_at);
                             mp3Files.add(mp3File);
                         }

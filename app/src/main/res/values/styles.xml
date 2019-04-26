@@ -166,6 +166,6 @@
     </style>
 
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
-    <item name="colorAccent">#179AE1</item>
+    <item name="colorAccent">@color/colorPrimary</item>
     </style>
 </resources>

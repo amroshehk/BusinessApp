@@ -33,9 +33,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -153,8 +158,31 @@ public class UploadGreetingActivity2 extends BaseActivity {
                             String created_at = objc.getString(TAG_CREATED_AT);
                             String updated_at = objc.getString(TAG_UPDATED_AT);
 
+                            Calendar cal = Calendar.getInstance();
+                            TimeZone tz = cal.getTimeZone();
+                            final String format = "yyyy-MM-dd HH:mm:ss";
+                            final String format2 = "yyyy-MM-dd HH:mm";
+                            SimpleDateFormat sdf = new SimpleDateFormat(format);
+                            SimpleDateFormat sdf2 = new SimpleDateFormat(format2);
 
-                            Mp3File mp3File = new Mp3File(id, name, url, user_id, created_at, updated_at);
+                            Date c_date=null;
+                            try {
+                                c_date = sdf.parse(created_at);//covert string date to date object
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Date offsetTime = new Date(c_date.getTime() + tz.getRawOffset());
+
+
+                            Date u_date=null;
+                            try {
+                                u_date = sdf.parse(updated_at);//covert string date to date object
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Date offsetTime2 = new Date(u_date.getTime() + tz.getRawOffset());
+
+                            Mp3File mp3File = new Mp3File(id, name, url, user_id, sdf2.format(offsetTime), sdf2.format(offsetTime2));
                             mp3Files.add(mp3File);
                         }
 

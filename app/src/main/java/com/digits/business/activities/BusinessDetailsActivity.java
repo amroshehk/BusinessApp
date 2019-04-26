@@ -35,6 +35,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
 
 
     private CircleImageView image;
+    private ImageView image2;
     private ImageView call;
 
     @Override
@@ -59,6 +60,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         products = findViewById(R.id.products);
         keywords = findViewById(R.id.keywords);
         image = findViewById(R.id.photo);
+        image2 = findViewById(R.id.photo2);
         call = findViewById(R.id.call);
 
         final Business business = (Business) getIntent().getSerializableExtra("BUSINESS");
@@ -77,6 +79,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         keywords.setText(business.getKeywords());
 
         getBusinessPhoto(image, business.getImageURL());
+        getBusinessPhoto(image2, business.getImageURL());
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +95,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BusinessDetailsActivity.this, VoiceActivity.class);
-                intent.putExtra("GeneratedID", business.getGeneratedId());
+                intent.putExtra("GeneratedID", "V"+business.getGeneratedId());
                 // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
@@ -101,7 +104,7 @@ public class BusinessDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void getBusinessPhoto(CircleImageView image, String url) {
+    private void getBusinessPhoto(ImageView image, String url) {
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 

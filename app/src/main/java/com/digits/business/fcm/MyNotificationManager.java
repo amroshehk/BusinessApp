@@ -60,12 +60,13 @@ public class MyNotificationManager {
 
             String Channel_name = "Business App notifications";
             String channel_ID="com.digits.business";
-            int importance = NotificationManager.IMPORTANCE_LOW;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
             NotificationChannel mChannel = new NotificationChannel(channel_ID, Channel_name, importance);
 
             mChannel.enableLights(true);
             mChannel.setLightColor(Color.GREEN);
+            mChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
             mChannel.setVibrationPattern(new long[] { 1000, 1000, 1000, 1000, 1000 });
             AudioAttributes audioAttributes=new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -119,15 +120,17 @@ public class MyNotificationManager {
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
                 .setStyle(bigPictureStyle)
-                .setSmallIcon(R.drawable.mp3512)
+                .setSmallIcon(R.drawable.small_logo)
                 .setColor(ContextCompat.getColor(mCtx,R.color.colorPrimary))
-                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.logo))
                 .setContentText(message)
                 .setWhen(System.currentTimeMillis())
                 .setPriority(Notification.DEFAULT_ALL)
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                 .setLights(Color.GREEN, 3000, 3000)
                 .setShowWhen(true)
+                .setSound(alarmSound)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .build();
 
 //        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");
@@ -167,10 +170,10 @@ public class MyNotificationManager {
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
-                .setSmallIcon(R.drawable.mp3512)
+                .setSmallIcon(R.drawable.small_logo)
                 .setColor(ContextCompat.getColor(mCtx,R.color.colorPrimary))
                 .setStyle(bigTextStyle)
-                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(mCtx.getResources(), R.drawable.logo))
                 .setContentText(message)
                 .setWhen(System.currentTimeMillis())
                 .setPriority(Notification.DEFAULT_ALL)
@@ -178,7 +181,7 @@ public class MyNotificationManager {
                 .setLights(Color.GREEN, 3000, 3000)
                 .setShowWhen(true)
                 .setSound(alarmSound)
-                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .build();
 
 //        String sp_value_sound= readSharedPreference("com.digits.business.SETTING_KEY_SOUND","saved setting sound");

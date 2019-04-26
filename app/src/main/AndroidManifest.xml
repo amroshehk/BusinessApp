@@ -14,9 +14,9 @@
         android:name="com.digits.business.app.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -57,6 +57,7 @@
         <activity
             android:name=".twilio.VoiceActivity"
             android:label="@string/make_call"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName="com.digits.business.activities.MainActivity"/>
 
