@@ -13,7 +13,7 @@ import com.example.jean.jcplayer.view.JcPlayerView;
 import com.digits.business.R;
 import com.digits.business.classes.PreferenceHelper;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -54,37 +54,37 @@ public class PlayMp3FilesActivity extends AppCompatActivity  implements JcPlayer
     }
 
     @Override
-    public void onContinueAudio(@NotNull JcStatus jcStatus) {
+    public void onContinueAudio( JcStatus jcStatus) {
 
     }
 
     @Override
-    public void onJcpError(@NotNull Throwable throwable) {
+    public void onJcpError( Throwable throwable) {
 
     }
 
     @Override
-    public void onPaused(@NotNull JcStatus jcStatus) {
+    public void onPaused( JcStatus jcStatus) {
 
     }
 
     @Override
-    public void onPlaying(@NotNull JcStatus jcStatus) {
+    public void onPlaying( JcStatus jcStatus) {
         jcplayerView.createNotification();
     }
 
     @Override
-    public void onPreparedAudio(@NotNull JcStatus jcStatus) {
+    public void onPreparedAudio( JcStatus jcStatus) {
 
     }
 
     @Override
-    public void onStopped(@NotNull JcStatus jcStatus) {
+    public void onStopped( JcStatus jcStatus) {
 
     }
 
     @Override
-    public void onTimeChanged(@NotNull JcStatus jcStatus) {
+    public void onTimeChanged( JcStatus jcStatus) {
 
     }
 
