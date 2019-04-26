@@ -60,7 +60,6 @@
         <activity
             android:name=".twilio.VoiceActivity"
             android:label="@string/make_call"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName="com.digits.business.activities.MainActivity"
             android:screenOrientation="portrait"/>

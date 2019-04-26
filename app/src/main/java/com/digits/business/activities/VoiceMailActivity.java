@@ -8,10 +8,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,8 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,19 +43,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import static com.digits.business.classes.JsonTAG.TAG_CREATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
 import static com.digits.business.classes.JsonTAG.TAG_ID;
-import static com.digits.business.classes.JsonTAG.TAG_NAME;
 import static com.digits.business.classes.JsonTAG.TAG_SENDER_ID;
 import static com.digits.business.classes.JsonTAG.TAG_UPDATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_URL;
 import static com.digits.business.classes.JsonTAG.TAG_USER_ID;
-import static com.digits.business.classes.URLTAG.GET_MP3;
 import static com.digits.business.classes.URLTAG.URL_GET_VOICE_MAIL;
 
 

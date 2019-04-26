@@ -55,10 +55,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.name.setText(businesses.get(position).getBusinessName());
-        holder.type.setText(businesses.get(position).getBusinessType());
+        /*holder.type.setText(businesses.get(position).getBusinessType());
         holder.year.setText(businesses.get(position).getYearEstablished());
         holder.country.setText(businesses.get(position).getCountry());
-        holder.city.setText(businesses.get(position).getCity());
+        holder.city.setText(businesses.get(position).getCity());*/
 
         getBusinessPhoto(holder.image, businesses.get(position).getImageURL());
 
@@ -107,10 +107,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
-        private TextView type;
+        /*private TextView type;
         private TextView year;
         private TextView country;
-        private TextView city;
+        private TextView city;*/
         private CircleImageView image;
 
          ViewHolder(final View itemView)  {
@@ -118,10 +118,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.ViewHo
             super(itemView);
 
             name = itemView.findViewById(R.id.name);
-            type = itemView.findViewById(R.id.businessType);
-            year = itemView.findViewById(R.id.year);
-            country = itemView.findViewById(R.id.country);
-            city = itemView.findViewById(R.id.city);
+            //type = itemView.findViewById(R.id.businessType);
+            //year = itemView.findViewById(R.id.year);
+            //country = itemView.findViewById(R.id.country);
+            //city = itemView.findViewById(R.id.city);
             image = itemView.findViewById(R.id.photo);
 
 

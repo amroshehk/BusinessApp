@@ -70,7 +70,7 @@ public class RecyclerVoiceEmailCardAdapter extends RecyclerView.Adapter<Recycler
         public void onBindViewHolder(ViewHolder holder, int position) {
 
             holder.name.setText(mp3Files.get(position).getName());
-            holder.date.setText("Created at "+mp3Files.get(position).getCreated_at());
+            holder.date.setText("Received at "+mp3Files.get(position).getCreated_at());
             PreferenceHelper helper=new PreferenceHelper(context);
 
             if( helper.getSettingValueDefaultFile().equals(mp3Files.get(position).getUrl()))
