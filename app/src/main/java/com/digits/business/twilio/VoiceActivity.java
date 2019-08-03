@@ -198,7 +198,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
 
     PreferenceHelper helper;
-
+    User user;
 
     private static  int seconds = 0;
 
@@ -216,7 +216,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
         session = new SessionHandler(context);
 
-        User user = session.getUserDetails();
+        user = session.getUserDetails();
 
         identity = helper.getSettingValueGeneratedId();
         email= helper.getSettingValueEmail();
@@ -804,6 +804,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     if (seconds > 0) {
                     // Place a call
                     twiMLParams.put("to", number.getText().toString());
+                    twiMLParams.put("from", helper.getSettingValue_phone());
 
                     activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
                     setCallUI();
@@ -1175,8 +1176,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
 
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
