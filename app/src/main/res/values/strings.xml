@@ -69,5 +69,6 @@
     <string name="default_tts">Text should be Thanks for Calling ABC Company, please hold the line while we are connecting </string>
     <string name="add_new_business">Add New Bussinss</string>
     <string name="play_voice">Play Voice</string>
+    <string name="loading">Loading, . . .</string>
 
 </resources>

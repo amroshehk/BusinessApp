@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity
                     progressDialog.dismiss();
                     if (obj.getBoolean("success")) {
 
-
+                        VoiceActivity.unregisterReceiver(context);
                         FirebaseAuth.getInstance().signOut();//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
                         PreferenceHelper helper=new PreferenceHelper(context);

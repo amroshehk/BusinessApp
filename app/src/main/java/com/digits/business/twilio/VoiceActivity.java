@@ -128,7 +128,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     private int savedAudioMode = AudioManager.MODE_INVALID;
 
     private boolean isReceiverRegistered = false;
-    private VoiceBroadcastReceiver voiceBroadcastReceiver;
+    private static VoiceBroadcastReceiver voiceBroadcastReceiver;
 
     // Empty HashMap, never populated for the Quickstart
     HashMap<String, String> twiMLParams = new HashMap<>();
@@ -197,7 +197,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     Toolbar toolbar;
 
 
-    PreferenceHelper helper;
+    static PreferenceHelper helper;
     User user;
 
     private static  int seconds = 0;
@@ -665,7 +665,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver();
+       // unregisterReceiver();
     }
 
 
@@ -715,28 +715,34 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
 
     private void registerReceiver() {
-        if (!isReceiverRegistered) {
+        String isReceiverRegistered=helper.getKeyIsReceverRegistered();
+        if (isReceiverRegistered.equals(""))
+            helper.setKeyIsReceverRegistered("1");
+
+        if (!isReceiverRegistered.equals("1")) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ACTION_INCOMING_CALL);
             intentFilter.addAction(ACTION_FCM_TOKEN);
             LocalBroadcastManager.getInstance(this).registerReceiver(
                     voiceBroadcastReceiver, intentFilter);
-            isReceiverRegistered = true;
+            //isReceiverRegistered = true;
+        }
+    }
+
+    public static void unregisterReceiver(Context context) {
+        String isReceiverRegistered=helper.getKeyIsReceverRegistered();
+        if (isReceiverRegistered.equals(""))
+            helper.setKeyIsReceverRegistered("0");
+        if (isReceiverRegistered.equals("1")) {
+            helper.setKeyIsReceverRegistered("0");
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(voiceBroadcastReceiver);
+          //  isReceiverRegistered = false;
         }
     }
 
 
 
-    private void unregisterReceiver() {
-        if (isReceiverRegistered) {
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(voiceBroadcastReceiver);
-            isReceiverRegistered = false;
-        }
-    }
-
-
-
-    private class VoiceBroadcastReceiver extends BroadcastReceiver {
+    public class VoiceBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {

@@ -3,21 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".activities.AboutUsActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            <TextView
+                android:id="@+id/tiltle_base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/about_us"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="23sp"/>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
     <TextView
         android:id="@+id/tV1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Loading, . . ."
-        android:textColor="@color/colorPrimary" />
+        android:text="@string/loading"
+        android:layout_below="@+id/appBarLayout"
+        android:textColor="@color/colorPrimary"
+        />
 
     <WebView
         android:id="@+id/fullWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tV1" />
+        android:layout_below="@id/tV1"
+        />
 
     <ProgressBar
         android:id="@+id/pB1"
@@ -25,5 +56,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:padding="2dip"></ProgressBar>
+        android:padding="2dip"/>
 </RelativeLayout>

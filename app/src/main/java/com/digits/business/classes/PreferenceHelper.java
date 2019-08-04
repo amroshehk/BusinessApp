@@ -39,6 +39,8 @@ public class PreferenceHelper {
 
     public static String SETTING_KEY_LOGIN_DATA_EXPIRED= "com.digits.business.SETTING_KEY_LOGIN_DATA_EXPIRED";
 
+    public static String KEY_IS_RECEVER_REGISTERED= "com.digits.business.KEY_IS_RECEVER_REGISTERED";
+
     public static String SETTING_VALUE_ID = "";
     public static String SETTING_VALUE_NAME = "";
     public static String SETTING_VALUE_EMAIL = "";
@@ -63,6 +65,8 @@ public class PreferenceHelper {
     public static String SETTING_VALUE_CALL_VM= "";
     public static String SETTING_VALUE_TTS_MESSAGE= "";
 
+    public static String VALUE_IS_RECEVER_REGISTERED= "";
+
 
     public  String getSettingValueDefaultFile() {
         return readSharedPreference(KEY, SETTING_KEY_DEFAULT_FILE);
@@ -78,6 +82,15 @@ public class PreferenceHelper {
     }
 
     private Context context;
+
+    public  String getKeyIsReceverRegistered() {
+        return readSharedPreference(KEY,KEY_IS_RECEVER_REGISTERED);
+    }
+
+    public  void setKeyIsReceverRegistered(String keyIsReceverRegistered) {
+        VALUE_IS_RECEVER_REGISTERED = keyIsReceverRegistered;
+        writeSharedPreference(VALUE_IS_RECEVER_REGISTERED, KEY, KEY_IS_RECEVER_REGISTERED);
+    }
 
     public  String getSettingValueId() {
         return readSharedPreference(KEY,SETTING_KEY_ID);
