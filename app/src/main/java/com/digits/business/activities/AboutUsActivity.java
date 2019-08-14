@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,7 +25,7 @@ public class AboutUsActivity extends AppCompatActivity {
     private WebView fullWebView;
     private TextView textView;
     private ProgressBar progressBar;
-
+    final boolean[] isRedirected = new boolean[1];
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -89,6 +92,22 @@ public class AboutUsActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +128,53 @@ public class AboutUsActivity extends AppCompatActivity {
         fullWebView.getSettings().setAppCacheEnabled(true);
         fullWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         fullWebView.getSettings().setGeolocationEnabled(true);
+        fullWebView.getSettings().setJavaScriptEnabled(true);
+        fullWebView.getSettings().setLoadsImagesAutomatically   (true);
+        fullWebView.getSettings().setDatabaseEnabled(true);
+        fullWebView.getSettings().setSupportZoom(true);
+        fullWebView.getSettings().setBuiltInZoomControls(true);
+        fullWebView.getSettings().setDomStorageEnabled(true);
+
+        fullWebView.setWebViewClient(new WebViewClient() {
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                isRedirected[0] = true;
+                return false;
+            }
+
+
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                isRedirected[0] = false;
+
+                pbar.setVisibility(ProgressBar.VISIBLE);
+                txtview.setVisibility(View.VISIBLE);
+            }
+
+            public void onLoadResource(WebView view, String url) {
+                if (!isRedirected[0]) {
+
+                }
+
+            }
+
+            public void onPageFinished(WebView view, String url) {
+                CookieSyncManager.getInstance().sync();
+                try {
+                    isRedirected[0] = true;
+
+                    pbar.setVisibility(ProgressBar.GONE);
+                    txtview.setVisibility(View.GONE);
+
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+
+        });
+
         fullWebView.loadUrl("https://dopenpbx.com");
     }
 
