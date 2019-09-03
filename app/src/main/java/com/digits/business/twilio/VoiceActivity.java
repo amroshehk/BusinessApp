@@ -2,23 +2,30 @@ package com.digits.business.twilio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -161,6 +168,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
 
     private ImageButton backspce;
+    private ImageButton contact_btn;
     //-----------------------dialpad component end
 
     private Dialog dialog2;
@@ -188,6 +196,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     private ImageView imageBackground;
 
     private ImageButton speacker_action_fab;
+    private ImageButton keypad_action_fab;
 
     private ProgressDialog progressDialog;
     private Context context;
@@ -202,12 +211,19 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
     private static  int seconds = 0;
 
+    private BluetoothAdapter mBluetoothAdapter;
+
+    private static final int REQUEST_ENABLE_BT = 2;
+    private static final int CONTACT_PERMISSION_REQUEST_CODE = 7;
+
+    private ToneGenerator mToneGenerator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
@@ -294,6 +310,15 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             }
         });
 
+        keypad_action_fab = findViewById(R.id.keypad_action_fab);
+        keypad_action_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialpad_rel.setVisibility(View.VISIBLE);
+                callActionFab.hide();
+            }
+        });
+
         /*
          * Setup the UI
          */
@@ -313,7 +338,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             retrieveAccessToken();
         }
 
-        number.setEnabled(false);
+      //  number.setEnabled(false);
 
         number1 = findViewById(R.id.button1);
         number2 = findViewById(R.id.button2);
@@ -329,6 +354,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         number12 = findViewById(R.id.button12);
 
         backspce = findViewById(R.id.backspce);
+        contact_btn = findViewById(R.id.contact_btn);
 
         numberBuilder = new StringBuilder();
 
@@ -337,6 +363,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("1");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,1);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("1");
             }
         });
 
@@ -345,6 +376,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("2");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,2);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("2");
             }
         });
 
@@ -353,6 +389,12 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("3");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,3);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("3");
+
             }
         });
 
@@ -361,6 +403,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("4");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,4);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("4");
             }
         });
 
@@ -369,6 +416,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("5");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,5);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("5");
             }
         });
 
@@ -377,6 +429,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("6");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,6);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("6");
             }
         });
 
@@ -385,6 +442,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("7");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,7);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("7");
             }
         });
 
@@ -393,6 +455,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("8");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,8);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("8");
             }
         });
 
@@ -401,6 +468,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("9");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,9);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("9");
             }
         });
 
@@ -409,6 +481,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("*");
                 number.setText(numberBuilder.toString());
+                //TONE_DTMF_S
+                playTone(context,10);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("*");
             }
         });
 
@@ -417,6 +494,11 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("0");
                 number.setText(numberBuilder.toString());
+
+                playTone(context,0);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("0");
             }
         });
 
@@ -426,6 +508,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public boolean onLongClick(View v) {
                 numberBuilder.append("+");
                 number.setText(numberBuilder.toString());
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("+");
                 return true;
             }
         } );
@@ -436,6 +521,12 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 numberBuilder.append("#");
                 number.setText(numberBuilder.toString());
+
+                //TONE_DTMF_P
+                playTone(context,11);
+
+                if(activeCall!=null)
+                    activeCall.sendDigits("#");
             }
         });
 
@@ -463,6 +554,14 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             }
         });
 
+        contact_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableContactsRuntimePermission();
+
+            }
+        });
+
         setupDrawer();
 
         checkSecond();
@@ -472,14 +571,34 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         if( generatedid!=null && !generatedid.equals("null"))
         {
             number.setText(generatedid);
+            numberBuilder.append(generatedid);
+
         }
 
     }
+    private  void playTone(Context context, int mediaFileRawId) {
+        Log.d(TAG, "playTone");
+        try {
+            if (mToneGenerator == null) {
+                mToneGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 50);
+            }
+            mToneGenerator.startTone(mediaFileRawId, 200);
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mToneGenerator != null) {
+                        Log.d(TAG, "ToneGenerator released");
+                        mToneGenerator.release();
+                        mToneGenerator = null;
+                    }
+                }
 
-
-
-
-
+            }, 200);
+        } catch (Exception e) {
+            Log.d(TAG, "Exception while playing sound:" + e);
+        }
+    }
     void setupDrawer() {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -617,6 +736,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         hangupActionFab.setVisibility(View.VISIBLE);
         muteActionFab.setVisibility(View.VISIBLE);
         speacker_action_fab.setVisibility(View.VISIBLE);
+        keypad_action_fab.setVisibility(View.VISIBLE);
 
      //   muteButton.setVisibility(View.VISIBLE);
         chronometer.setVisibility(View.VISIBLE);
@@ -626,7 +746,43 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
+    /*
+     * Ensure the Bluetooth permission is enabled
+     */
+    public void enableBluetooth()
+    {
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!mBluetoothAdapter.isEnabled()) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH)
+                != PackageManager.PERMISSION_GRANTED) {
 
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN},
+                    REQUEST_ENABLE_BT);
+        }
+    }
+    }
+    /*
+     * Ensure the Bluetooth permission is enabled
+     */
+    @SuppressLint("WrongConstant")
+    public void enableContactsRuntimePermission(){
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]{
+                    Manifest.permission.READ_CONTACTS}, CONTACT_PERMISSION_REQUEST_CODE);
+
+        } else {
+
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(intent, 7);
+
+        }
+    }
     /*
      * Reset UI elements
      */
@@ -643,6 +799,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         muteActionFab.setVisibility(View.GONE);
 
         speacker_action_fab.setVisibility(View.GONE);
+        keypad_action_fab.setVisibility(View.GONE);
         audioManager.setSpeakerphoneOn(false);
         speacker_action_fab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_volume_up_white_24dp));
         //muteButton.setVisibility(View.INVISIBLE);
@@ -748,6 +905,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(ACTION_INCOMING_CALL)) {
+                //enable bluetooth when receive call
+                enableBluetooth();
                 /*
                  * Handle the incoming call invite
                  */
@@ -805,6 +964,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 if(accessToken != null) {
 
+                    enableBluetooth();
                     checkSecond();
 
                     if (seconds > 0) {
@@ -814,6 +974,12 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
                     activeCall = Voice.call(VoiceActivity.this, accessToken, twiMLParams, callListener);
                     setCallUI();
+
+                        if (numberBuilder.length() > 0) {
+                            numberBuilder.delete(0,numberBuilder.length());
+                            number.setText("");
+
+                        }
                     } else {
                         Snackbar.make(v,"Your balance is 0 seconds",Snackbar.LENGTH_SHORT).show();
                     }
@@ -1122,16 +1288,112 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         /*
          * Check if microphone permissions is granted
          */
-        if (requestCode == MIC_PERMISSION_REQUEST_CODE && permissions.length > 0) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Snackbar.make(coordinatorLayout,
-                        "Microphone permissions needed. Please allow in your application settings.",
-                        SNACKBAR_DURATION).show();
-            } else {
-                retrieveAccessToken();
+        switch (requestCode) {
+            case REQUEST_ENABLE_BT: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    Intent enableIntent = new Intent(
+                            BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+
+                } else {
+                    // permission denied,! Disable the
+                    // functionality that depends on this permission.
+                    Snackbar.make(coordinatorLayout,
+                            "Permission denied for bluetooth. Please allow in your application settings.",
+                            SNACKBAR_DURATION).show();
+                }
             }
+            break;
+            case MIC_PERMISSION_REQUEST_CODE: {
+                if (permissions.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    retrieveAccessToken();
+                  } else {
+
+                    Snackbar.make(coordinatorLayout,
+                            "Microphone permissions needed. Please allow in your application settings.",
+                            SNACKBAR_DURATION).show();
+                    }
+                }
+            break;
+            case CONTACT_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                    startActivityForResult(intent, 7);
+//                    Snackbar.make(coordinatorLayout,
+//                            "Permission Granted, Now your application can access CONTACTS.",
+//                            SNACKBAR_DURATION).show();
+                } else {
+
+                    Snackbar.make(coordinatorLayout,
+                            "Permission Canceled, Now your application cannot access CONTACTS.",
+                            SNACKBAR_DURATION).show();
+                    }
+                break;
+
         }
     }
+
+    @Override
+    public void onActivityResult(int RequestCode, int ResultCode, Intent ResultIntent) {
+
+        super.onActivityResult(RequestCode, ResultCode, ResultIntent);
+
+        switch (RequestCode) {
+
+            case (7):
+                if (ResultCode == Activity.RESULT_OK) {
+
+                    Uri uri;
+                    Cursor cursor1, cursor2;
+                    String TempNameHolder, TempNumberHolder, TempContactID, IDresult = "" ;
+                    int IDresultHolder ;
+
+                    uri = ResultIntent.getData();
+
+                    cursor1 = getContentResolver().query(uri, null, null, null, null);
+
+                    if (cursor1.moveToFirst()) {
+
+                        TempNameHolder = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+                        TempContactID = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+
+                        IDresult = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                        IDresultHolder = Integer.valueOf(IDresult) ;
+
+                        if (IDresultHolder == 1) {
+
+                            cursor2 = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + TempContactID, null, null);
+
+                            while (cursor2.moveToNext()) {
+
+                                TempNumberHolder = cursor2.getString(cursor2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                               // name.setText(TempNameHolder);
+
+                                if (numberBuilder.length() > 0) {
+                                    numberBuilder.delete(0,numberBuilder.length());
+                                    number.setText("");
+
+                                }
+                                number.setText(TempNumberHolder);
+                                numberBuilder.append(TempNumberHolder);
+
+                            }
+                        }
+
+                    }
+                }
+                break;
+        }
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1351,6 +1613,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
                                 JSONObject obj = new JSONObject(response);
                                 seconds = obj.getInt("data");
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

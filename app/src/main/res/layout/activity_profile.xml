@@ -99,10 +99,30 @@
                 />
 
             <TextView
-                android:id="@+id/name_tv"
+                android:id="@+id/balance_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Your balance"
+                />
+            <TextView
+                android:id="@+id/balance_value_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/balance_tv"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                />
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/balance_value_tv"
                 android:gravity="center"
                 android:paddingTop="@dimen/nav_header_vertical_spacing"
                 android:text="Amr"
@@ -261,8 +281,33 @@
             <View
                 android:id="@+id/view7"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="1dp"
                 android:layout_below="@id/updated_at_tv"
+                android:background="@color/colorPrimary"
+                android:padding="5dp" />
+            <TextView
+                android:id="@+id/timezone_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view7"
+                android:gravity="center"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:text="Timezone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:id="@+id/timezone_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timezone_at"
+                android:gravity="center_horizontal"
+                android:text="UCT" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/timezone_tv"
                 android:background="@color/white"
                 android:padding="5dp" />
 
