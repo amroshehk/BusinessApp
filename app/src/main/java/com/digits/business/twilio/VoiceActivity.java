@@ -872,6 +872,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
 
     private void registerReceiver() {
+        helper = new PreferenceHelper(context);
         String isReceiverRegistered=helper.getKeyIsReceverRegistered();
         if (isReceiverRegistered.equals(""))
             helper.setKeyIsReceverRegistered("1");
@@ -887,6 +888,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     }
 
     public static void unregisterReceiver(Context context) {
+        helper = new PreferenceHelper(context);
         String isReceiverRegistered=helper.getKeyIsReceverRegistered();
         if (isReceiverRegistered.equals(""))
             helper.setKeyIsReceverRegistered("0");
@@ -1088,7 +1090,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         ImageView buttonHangup;
         ImageView buttonAnswer;
 
-        dialog2 = new Dialog(context);
+        dialog2 = new Dialog(context,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog2.setCancelable(false);
         dialog2.setCanceledOnTouchOutside(false);
 
