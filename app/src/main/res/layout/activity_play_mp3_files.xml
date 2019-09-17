@@ -4,19 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PlayMp3FilesActivity">
+    tools:context=".activities.PlayMp3FilesActivity"
+    android:background="@color/white"
+    android:gravity="center">
 <ImageView
     android:id="@+id/image"
     android:layout_width="200sp"
     android:layout_height="200sp"
     android:layout_centerHorizontal="true"
-    android:background="@drawable/mp3512" />
+    android:background="@drawable/voicemail" />
     <com.example.jean.jcplayer.view.JcPlayerView
         android:id="@+id/jcplayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignBottom="@+id/image"
+        app:next_icon_color="@color/white"
+        app:previous_icon_color="@color/white"
+        app:random_icon_color="@color/white"
+        app:pause_icon_color="@color/colorored"
+        app:repeat_icon_color="@color/colorored"
+        app:progress_color="@color/colorored"
+        app:seek_bar_color="@color/colorored"
+        app:play_icon_color="@color/colorored"
+        app:text_audio_title_color="@color/colorored"
+        app:text_audio_current_duration_color="@color/colorored"
+        app:text_audio_duration_color="@color/colorored"
         android:layout_below="@+id/image"/>
 
 </RelativeLayout>

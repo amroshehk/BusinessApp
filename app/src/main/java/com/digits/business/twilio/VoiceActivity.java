@@ -314,20 +314,14 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         keypad_action_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(dialpad_rel.getVisibility()==View.VISIBLE)
+                dialpad_rel.setVisibility(View.GONE);
+                else
                 dialpad_rel.setVisibility(View.VISIBLE);
                 callActionFab.hide();
             }
         });
 
-        /*
-         * Setup the UI
-         */
-        resetUI();
-
-        /*
-         * Displays a call dialog if the intent contains a call invite
-         */
-        handleIncomingCallIntent(getIntent());
 
         /*
          * Ensure the microphone permission is enabled
@@ -562,6 +556,16 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             }
         });
 
+        /*
+         * Setup the UI
+         */
+        resetUI();
+
+        /*
+         * Displays a call dialog if the intent contains a call invite
+         */
+        handleIncomingCallIntent(getIntent());
+
         setupDrawer();
 
         checkSecond();
@@ -712,7 +716,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 Log.d(TAG, "Disconnected");
 
                 int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
-                deductSecond(elapsedSeconds);
+                //deductSecond(elapsedSeconds);
 
                 if (error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
@@ -733,6 +737,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         //content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.GONE);
         callActionFab.hide();
+        contact_btn.setVisibility(View.GONE);
         hangupActionFab.setVisibility(View.VISIBLE);
         muteActionFab.setVisibility(View.VISIBLE);
         speacker_action_fab.setVisibility(View.VISIBLE);
@@ -790,6 +795,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
        // content_fragment.setVisibility(View.GONE);
         dialpad_rel.setVisibility(View.VISIBLE);
         callActionFab.hide();
+        contact_btn.setVisibility(View.VISIBLE);
         muteActionFab.setImageDrawable(AppCompatResources.getDrawable(getBaseContext(), R.drawable.ic_mic_white_24dp));
      //   muteActionFab.setBackgroundResource( R.drawable.ic_mic);
 //        Resources resources = getBaseContext().getResources();
@@ -908,7 +914,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             String action = intent.getAction();
             if (action.equals(ACTION_INCOMING_CALL)) {
                 //enable bluetooth when receive call
-                enableBluetooth();
+               // enableBluetooth();
                 /*
                  * Handle the incoming call invite
                  */
@@ -966,7 +972,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 if(accessToken != null) {
 
-                    enableBluetooth();
+                   //    enableBluetooth();
                     checkSecond();
 
                     if (seconds > 0) {

@@ -175,7 +175,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         });
 
-        fullWebView.loadUrl("https://dopenpbx.com");
+        fullWebView.loadUrl("https://premium.my9digits.com");
     }
 
     @Override

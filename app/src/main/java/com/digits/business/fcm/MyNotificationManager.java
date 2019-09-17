@@ -115,7 +115,7 @@ public class MyNotificationManager {
         bigPictureStyle.bigPicture(getBitmapFromURL(url));
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx,createChannel());
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.drawable.mp3512).setTicker(title)
+        notification = mBuilder.setSmallIcon(R.drawable.voicemail).setTicker(title)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
@@ -166,7 +166,7 @@ public class MyNotificationManager {
         bigTextStyle.bigText(message);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx,createChannel());
         Notification notification;
-        notification = mBuilder.setSmallIcon(R.drawable.mp3512).setTicker(title)
+        notification = mBuilder.setSmallIcon(R.drawable.voicemail).setTicker(title)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
