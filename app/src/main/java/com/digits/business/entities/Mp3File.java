@@ -7,6 +7,7 @@ public class Mp3File implements Parcelable {
     private String id;
     private String name;
     private String url;
+    private String basic;
     private String user_id;
     private String created_at;
     private String updated_at;
@@ -26,6 +27,14 @@ public class Mp3File implements Parcelable {
         this.user_id = user_id;
         this.created_at = created_at;
         this.updated_at = updated_at;
+    }
+
+    public String getBasic() {
+        return basic;
+    }
+
+    public void setBasic(String basic) {
+        this.basic = basic;
     }
 
     public String getUrl() {
@@ -86,6 +95,7 @@ public class Mp3File implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.url);
+        dest.writeString(this.basic);
         dest.writeString(this.user_id);
         dest.writeString(this.created_at);
         dest.writeString(this.updated_at);
@@ -95,6 +105,7 @@ public class Mp3File implements Parcelable {
         this.id = in.readString();
         this.name = in.readString();
         this.url = in.readString();
+        this.basic = in.readString();
         this.user_id = in.readString();
         this.created_at = in.readString();
         this.updated_at = in.readString();
