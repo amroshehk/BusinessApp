@@ -145,6 +145,16 @@
                 android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:textColor="@color/colorError" />
+            <TextView
+                android:id="@+id/privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_policy"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorError"
+                android:textStyle="bold"
+                android:textSize="18sp" />
         </LinearLayout>
 
     </ScrollView>

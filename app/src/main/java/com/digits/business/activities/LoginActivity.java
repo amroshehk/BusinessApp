@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText email_et, pw_signin_et;
     private Button btnSignin;
-    private TextView error;
+    private TextView error,privacy;
     private Context context;
     private ProgressDialog progressDialog;
     private static JSONArray jsonArray = null;
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 // to the app after tapping on an ad.
             }
         });*/
-
+        privacy = findViewById(R.id.privacy);
         email_et = findViewById(R.id.email_et);
         pw_signin_et = findViewById(R.id.pw_signin_et);
         btnSignin = findViewById(R.id.btnSignin);
@@ -151,7 +151,16 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, PrivacyPolicyActivity.class);
+                intent.putExtra("URL","https://ivyn.in/app/privacy_policy.html");
+                intent.putExtra("TCorPP","1");
+                startActivity(intent);
 
+            }
+        });
         btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
