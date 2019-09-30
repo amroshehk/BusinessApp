@@ -154,6 +154,7 @@ public class VoiceMailActivity extends BaseActivity {
                             if(url.contains("@api.twilio.com"))
                             {   ind= url.indexOf("api.twilio.com");
                                 url_=url.substring(ind,url.length());
+                                if(!url_.contains("mp3"))
                                 url_=url_.concat(".mp3");
                                 url_=protocol+url_;
 

@@ -77,7 +77,10 @@ public class PlayMp3FilesActivity extends AppCompatActivity  implements JcPlayer
         helper.setSettingKeyLastRunMp3File(url);
 
         ArrayList<JcAudio> jcAudios = new ArrayList<>();
+        if(basic!=null && !basic.equals(""))
         jcAudios.add(JcAudio.createFromFilePath(name,SDCardRoot+"/MyVoiceMail/voicemail.mp3"));
+        else
+        jcAudios.add(JcAudio.createFromURL(name,url));
 
         jcplayerView.initPlaylist(jcAudios, this);
         jcplayerView.setJcPlayerManagerListener(this);

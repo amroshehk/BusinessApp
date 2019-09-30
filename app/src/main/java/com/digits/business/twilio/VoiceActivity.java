@@ -57,6 +57,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.digits.business.R;
 import com.digits.business.activities.AboutUsActivity;
+import com.digits.business.activities.CallHistoryActivity;
 import com.digits.business.activities.LoginActivity;
 import com.digits.business.activities.MainActivity;
 import com.digits.business.activities.ProfileActivity;
@@ -66,6 +67,8 @@ import com.digits.business.activities.UploadGreetingActivity2;
 import com.digits.business.activities.VoiceMailActivity;
 import com.digits.business.classes.PreferenceHelper;
 import com.digits.business.dialpad.view.DialPadKey;
+import com.digits.business.fcm.MyNotificationManager;
+import com.digits.business.phoneauth.PhoneNumberAuthActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -862,6 +865,10 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     if (alertDialog != null && alertDialog.isShowing()) {
                         soundPoolManager.stopRinging();
                         alertDialog.cancel();
+                        //creating an intent for the notification
+                        Intent intent_to = new Intent(getApplicationContext(), CallHistoryActivity.class);
+                        MyNotificationManager myNotificationManager=new MyNotificationManager(context);
+                        myNotificationManager.showSmallNotification("9 Digist","Miss call: "+activeCallInvite.getFrom(),intent_to);
                     }
                     if (dialog2 != null && dialog2.isShowing()) {
                         soundPoolManager.stopRinging();

@@ -23,11 +23,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.PrivacyPolicyActivity"
+        <activity android:name=".activities.CallHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.PrivacyPolicyActivity"
             android:label="@string/privacy_policy_t"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!-- [START fcm_listener] -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- [START fcm_listener] -->
         <service android:name=".twilio.fcm.VoiceFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -49,7 +52,7 @@
             android:name=".twilio.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".twilio.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -150,7 +153,7 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">
@@ -164,7 +167,7 @@
         <activity
             android:name=".phoneauth.PhoneNumberAuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".phoneauth.VerifyPhoneActivity"
             android:screenOrientation="portrait"
