@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.digits.business.database.CallerContract.CallerEntry;
 import com.digits.business.entities.Caller;
-
+import com.digits.business.database.LogContract.LogEntry;
+import com.digits.business.entities.Log;
 
 import java.util.ArrayList;
 
@@ -45,17 +46,31 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // Create a String that contains the SQL statement to create the Caller History table
-        String SQL_CREATE_CALLER_HISTORY_TABLE =
+        /*String SQL_CREATE_CALLER_HISTORY_TABLE =
                 "CREATE TABLE " + CallerEntry.TABLE_NAME + " ("
                         + CallerEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + CallerEntry.COLUMN_CALLER_NAME + " TEXT , "
                         + CallerEntry.COLUMN_CALLER_NUMBER + " TEXT  NOT NULL, "
                         + CallerEntry.COLUMN_CALLER_TIMESTAMP + " TEXT  NOT NULL, "
-                        + CallerEntry.COLUMN_CALLER_TYPE + " TEXT NOT NULL); ";
+                        + CallerEntry.COLUMN_CALLER_TYPE + " TEXT NOT NULL); ";*/
+
+
+        // Create a String that contains the SQL statement to create the Caller History table
+        String SQL_CREATE_LOG_HISTORY_TABLE =
+                "CREATE TABLE " + LogEntry.TABLE_NAME + " ("
+                        + LogEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                        + LogEntry.COLUMN_CALLER_NAME + " TEXT , "
+                        + LogEntry.COLUMN_CALLER_NUMBER + " TEXT  NOT NULL, "
+                        + LogEntry.COLUMN_CALL_TIMESTAMP + " TEXT  NOT NULL, "
+                        + LogEntry.COLUMN_EMAIL + " TEXT  NOT NULL, "
+                        + LogEntry.COLUMN_CALL_DURATION + " TEXT  NOT NULL, "
+                        + LogEntry.COLUMN_CALLER_TYPE + " INTEGER NOT NULL); ";
 
 
         // Execute the SQL statements
-        db.execSQL(SQL_CREATE_CALLER_HISTORY_TABLE);
+        //db.execSQL(SQL_CREATE_CALLER_HISTORY_TABLE);
+
+        db.execSQL(SQL_CREATE_LOG_HISTORY_TABLE);
     }
 
     /**
@@ -65,7 +80,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // Drop older tables if existed
-        db.execSQL("DROP TABLE IF EXISTS " + CallerEntry.TABLE_NAME);
+        //db.execSQL("DROP TABLE IF EXISTS " + CallerEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + LogEntry.TABLE_NAME);
 
         // Create tables again
         onCreate(db);
@@ -81,11 +97,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    /**
+   /* *//**
      * Adding new Caller
      *
      * @param caller
-     */
+     *//*
     public void saveCaller(Caller caller) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -98,6 +114,30 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.insert(CallerEntry.TABLE_NAME, null, values); // Inserting Row
         db.close(); // Closing database connection
+    }*/
+
+
+
+    /**
+     * Adding new Log Entry
+     *
+     * @param log
+     */
+    public void saveLogEntry(Log log) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(LogEntry.COLUMN_CALLER_NAME , log.getName());
+        values.put(LogEntry.COLUMN_EMAIL , log.getEmail());
+        values.put(LogEntry.COLUMN_CALLER_TYPE , log.getType());
+        values.put(LogEntry.COLUMN_CALL_DURATION , log.getDuration());
+        values.put(LogEntry.COLUMN_CALLER_NUMBER , log.getPhone_no());
+        values.put(LogEntry.COLUMN_CALL_TIMESTAMP , log.getTimestamp());
+
+        db.insert(LogEntry.TABLE_NAME, null, values); // Inserting Row
+        db.close(); // Closing database connection
     }
 
 
@@ -106,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
      *
      * @param id
      * @return caller
-     */
+     *//*
     public Caller getCaller(int id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -157,7 +197,76 @@ public class DbHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return caller;
+    }*/
+
+
+
+    /**
+     * Getting single Log Entry
+     *
+     * @param id
+     * @return logEntry
+     */
+    public Log getLogEntry(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                LogEntry._ID,
+                LogEntry.COLUMN_CALLER_NAME,
+                LogEntry.COLUMN_CALLER_NUMBER,
+                LogEntry.COLUMN_CALL_TIMESTAMP,
+                LogEntry.COLUMN_CALLER_TYPE,
+                LogEntry.COLUMN_EMAIL,
+                LogEntry.COLUMN_CALL_DURATION
+        };
+
+        // Filter results WHERE "_ID" = 'id'
+        String selection = LogEntry._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+
+        // Perform a query on the log table
+        Cursor cursor = db.query(
+                LogEntry.TABLE_NAME,   // The table to query
+                projection,                // The columns to return
+                selection,                 // The columns for the WHERE clause
+                selectionArgs,             // The values for the WHERE clause
+                null,              // Don't group the rows
+                null,               // Don't filter by row groups
+                null);            // The sort order
+
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        // Figure out the index of each column
+        int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NAME);
+        int phoneNoColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NUMBER);
+        int timestampColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_TIMESTAMP);
+        int typeColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_TYPE);
+        int durationColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_DURATION);
+        int emailColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_EMAIL);
+
+        Log logEntry = new Log();
+        logEntry.setId(Integer.parseInt(cursor.getString(idColumnIndex)));
+        logEntry.setName(cursor.getString(nameColumnIndex));
+        logEntry.setPhone_no(cursor.getString(phoneNoColumnIndex));
+        logEntry.setTimestamp(Long.parseLong(cursor.getString(timestampColumnIndex)));
+        logEntry.setType(Integer.parseInt(cursor.getString(typeColumnIndex)));
+        logEntry.setDuration(Long.parseLong(cursor.getString(durationColumnIndex)));
+        logEntry.setEmail(cursor.getString(emailColumnIndex));
+
+        cursor.close();
+
+        return logEntry;
     }
+
+
+
 
 
     /**
@@ -165,7 +274,7 @@ public class DbHelper extends SQLiteOpenHelper {
      *
      * @param name
      * @return caller
-     */
+     *//*
     public Caller getCallerByName(String name) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -217,14 +326,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return caller;
     }
+*/
 
 
-    /**
+
+   /* *//**
      * Getting single Caller by number
      *
      * @param number
      * @return product
-     */
+     *//*
     public Caller getCallerByNumber(String number) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -276,7 +387,7 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return null;
 
-    }
+    }*/
 
 
 
@@ -286,7 +397,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * Retrieve all  callers from the database
      *
      * @return callers
-     */
+     *//*
     public ArrayList<Caller> getAllCallers() {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -339,34 +450,104 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return callers;
 
+    }*/
+
+
+
+    /**
+     * Retrieve all entries from the database
+     *
+     * @return logs
+     */
+    public ArrayList<Log> getAllLogEntries() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Log> logs = new ArrayList<>();
+        Log logEntry;
+
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                LogEntry._ID,
+                LogEntry.COLUMN_CALLER_NAME,
+                LogEntry.COLUMN_CALLER_NUMBER,
+                LogEntry.COLUMN_CALL_TIMESTAMP,
+                LogEntry.COLUMN_CALLER_TYPE,
+                LogEntry.COLUMN_EMAIL,
+                LogEntry.COLUMN_CALL_DURATION
+        };
+
+        // Perform a query on the callers table
+        Cursor cursor = db.query(
+                LogEntry.TABLE_NAME,   // The table to query
+                projection,                // The columns to return
+                null,                 // The columns for the WHERE clause
+                null,             // The values for the WHERE clause
+                null,              // Don't group the rows
+                null,               // Don't filter by row groups
+                null);            // The sort order
+
+        // Figure out the index of each column
+        int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NAME);
+        int phoneNoColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NUMBER);
+        int timestampColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_TIMESTAMP);
+        int typeColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_TYPE);
+        int durationColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_DURATION);
+        int emailColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_EMAIL);
+
+
+
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                logEntry = new Log();
+                logEntry.setId(Integer.parseInt(cursor.getString(idColumnIndex)));
+                logEntry.setName(cursor.getString(nameColumnIndex));
+                logEntry.setPhone_no(cursor.getString(phoneNoColumnIndex));
+                logEntry.setTimestamp(Long.parseLong(cursor.getString(timestampColumnIndex)));
+                logEntry.setType(Integer.parseInt(cursor.getString(typeColumnIndex)));
+                logEntry.setDuration(Long.parseLong(cursor.getString(durationColumnIndex)));
+                logEntry.setEmail(cursor.getString(emailColumnIndex));
+
+                logs.add(logEntry);
+            } while (cursor.moveToNext());
+        }
+
+        return logs;
+
     }
 
 
 
 
     /**
-     * Delete a caller from the database
+     * Delete a logEntry from the database
      *
-     * @param caller
+     * @param logEntry
      */
-    public void deleteCaller(Caller caller) {
+    public void deleteLogEntry(Log logEntry) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(CallerEntry.TABLE_NAME,
-                CallerEntry._ID + " = ?",
-                new String[]{String.valueOf(caller.getId())}
+        db.delete(LogEntry.TABLE_NAME,
+                LogEntry._ID + " = ?",
+                new String[]{String.valueOf(logEntry.getId())}
         );
 
     }
 
 
     /**
-     * Delete all callers from the database
+     * Delete all Log Entries from the database
      */
-    public void deleteAllCallers() {
+    public void deleteAllLogEntries() {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(CallerEntry.TABLE_NAME, null, null);
+        db.delete(LogEntry.TABLE_NAME, null, null);
 
     }
 
