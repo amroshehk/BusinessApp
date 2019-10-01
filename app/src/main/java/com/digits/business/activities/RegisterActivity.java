@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Context context;
     private TextInputEditText name_et,email_et,pw_signup_et,confpw_signup_et;
     private Button btnSignup;
-    private TextView error2;
+    private TextView error2,privacy;
     private ProgressDialog progressDialog;
     String token;
 
@@ -149,8 +149,17 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+        privacy = findViewById(R.id.privacy);
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, PrivacyPolicyActivity.class);
+                intent.putExtra("URL","https://ivyn.in/app/privacy_policy.html");
+                intent.putExtra("TCorPP","1");
+                startActivity(intent);
 
-
+            }
+        });
     }
 
 

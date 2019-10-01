@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -68,7 +69,7 @@ public class VoiceMailActivity extends BaseActivity {
     ArrayList<Mp3File> mp3Files;
     private FloatingActionMenu menuRed;
     TextView tiltle_base;
-
+    SwipeRefreshLayout pullToRefresh;
 
 
     @Override
@@ -86,7 +87,7 @@ public class VoiceMailActivity extends BaseActivity {
         nofiles = findViewById(R.id.no_file);
         mp3Files = new ArrayList<>();
         menuRed = findViewById(R.id.menu);
-
+        pullToRefresh =findViewById(R.id.pullToRefresh);
         //hide no file textview
         nofiles.setVisibility(View.GONE);
 
@@ -99,6 +100,23 @@ public class VoiceMailActivity extends BaseActivity {
 
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+        //setting an setOnRefreshListener on the SwipeDownLayout
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+              @Override
+            public void onRefresh() {
+                mp3Files.clear();
+                if (adapter!=null)
+                    adapter.notifyDataSetChanged();
+                if (StaticMethod.ConnectChecked(context)) {
+                    PreferenceHelper helper = new PreferenceHelper(context);
+                    getVoiceMail(helper.getSettingValueId());
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
 
@@ -123,14 +141,25 @@ public class VoiceMailActivity extends BaseActivity {
 
                             JSONObject objc = mp3fileArray.getJSONObject(i);
                             String id = objc.getString(TAG_ID);
-
+                            String basic_="";
+                            String url_;
                             String url = objc.getString(TAG_URL);
                             String user_id = objc.getString(TAG_USER_ID);
                             String sender_id = objc.getString(TAG_SENDER_ID);
                             String created_at = objc.getString(TAG_CREATED_AT);
                             String updated_at = objc.getString(TAG_UPDATED_AT);
+                            int ind=0;
+                            String protocol="https://";
+                            url_=url;
+                            if(url.contains("@api.twilio.com"))
+                            {   ind= url.indexOf("api.twilio.com");
+                                url_=url.substring(ind,url.length());
+                                if(!url_.contains("mp3"))
+                                url_=url_.concat(".mp3");
+                                url_=protocol+url_;
 
-
+                                basic_=url.substring(8,ind-1);
+                            }
 
                             Calendar cal = Calendar.getInstance();
                             TimeZone tz = cal.getTimeZone();
@@ -157,7 +186,8 @@ public class VoiceMailActivity extends BaseActivity {
                             Date offsetTime2 = new Date(u_date.getTime() + tz.getRawOffset());
 
                            // Mp3File mp3File = new Mp3File(id, name, url, user_id, sdf2.format(offsetTime), sdf2.format(offsetTime2));
-                            Mp3File mp3File = new Mp3File(id, sender_id, url, user_id, sdf2.format(offsetTime), sdf2.format(offsetTime2));
+                            Mp3File mp3File = new Mp3File(id, sender_id, url_, user_id, sdf2.format(offsetTime), sdf2.format(offsetTime2));
+                            mp3File.setBasic(basic_);
                             mp3Files.add(mp3File);
                         }
 
@@ -172,7 +202,7 @@ public class VoiceMailActivity extends BaseActivity {
                         recyclerView.setLayoutManager(layoutManager);
                         adapter = new RecyclerVoiceEmailCardAdapter(mp3Files, context);
                         recyclerView.setAdapter(adapter);
-
+                        pullToRefresh.setRefreshing(false);
                     } else {
                         nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
@@ -228,21 +258,4 @@ public class VoiceMailActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!checkfirstresume)
-            checkfirstresume=true;
-        else
-        {
-            mp3Files.clear();
-        if (StaticMethod.ConnectChecked(context)) {
-            PreferenceHelper helper = new PreferenceHelper(context);
-            getVoiceMail(helper.getSettingValueId());
-        } else {
-
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-        }
-    }
 }

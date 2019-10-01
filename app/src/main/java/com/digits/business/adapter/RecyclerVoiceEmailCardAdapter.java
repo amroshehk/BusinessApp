@@ -36,6 +36,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.digits.business.classes.JsonTAG.TAG_BASIC;
 import static com.digits.business.classes.JsonTAG.TAG_FILE_URL;
 import static com.digits.business.classes.JsonTAG.TAG_ID;
 import static com.digits.business.classes.JsonTAG.TAG_NAME;
@@ -146,6 +147,7 @@ public class RecyclerVoiceEmailCardAdapter extends RecyclerView.Adapter<Recycler
                         Intent intent = new Intent(context, PlayMp3FilesActivity.class);
                         intent.putExtra(TAG_URL, mp3Files.get(position).getUrl());
                         intent.putExtra(TAG_NAME, mp3Files.get(position).getName());
+                        intent.putExtra(TAG_BASIC, mp3Files.get(position).getBasic());
                         context.startActivity(intent);
                     }
                 });

@@ -45,6 +45,7 @@ import java.util.TimeZone;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static com.digits.business.classes.JsonTAG.TAG_CREATED_AT;
 import static com.digits.business.classes.JsonTAG.TAG_DATA;
@@ -73,6 +74,7 @@ public class UploadGreetingActivity2 extends BaseActivity {
     private com.github.clans.fab.FloatingActionButton search_item;
     private com.github.clans.fab.FloatingActionButton add_item;
     TextView tiltle_base;
+    SwipeRefreshLayout pullToRefresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,7 @@ public class UploadGreetingActivity2 extends BaseActivity {
         menuRed = findViewById(R.id.menu);
         search_item = findViewById(R.id.search_item);
         add_item = findViewById(R.id.add_item);
-
+        pullToRefresh =findViewById(R.id.pullToRefresh);
         //hide no file textview
         nofiles.setVisibility(View.GONE);
 
@@ -128,6 +130,23 @@ public class UploadGreetingActivity2 extends BaseActivity {
 
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+        //setting an setOnRefreshListener on the SwipeDownLayout
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mp3Files.clear();
+                if (adapter!=null)
+                    adapter.notifyDataSetChanged();
+                if (StaticMethod.ConnectChecked(context)) {
+                    PreferenceHelper helper = new PreferenceHelper(context);
+                    GetMp3FileServer(helper.getSettingValueId());
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
 
@@ -196,7 +215,7 @@ public class UploadGreetingActivity2 extends BaseActivity {
                         recyclerView.setLayoutManager(layoutManager);
                         adapter = new RecyclerUploadGreetingCardAdapter(mp3Files, context);
                         recyclerView.setAdapter(adapter);
-
+                        pullToRefresh.setRefreshing(false);
                     } else {
                         nofiles.setVisibility(View.VISIBLE);
                         CircularProgress.setVisibility(View.GONE);
@@ -254,21 +273,4 @@ public class UploadGreetingActivity2 extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!checkfirstresume)
-            checkfirstresume=true;
-        else
-        {
-            mp3Files.clear();
-        if (StaticMethod.ConnectChecked(context)) {
-            PreferenceHelper helper = new PreferenceHelper(context);
-            GetMp3FileServer(helper.getSettingValueId());
-        } else {
-
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-        }
-    }
 }
