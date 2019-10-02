@@ -66,6 +66,7 @@ import com.digits.business.activities.SettingActivity;
 import com.digits.business.activities.UploadGreetingActivity2;
 import com.digits.business.activities.VoiceMailActivity;
 import com.digits.business.classes.PreferenceHelper;
+import com.digits.business.database.DbHelper;
 import com.digits.business.dialpad.view.DialPadKey;
 import com.digits.business.fcm.MyNotificationManager;
 import com.digits.business.phoneauth.PhoneNumberAuthActivity;
@@ -89,6 +90,8 @@ import com.twilio.voice.Voice;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -203,7 +206,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
     private ProgressDialog progressDialog;
     private Context context;
-    private String email,name;
+    private String email,name,num_called;
     ImageLoaderConfiguration config;
     CircleImageView photo_nav_header;
     Toolbar toolbar;
@@ -220,6 +223,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     private static final int CONTACT_PERMISSION_REQUEST_CODE = 7;
 
     private ToneGenerator mToneGenerator;
+
+    DbHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -232,7 +237,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         context = this;
 
         helper = new PreferenceHelper(context);
-
+        dbHelper=new DbHelper(context);
         session = new SessionHandler(context);
 
         user = session.getUserDetails();
@@ -718,8 +723,22 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 setAudioFocus(false);
                 Log.d(TAG, "Disconnected");
 
+
                 int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
-                //deductSecond(elapsedSeconds);
+                deductSecond(elapsedSeconds);
+
+                Date currentTime = Calendar.getInstance().getTime();
+                Long tsLong = currentTime.getTime();
+                if(activeCall!=null)
+                {
+                    com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,2,num_called,elapsedSeconds,num_called);
+                    dbHelper.saveLogEntry(log);
+                }
+                else if(activeCallInvite!=null)
+                {
+                    com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,1,activeCallInvite.getFrom(),elapsedSeconds,activeCallInvite.getFrom());
+                    dbHelper.saveLogEntry(log);
+                }
 
                 if (error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
@@ -873,6 +892,14 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     if (dialog2 != null && dialog2.isShowing()) {
                         soundPoolManager.stopRinging();
                         dialog2.cancel();
+                        Date currentTime = Calendar.getInstance().getTime();
+                        Long tsLong = currentTime.getTime();
+                        com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,0,activeCallInvite.getFrom(),0,activeCallInvite.getFrom());
+                        dbHelper.saveLogEntry(log);
+                        //creating an intent for the notification
+                        Intent intent_to = new Intent(getApplicationContext(), CallHistoryActivity.class);
+                        MyNotificationManager myNotificationManager=new MyNotificationManager(context);
+                        myNotificationManager.showSmallNotification("9 Digist","Miss call: "+activeCallInvite.getFrom(),intent_to);
                     }
                 }
             } else if (intent.getAction().equals(ACTION_FCM_TOKEN)) {
@@ -992,10 +1019,15 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
                         if (numberBuilder.length() > 0) {
                             numberBuilder.delete(0,numberBuilder.length());
+                            num_called=number.getText().toString();
                             number.setText("");
 
                         }
                     } else {
+                        Date currentTime = Calendar.getInstance().getTime();
+                        Long tsLong = currentTime.getTime();
+                        com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,2,num_called,0,num_called);
+                        dbHelper.saveLogEntry(log);
                         Snackbar.make(v,"Your balance is 0 seconds",Snackbar.LENGTH_SHORT).show();
                     }
 
@@ -1072,6 +1104,10 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 if (activeCallInvite != null) {
                     activeCallInvite.reject(VoiceActivity.this);
                     notificationManager.cancel(activeCallNotificationId);
+                    Date currentTime = Calendar.getInstance().getTime();
+                    Long tsLong = currentTime.getTime();
+                    com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,1,activeCallInvite.getFrom(),0,activeCallInvite.getFrom());
+                    dbHelper.saveLogEntry(log);
                 }
                 dialog2.dismiss();
             }
@@ -1102,6 +1138,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         TextView textDisplayName;
         ImageView buttonHangup;
         ImageView buttonAnswer;
+        ImageView textDuration;
+        ImageView textStatus;
 
         dialog2 = new Dialog(context,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog2.setCancelable(false);
@@ -1114,6 +1152,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         textDisplayName = dialog2.findViewById(R.id.textDisplayName);
         buttonHangup = dialog2.findViewById(R.id.buttonHangup);
         buttonAnswer = dialog2.findViewById(R.id.buttonAnswer);
+        textDuration = dialog2.findViewById(R.id.textDuration);
+        textStatus = dialog2.findViewById(R.id.textStatus);
 
         textDisplayName.setText(callInvite.getFrom());
         // if button is clicked, close the custom dialog
@@ -1178,8 +1218,20 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     private void disconnect() {
         if (activeCall != null) {
 
-            /*int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
-            deductSecond(elapsedSeconds);*/
+            int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
+            /*deductSecond(elapsedSeconds);*/
+            Date currentTime = Calendar.getInstance().getTime();
+            Long tsLong = currentTime.getTime();
+            if(activeCall!=null)
+            {
+                com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,2,num_called,elapsedSeconds,num_called);
+                dbHelper.saveLogEntry(log);
+            }
+            else if(activeCallInvite!=null)
+            {
+                com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,1,activeCallInvite.getFrom(),elapsedSeconds,activeCallInvite.getFrom());
+                dbHelper.saveLogEntry(log);
+            }
            activeCall.disconnect();
             activeCall = null;
         }
@@ -1490,6 +1542,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent(VoiceActivity.this, SaveTTSActivity.class);
             startActivity(intent);
 
+        } else if (id == R.id.nav_log) {
+            Intent intent = new Intent(VoiceActivity.this, CallHistoryActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_aboutus) {
             Intent intent = new Intent(VoiceActivity.this, AboutUsActivity.class);
@@ -1682,9 +1737,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
                             JSONObject obj = new JSONObject(response);
                             seconds = obj.getInt("data");
-
-                            Toast.makeText(context, "Your remaining balance is "+ seconds + " seconds",
-                                            Toast.LENGTH_LONG).show();
+//
+//                            Toast.makeText(context, "Your remaining balance is "+ seconds + " seconds",
+//                                            Toast.LENGTH_LONG).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

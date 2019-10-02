@@ -30,6 +30,14 @@ public class Log {
         this.duration = duration;
         this.name = name;
     }
+    public Log( String email, long timestamp, int type, String phone_no, long duration, String name) {
+        this.email = email;
+        this.timestamp = timestamp;
+        this.type = type;
+        this.phone_no = phone_no;
+        this.duration = duration;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

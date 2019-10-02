@@ -185,6 +185,10 @@ public class BaseActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
+                } else if (id == R.id.nav_log) {
+                    Intent intent = new Intent(BaseActivity.this, CallHistoryActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
 
                 } else if (id == R.id.nav_aboutus) {
                     Intent intent = new Intent(BaseActivity.this, AboutUsActivity.class);
@@ -304,7 +308,10 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(BaseActivity.this, SaveTTSActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
+        } else if (id == R.id.nav_log) {
+            Intent intent = new Intent(BaseActivity.this, CallHistoryActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
 
         } else if (id == R.id.nav_aboutus) {
             Intent intent = new Intent(BaseActivity.this, AboutUsActivity.class);

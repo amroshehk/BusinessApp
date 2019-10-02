@@ -522,6 +522,220 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Retrieve all entries from the database
+     *
+     * @param email
+     * @return logs
+     */
+    public ArrayList<Log> getAllLogByEmail(String email) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Log> logs = new ArrayList<>();
+        Log logEntry;
+
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                LogEntry._ID,
+                LogEntry.COLUMN_CALLER_NAME,
+                LogEntry.COLUMN_CALLER_NUMBER,
+                LogEntry.COLUMN_CALL_TIMESTAMP,
+                LogEntry.COLUMN_CALLER_TYPE,
+                LogEntry.COLUMN_EMAIL,
+                LogEntry.COLUMN_CALL_DURATION
+        };
+        // Filter results WHERE
+        String selection = LogEntry.COLUMN_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+        // Perform a query on the callers table
+        Cursor cursor = db.query(
+                LogEntry.TABLE_NAME,   // The table to query
+                projection,                // The columns to return
+                selection,                 // The columns for the WHERE clause
+                selectionArgs,             // The values for the WHERE clause
+                null,              // Don't group the rows
+                null,               // Don't filter by row groups
+                null);            // The sort order
+
+        // Figure out the index of each column
+        int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NAME);
+        int phoneNoColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NUMBER);
+        int timestampColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_TIMESTAMP);
+        int typeColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_TYPE);
+        int durationColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_DURATION);
+        int emailColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_EMAIL);
+
+
+
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                logEntry = new Log();
+                logEntry.setId(Integer.parseInt(cursor.getString(idColumnIndex)));
+                logEntry.setName(cursor.getString(nameColumnIndex));
+                logEntry.setPhone_no(cursor.getString(phoneNoColumnIndex));
+                logEntry.setTimestamp(Long.parseLong(cursor.getString(timestampColumnIndex)));
+                logEntry.setType(Integer.parseInt(cursor.getString(typeColumnIndex)));
+                logEntry.setDuration(Long.parseLong(cursor.getString(durationColumnIndex)));
+                logEntry.setEmail(cursor.getString(emailColumnIndex));
+
+                logs.add(logEntry);
+            } while (cursor.moveToNext());
+        }
+
+        return logs;
+
+    }
+
+    /**
+     * Retrieve all entries from the database
+     *
+     * @params email,type
+     * @return logs
+     */
+    public ArrayList<Log> getAllLogByEmailAndType(String email,int type) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Log> logs = new ArrayList<>();
+        Log logEntry;
+
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                LogEntry._ID,
+                LogEntry.COLUMN_CALLER_NAME,
+                LogEntry.COLUMN_CALLER_NUMBER,
+                LogEntry.COLUMN_CALL_TIMESTAMP,
+                LogEntry.COLUMN_CALLER_TYPE,
+                LogEntry.COLUMN_EMAIL,
+                LogEntry.COLUMN_CALL_DURATION
+        };
+        // Filter results WHERE=
+        String selection = LogEntry.COLUMN_EMAIL + " = ? and "+LogEntry.COLUMN_CALLER_TYPE+"= ?";
+        String[] selectionArgs = {email,String.valueOf(type)};
+        // Perform a query on the callers table
+        Cursor cursor = db.query(
+                LogEntry.TABLE_NAME,   // The table to query
+                projection,                // The columns to return
+                selection,                 // The columns for the WHERE clause
+                selectionArgs,             // The values for the WHERE clause
+                null,              // Don't group the rows
+                null,               // Don't filter by row groups
+                null);            // The sort order
+
+        // Figure out the index of each column
+        int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NAME);
+        int phoneNoColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NUMBER);
+        int timestampColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_TIMESTAMP);
+        int typeColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_TYPE);
+        int durationColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_DURATION);
+        int emailColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_EMAIL);
+
+
+
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                logEntry = new Log();
+                logEntry.setId(Integer.parseInt(cursor.getString(idColumnIndex)));
+                logEntry.setName(cursor.getString(nameColumnIndex));
+                logEntry.setPhone_no(cursor.getString(phoneNoColumnIndex));
+                logEntry.setTimestamp(Long.parseLong(cursor.getString(timestampColumnIndex)));
+                logEntry.setType(Integer.parseInt(cursor.getString(typeColumnIndex)));
+                logEntry.setDuration(Long.parseLong(cursor.getString(durationColumnIndex)));
+                logEntry.setEmail(cursor.getString(emailColumnIndex));
+
+                logs.add(logEntry);
+            } while (cursor.moveToNext());
+        }
+
+        return logs;
+
+    }
+
+    /**
+     * Retrieve all entries from the database
+     *
+     * @params email,number
+     * @return logs
+     */
+    public ArrayList<Log> getAllLogByEmailAndNumber(String email,String number) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ArrayList<Log> logs = new ArrayList<>();
+        Log logEntry;
+
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                LogEntry._ID,
+                LogEntry.COLUMN_CALLER_NAME,
+                LogEntry.COLUMN_CALLER_NUMBER,
+                LogEntry.COLUMN_CALL_TIMESTAMP,
+                LogEntry.COLUMN_CALLER_TYPE,
+                LogEntry.COLUMN_EMAIL,
+                LogEntry.COLUMN_CALL_DURATION
+        };
+        // Filter results WHERE=
+        String selection = LogEntry.COLUMN_EMAIL + " = ? and "+LogEntry.COLUMN_CALLER_NUMBER+"= ?";
+        String[] selectionArgs = {email,number};
+        // Perform a query on the callers table
+        Cursor cursor = db.query(
+                LogEntry.TABLE_NAME,   // The table to query
+                projection,                // The columns to return
+                selection,                 // The columns for the WHERE clause
+                selectionArgs,             // The values for the WHERE clause
+                null,              // Don't group the rows
+                null,               // Don't filter by row groups
+                null);            // The sort order
+
+        // Figure out the index of each column
+        int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NAME);
+        int phoneNoColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_NUMBER);
+        int timestampColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_TIMESTAMP);
+        int typeColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALLER_TYPE);
+        int durationColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_CALL_DURATION);
+        int emailColumnIndex = cursor.getColumnIndex(LogEntry.COLUMN_EMAIL);
+
+
+
+
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                logEntry = new Log();
+                logEntry.setId(Integer.parseInt(cursor.getString(idColumnIndex)));
+                logEntry.setName(cursor.getString(nameColumnIndex));
+                logEntry.setPhone_no(cursor.getString(phoneNoColumnIndex));
+                logEntry.setTimestamp(Long.parseLong(cursor.getString(timestampColumnIndex)));
+                logEntry.setType(Integer.parseInt(cursor.getString(typeColumnIndex)));
+                logEntry.setDuration(Long.parseLong(cursor.getString(durationColumnIndex)));
+                logEntry.setEmail(cursor.getString(emailColumnIndex));
+
+                logs.add(logEntry);
+            } while (cursor.moveToNext());
+        }
+
+        return logs;
+
+    }
+
+
 
 
 
@@ -548,6 +762,32 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(LogEntry.TABLE_NAME, null, null);
+
+    }
+
+    /**
+     * Delete all Log Entries from the database
+     * * @param email
+     */
+    public void deleteAllLogByEmail(String email) {
+        // Filter results WHERE
+        String selection = LogEntry.COLUMN_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(LogEntry.TABLE_NAME, selection, selectionArgs);
+
+    }
+
+    /**
+     * Delete all Log Entries from the database
+     * * @param email,type
+     */
+    public void deleteAllLogByEmailAndType(String email,int type) {
+        // Filter results WHERE
+        String selection = LogEntry.COLUMN_EMAIL + " = ? and "+LogEntry.COLUMN_CALLER_TYPE+"= ?";
+        String[] selectionArgs = {email,String.valueOf(type)};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(LogEntry.TABLE_NAME, selection, selectionArgs);
 
     }
 

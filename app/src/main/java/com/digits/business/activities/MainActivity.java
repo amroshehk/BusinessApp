@@ -451,6 +451,9 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SaveTTSActivity.class);
             startActivity(intent);
 
+        } else if (id == R.id.nav_log) {
+            Intent intent = new Intent(MainActivity.this, CallHistoryActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_aboutus) {
             Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
