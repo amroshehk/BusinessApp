@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -223,7 +224,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
     private static final int CONTACT_PERMISSION_REQUEST_CODE = 7;
 
     private ToneGenerator mToneGenerator;
-
+    PowerManager.WakeLock wakeLock;
     DbHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,7 +260,9 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "9digit::MyWakelockTag");
 
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         callActionFab = findViewById(R.id.call_action_fab);
@@ -725,16 +728,18 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
 
 
                 int elapsedSeconds = (int) ((SystemClock.elapsedRealtime() - chronometer.getBase()) /1000);
-                deductSecond(elapsedSeconds);
+
 
                 Date currentTime = Calendar.getInstance().getTime();
                 Long tsLong = currentTime.getTime();
                 if(activeCall!=null)
                 {
+                    if(num_called!=null && !num_called.isEmpty())
+                        deductSecond(elapsedSeconds);
                     com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,2,num_called,elapsedSeconds,num_called);
                     dbHelper.saveLogEntry(log);
                 }
-                else if(activeCallInvite!=null)
+                if(activeCallInvite!=null)
                 {
                     com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,1,activeCallInvite.getFrom(),elapsedSeconds,activeCallInvite.getFrom());
                     dbHelper.saveLogEntry(log);
@@ -745,6 +750,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     Log.e(TAG, message);
                     Snackbar.make(coordinatorLayout, message, SNACKBAR_DURATION).show();
                 }
+                num_called="";
                 resetUI();
             }
         };
@@ -884,6 +890,8 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                     if (alertDialog != null && alertDialog.isShowing()) {
                         soundPoolManager.stopRinging();
                         alertDialog.cancel();
+                        //To release the wake lock
+                        wakeLock.release();
                         //creating an intent for the notification
                         Intent intent_to = new Intent(getApplicationContext(), CallHistoryActivity.class);
                         MyNotificationManager myNotificationManager=new MyNotificationManager(context);
@@ -1129,17 +1137,18 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         return alertDialogBuilder.create();
     }
 
-    void showIncommingDialog( Context context,
-                                         CallInvite callInvite,
-                                         View.OnClickListener answerCallClickListener,
-                                         View.OnClickListener cancelClickListener) {
+    @SuppressLint("WakelockTimeout")
+    void showIncommingDialog(Context context,
+                             CallInvite callInvite,
+                             View.OnClickListener answerCallClickListener,
+                             View.OnClickListener cancelClickListener) {
 
 
         TextView textDisplayName;
         ImageView buttonHangup;
         ImageView buttonAnswer;
-        ImageView textDuration;
-        ImageView textStatus;
+        TextView textDuration;
+        TextView textStatus;
 
         dialog2 = new Dialog(context,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog2.setCancelable(false);
@@ -1154,13 +1163,17 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         buttonAnswer = dialog2.findViewById(R.id.buttonAnswer);
         textDuration = dialog2.findViewById(R.id.textDuration);
         textStatus = dialog2.findViewById(R.id.textStatus);
+        textDuration.setVisibility(View.GONE);
+        textStatus.setVisibility(View.VISIBLE);
 
         textDisplayName.setText(callInvite.getFrom());
         // if button is clicked, close the custom dialog
         buttonHangup.setOnClickListener(cancelClickListener);
         // if button is clicked, close the custom dialog
         buttonAnswer.setOnClickListener(answerCallClickListener);
+        wakeLock.acquire();
         dialog2.show();
+
     }
 
     /*
@@ -1227,7 +1240,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
                 com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,2,num_called,elapsedSeconds,num_called);
                 dbHelper.saveLogEntry(log);
             }
-            else if(activeCallInvite!=null)
+            if(activeCallInvite!=null)
             {
                 com.digits.business.entities.Log log=new com.digits.business.entities.Log(email,tsLong,1,activeCallInvite.getFrom(),elapsedSeconds,activeCallInvite.getFrom());
                 dbHelper.saveLogEntry(log);

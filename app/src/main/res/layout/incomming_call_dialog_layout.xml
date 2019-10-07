@@ -37,7 +37,7 @@
         android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textDisplayName"
-        tools:text="Calling…" />
+        tools:text="INCOMING…" />
 
     <TextView
         android:id="@+id/textDuration"

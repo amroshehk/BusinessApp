@@ -550,6 +550,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // Filter results WHERE
         String selection = LogEntry.COLUMN_EMAIL + " = ?";
         String[] selectionArgs = {email};
+        String orderbt = LogEntry._ID+" DESC";
         // Perform a query on the callers table
         Cursor cursor = db.query(
                 LogEntry.TABLE_NAME,   // The table to query
@@ -558,7 +559,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 selectionArgs,             // The values for the WHERE clause
                 null,              // Don't group the rows
                 null,               // Don't filter by row groups
-                null);            // The sort order
+                orderbt);            // The sort order
 
         // Figure out the index of each column
         int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
@@ -618,6 +619,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 LogEntry.COLUMN_EMAIL,
                 LogEntry.COLUMN_CALL_DURATION
         };
+        String orderbt = LogEntry._ID+" DESC";
         // Filter results WHERE=
         String selection = LogEntry.COLUMN_EMAIL + " = ? and "+LogEntry.COLUMN_CALLER_TYPE+"= ?";
         String[] selectionArgs = {email,String.valueOf(type)};
@@ -629,7 +631,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 selectionArgs,             // The values for the WHERE clause
                 null,              // Don't group the rows
                 null,               // Don't filter by row groups
-                null);            // The sort order
+                orderbt);            // The sort order
 
         // Figure out the index of each column
         int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
@@ -689,6 +691,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 LogEntry.COLUMN_EMAIL,
                 LogEntry.COLUMN_CALL_DURATION
         };
+        String orderbt = LogEntry._ID+" DESC";
         // Filter results WHERE=
         String selection = LogEntry.COLUMN_EMAIL + " = ? and "+LogEntry.COLUMN_CALLER_NUMBER+"= ?";
         String[] selectionArgs = {email,number};
@@ -700,7 +703,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 selectionArgs,             // The values for the WHERE clause
                 null,              // Don't group the rows
                 null,               // Don't filter by row groups
-                null);            // The sort order
+                orderbt);            // The sort order
 
         // Figure out the index of each column
         int idColumnIndex = cursor.getColumnIndex(LogEntry._ID);
