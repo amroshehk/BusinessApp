@@ -67,6 +67,7 @@ dependencies {
 
     implementation 'com.rom4ek:arcnavigationview:1.0.3'
     implementation 'com.henryblue.mxvideoplayer:xvideoplayer:1.2.1'
+    implementation 'com.android.billingclient:billing:2.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

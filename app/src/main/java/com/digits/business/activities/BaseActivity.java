@@ -4,11 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,7 +113,7 @@ public class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = findViewById(R.id.nav_view);
-
+        setProImage(navigationView);
         View hView =  navigationView.getHeaderView(0);
         photo_nav_header= hView.findViewById(R.id.photo);
         TextView name_tv = hView.findViewById(R.id.name_tv);
@@ -200,7 +205,12 @@ public class BaseActivity extends AppCompatActivity {
                     Intent intent = new Intent(BaseActivity.this, SettingActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                } else if (id == R.id.nav_share) {
+                }
+                else if (id == R.id.nav_premium) {
+                    Intent intent = new Intent(BaseActivity.this, PremiumPlanActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }else if (id == R.id.nav_share) {
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
@@ -230,7 +240,13 @@ public class BaseActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
     }
-
+    public void setProImage(NavigationView navigationView)
+    {
+        MenuItem nav_premium = navigationView.getMenu().findItem(R.id.nav_premium);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nav_premium.setIconTintMode(null);
+        }
+    }
     void getUserPhoto() {
         ImageLoader imageLoader = ImageLoader.getInstance();
         config = new ImageLoaderConfiguration.Builder(mContext)
@@ -323,7 +339,12 @@ public class BaseActivity extends AppCompatActivity {
             Intent intent = new Intent(BaseActivity.this, SettingActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
+        }
+        else if (id == R.id.nav_premium) {
+            Intent intent = new Intent(BaseActivity.this, PremiumPlanActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }else if (id == R.id.nav_share) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));

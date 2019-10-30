@@ -78,4 +78,5 @@
     <string name="no_outgoing_call">No Outgoing Call</string>
     <string name="no_log">No Log</string>
     <string name="snack_bar_undo">Undo</string>
+    <string name="premium">Premium Plan</string>
 </resources>

@@ -6,14 +6,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -216,6 +221,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        setProImage(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
         View hView =  navigationView.getHeaderView(0);
         photo_nav_header= hView.findViewById(R.id.photo);
@@ -290,7 +296,13 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-
+    public void setProImage(NavigationView navigationView)
+    {
+        MenuItem nav_premium = navigationView.getMenu().findItem(R.id.nav_premium);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nav_premium.setIconTintMode(null);
+        }
+    }
     private String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(time * 1000);
@@ -463,7 +475,11 @@ public class MainActivity extends AppCompatActivity
         }  else if (id == R.id.nav_manage) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
+        }
+        else if (id == R.id.nav_premium) {
+            Intent intent = new Intent(MainActivity.this, PremiumPlanActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_share) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));

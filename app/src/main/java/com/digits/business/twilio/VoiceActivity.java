@@ -28,11 +28,13 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -40,6 +42,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +64,7 @@ import com.digits.business.activities.AboutUsActivity;
 import com.digits.business.activities.CallHistoryActivity;
 import com.digits.business.activities.LoginActivity;
 import com.digits.business.activities.MainActivity;
+import com.digits.business.activities.PremiumPlanActivity;
 import com.digits.business.activities.ProfileActivity;
 import com.digits.business.activities.SaveTTSActivity;
 import com.digits.business.activities.SettingActivity;
@@ -628,7 +632,7 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         photo_nav_header = hView.findViewById(R.id.photo);
         TextView name_tv=hView.findViewById(R.id.name_tv);
         TextView  email_tv=hView.findViewById(R.id.email_tv);
-
+        setProImage(navigationView);
         name_tv.setText(name);
         email_tv.setText(email);
 
@@ -1567,7 +1571,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         }  else if (id == R.id.nav_manage) {
             Intent intent = new Intent(VoiceActivity.this, SettingActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
+        }  else if (id == R.id.nav_premium) {
+
+
+
+            Intent intent = new Intent(VoiceActivity.this, PremiumPlanActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_share) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
@@ -1590,7 +1600,13 @@ public class VoiceActivity extends AppCompatActivity implements NavigationView.O
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    public void setProImage(NavigationView navigationView)
+    {
+        MenuItem nav_premium = navigationView.getMenu().findItem(R.id.nav_premium);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nav_premium.setIconTintMode(null);
+        }
+    }
 
     private void LogoutServer(final String email) {
 
